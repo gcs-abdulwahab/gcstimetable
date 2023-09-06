@@ -37,6 +37,11 @@ class DatabaseSeeder extends Seeder
         $this->call(SemesterSeeder::class);
         // //     // call Course Seeder
         $this->call(CourseSeeder::class);
+        // call SectionSeeder
+        $this->call(SectionSeeder::class);
+
+        // call AllocationSeeder
+        $this->call(AllocationSeeder::class);
 
 
 
