@@ -24,10 +24,15 @@ class DatabaseSeeder extends Seeder
         // call seeder of room
         $this->call(RoomSeeder::class);
         // call seeder of department
-        // $this->call(DepartmentSeeder::class);
+         $this->call(DepartmentSeeder::class);
         // // call seeder of slot
-        // $this->call(SlotSeeder::class);
-
+        $this->call(SlotSeeder::class);
+        // call seeder of day
+        $this->call(DaySeeder::class);
+        // call ProgramSeeder
+        $this->call(ProgramSeeder::class);
+            // call TeacherSeeder
+        $this->call(TeacherSeeder::class);
 
 
     }
