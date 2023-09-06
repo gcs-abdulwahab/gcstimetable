@@ -10,6 +10,13 @@ class Semester extends Model
     use HasFactory;
 
 
+    // Semester Has Many Sections
+    public function sections()
+    {
+        return $this->hasMany(Section::class);
+    }
+
+
 // Semester Has Many Courses
     public function courses()
     {

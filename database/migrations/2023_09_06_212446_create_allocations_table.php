@@ -14,8 +14,28 @@ return new class extends Migration
         Schema::create('allocations', function (Blueprint $table) {
             $table->id();
 
-            // Allocation of Course 
-            // Allocation of Teacher
+            
+            // foreign key to course
+            $table->foreignId('course_id')->constrained()->onDelete('cascade');
+            // foreign key to teacher
+            $table->foreignId('teacher_id')->constrained()->onDelete('cascade');
+            // foreign key to room
+            $table->foreignId('room_id')->constrained()->onDelete('cascade');
+            // foreign key to day
+            $table->foreignId('day_id')->constrained()->onDelete('cascade');
+            // foreign key to slot
+            $table->foreignId('slot_id')->constrained()->onDelete('cascade');
+
+            // Allocation Name
+            $table->string('name')->nullable();
+
+            // unique constraint
+            $table->unique(['course_id', 'teacher_id', 'room_id', 'day_id', 'slot_id']);
+
+            // Unique Constraint A room cannot be allocated to same slot on same day to two different courses
+             $table->unique(['room_id', 'day_id', 'slot_id']);
+
+
             
 
 
