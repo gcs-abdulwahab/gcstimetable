@@ -33,6 +33,11 @@ class DatabaseSeeder extends Seeder
         $this->call(ProgramSeeder::class);
             // call TeacherSeeder
         $this->call(TeacherSeeder::class);
+            // call SemesterSeeder
+        $this->call(SemesterSeeder::class);
+        // //     // call Course Seeder
+        $this->call(CourseSeeder::class);
+
 
 
     }

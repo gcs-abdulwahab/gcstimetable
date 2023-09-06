@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Program extends Model
 {
     use HasFactory;
+
+
+    // program belongs to a department
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }
