@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('days', function (Blueprint $table) {
             $table->id();
+            // day number
+            $table->integer('number');
             // day name
             $table->string('name');
             // day code
             $table->string('code')->unique();
-            
+
             $table->timestamps();
         });
     }
