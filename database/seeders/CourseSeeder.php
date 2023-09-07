@@ -24,12 +24,14 @@ class CourseSeeder extends Seeder
 
             $departmentCode = $semester->program->department->code;
             
-            for ($i = 101; $i <= 103; $i++) {
+            for ($i = 101; $i <= 105; $i++) {
                 $courseName = "Course Name " . $i; // Replace with your desired pattern
                 $courseData[] = [
                     'code' => $departmentCode . '-' . $i . '-' . $semester->name,
                     'name' => $courseName,
                     'credit_hours' => 3,
+                    'type' => 'CLASS', // which is by default
+                    'is_default' => false, // which is by default
                     'display_code' => $faker->unique()->regexify('[A-Z]{3}[0-9]{3}'),
                     'semester_id' => $semester->id,
                 ];
@@ -38,11 +40,6 @@ class CourseSeeder extends Seeder
             $semester->courses()->createMany($courseData);
             
             
-
-            // $courses = CourseFactory::times(rand(5, 6))->create([
-            //     'semester_id' => $semester->id,
-            // ]);
-
         
             }
         }
