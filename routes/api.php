@@ -5,6 +5,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SemesterController;
+use App\Http\Controllers\SlotController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,3 +38,6 @@ Route::resource('rooms', RoomController::class);
 
 //write Api for Teachers
 Route::resource('teachers', TeacherController::class);
+
+// write Api for Slots
+Route::resource('slots',SlotController::class);

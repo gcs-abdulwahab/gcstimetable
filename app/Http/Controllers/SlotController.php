@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Slot;
 use App\Http\Requests\StoreSlotRequest;
 use App\Http\Requests\UpdateSlotRequest;
+use App\Models\Slot;
+use Illuminate\Database\QueryException;
 
 class SlotController extends Controller
 {
@@ -13,7 +14,11 @@ class SlotController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return response()->json(Slot::all(), 200); // 200 OK
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
     }
 
     /**
@@ -29,7 +34,13 @@ class SlotController extends Controller
      */
     public function store(StoreSlotRequest $request)
     {
-        //
+        try{
+            $semester = Slot::create($request->all());
+            return response()->json($semester, 201); // 201 Created
+        }
+        catch(QueryException $exception){
+            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()  ], 422);
+        }
     }
 
     /**
@@ -37,7 +48,10 @@ class SlotController extends Controller
      */
     public function show(Slot $slot)
     {
-        //
+        if (!$slot) {
+            return response()->json(['message' => 'Semester not found'], 404);
+        }
+        return response()->json($slot);
     }
 
     /**
@@ -53,7 +67,12 @@ class SlotController extends Controller
      */
     public function update(UpdateSlotRequest $request, Slot $slot)
     {
-        //
+        try {            
+            $slot->update($request->all());
+            return response()->json($slot, 200); // 200 OK
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
     }
 
     /**
@@ -61,6 +80,11 @@ class SlotController extends Controller
      */
     public function destroy(Slot $slot)
     {
-        //
+        try {
+            $slot->delete();
+            return response()->json([ 'slot'=>$slot,  'message' => 'Resource successfully deleted'], 200);
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
     }
 }
