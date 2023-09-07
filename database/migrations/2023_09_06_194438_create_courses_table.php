@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             // course name
             $table->string('name');
+            
+            // isDefault
+            $table->boolean('is_default')->default(false);
+            
             // course DisplayCode
             $table->string('display_code');
             
@@ -26,6 +30,7 @@ return new class extends Migration
             // course belongs to Section of a Semester
             $table->foreignId('semester_id')->constrained('semesters');
             
+
 
             $table->timestamps();
         });
