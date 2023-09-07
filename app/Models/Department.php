@@ -9,6 +9,12 @@ class Department extends Model
 {
     use HasFactory;
 
+    // add fillables
+    protected $fillable = [
+        'name',
+        'code',
+      
+    ];
 
  //Department has many teachers
     public function teachers()
