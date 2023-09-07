@@ -15,4 +15,11 @@ class Program extends Model
     {
         return $this->belongsTo(Department::class);
     }
+
+    // program has many semesters
+    public function semesters()
+    {
+        return $this->hasMany(Semester::class);
+    }
+
 }

@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Slot extends Model
 {
     use HasFactory;
+
+    // Slot has many Allocations
+    public function allocations()
+    {
+        return $this->hasMany(Allocation::class);
+    }
+
+
+
 }
