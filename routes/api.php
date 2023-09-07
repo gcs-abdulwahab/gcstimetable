@@ -3,6 +3,7 @@
 use App\Http\Controllers\DayController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\SemesterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +25,6 @@ Route::apiResource('departments', DepartmentController::class);
 
 //write API for Program
 Route::resource('programs', ProgramController::class);
+
+//write API for Semester
+Route::resource('semesters', SemesterController::class);

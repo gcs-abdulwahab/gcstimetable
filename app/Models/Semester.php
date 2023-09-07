@@ -9,6 +9,13 @@ class Semester extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'number',
+        'is_active',
+        'program_id'
+    ];
+
 
     // Semester Has Many Sections
     public function sections()
