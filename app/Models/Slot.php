@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Slot extends Model
 {
     use HasFactory;
+   protected $fillable = [
+        'code',
+        'name',
+        'start_time',
+        'end_time',
+    ];
+
 
     // Slot has many Allocations
     public function allocations()
