@@ -14,8 +14,13 @@ class DayController extends Controller
      */
     public function index()
     {
-        // return Day resource with proper response code
-        return Day::all();
+        // return all days with proper exception handling
+        try {
+            return response()->json(Day::all(), 200); // 200 OK
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
+        
     }
 
     /**
@@ -81,6 +86,8 @@ class DayController extends Controller
             return response()->json(['message' => 'Day not found'], 404);
         }
     
-        return response()->json($day);
+        // return response()->json($day);
+        return response()->json([ 'day'=> $day , 'message' => 'Resource successfully deleted'], 200);
+
     }
 }

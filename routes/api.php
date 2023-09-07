@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\DayController;
+use App\Http\Controllers\DepartmentController;
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 // write API Route for Day
 Route::apiResource('days', DayController::class);
+
+// write API Route for Department
+Route::apiResource('departments', DepartmentController::class);

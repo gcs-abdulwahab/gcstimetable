@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Department;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
+use App\Models\Department;
+use Illuminate\Database\QueryException;
 
 class DepartmentController extends Controller
 {
@@ -13,7 +14,12 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+       // return DEpartments with proper Exception Handling
+         try {
+          return response()->json(Department::all(), 200); // 200 OK
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+        }
     }
 
     /**
@@ -29,7 +35,17 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {
-        //
+       // write Department store method like Day store method
+       try{
+        $department = Department::create($request->all());
+        return response()->json($department, 201); // 201 Created
+       }
+       catch(QueryException $exception){
+        return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()  ], 422);
+       }
+
+
+
     }
 
     /**
@@ -37,7 +53,10 @@ class DepartmentController extends Controller
      */
     public function show(Department $department)
     {
-        //
+        // write show method like Day show method
+        if (!$department) {
+            return response()->json(['message' => 'Department not found'], 404);
+        }
     }
 
     /**
@@ -53,7 +72,13 @@ class DepartmentController extends Controller
      */
     public function update(UpdateDepartmentRequest $request, Department $department)
     {
-        //
+        //write update method like Day update method
+        try {
+            $department->update($request->all());
+            return response()->json($department, 200); // 200 OK
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
     }
 
     /**
@@ -61,6 +86,12 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        //
+        // write destroy method like Day destroy method
+        try {
+            $department->delete();
+            return response()->json([ 'department'=>$department ,  'message' => 'Resource successfully deleted'], 200);
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
     }
 }
