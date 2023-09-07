@@ -9,6 +9,14 @@ class Day extends Model
 {
     use HasFactory;
 
+    // add fillables
+    protected $fillable = [
+        'name',
+        'code',
+        'number'
+    ];
+
+
     // Day has many Allocations
     public function allocations()
     {

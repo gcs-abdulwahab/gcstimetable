@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\DayController;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,4 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+// write API Route for Day
+Route::apiResource('days', DayController::class);

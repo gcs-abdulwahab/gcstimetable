@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Day;
 use App\Http\Requests\StoreDayRequest;
 use App\Http\Requests\UpdateDayRequest;
+use App\Models\Day;
+use Illuminate\Database\QueryException;
 
 class DayController extends Controller
 {
@@ -13,7 +14,8 @@ class DayController extends Controller
      */
     public function index()
     {
-        //
+        // return Day resource with proper response code
+        return Day::all();
     }
 
     /**
@@ -29,7 +31,14 @@ class DayController extends Controller
      */
     public function store(StoreDayRequest $request)
     {
-        //
+        try {
+            $day = Day::create($request->all());
+            return response()->json($day, 201); // 201 Created
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()  ], 422);
+        }
+        
+
     }
 
     /**
@@ -37,7 +46,11 @@ class DayController extends Controller
      */
     public function show(Day $day)
     {
-        //
+        if (!$day) {
+            return response()->json(['message' => 'Day not found'], 404);
+        }
+    
+        return response()->json($day);
     }
 
     /**
@@ -53,7 +66,10 @@ class DayController extends Controller
      */
     public function update(UpdateDayRequest $request, Day $day)
     {
-        //
+        // save the request data and return it
+        $day->update($request->all());
+        return $day;
+
     }
 
     /**
@@ -61,6 +77,10 @@ class DayController extends Controller
      */
     public function destroy(Day $day)
     {
-        //
+        if (!$day) {
+            return response()->json(['message' => 'Day not found'], 404);
+        }
+    
+        return response()->json($day);
     }
 }
