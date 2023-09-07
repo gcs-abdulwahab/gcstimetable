@@ -9,6 +9,14 @@ class Room extends Model
 {
     use HasFactory;
 
+            //fillables
+            protected $fillable = [
+                'name',
+                'code',
+                'capacity',
+                'type',
+                'isavailable'
+            ];
 
     // Room has many Allocations
     public function allocations()

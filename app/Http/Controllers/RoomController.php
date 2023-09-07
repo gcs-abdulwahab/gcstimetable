@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Room;
 use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
+use App\Models\Room;
+use Illuminate\Database\QueryException;
 
 class RoomController extends Controller
 {
@@ -13,7 +14,12 @@ class RoomController extends Controller
      */
     public function index()
     {
-        //
+        // return all rooms with proper exception handling just like DepartmentController
+        try {
+            return response()->json(Room::all(), 200); // 200 OK
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+        }
     }
 
     /**
@@ -29,7 +35,14 @@ class RoomController extends Controller
      */
     public function store(StoreRoomRequest $request)
     {
-        //
+       // write store method like Department store method
+         try{
+          $room = Room::create($request->all());
+          return response()->json($room, 201); // 201 Created
+         }
+         catch(QueryException $exception){
+          return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()  ], 422);
+         }
     }
 
     /**
@@ -37,7 +50,11 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-        //
+        // write show method like Day show method
+        if (!$room) {
+            return response()->json(['message' => 'Room not found'], 404);
+        }
+        return response()->json($room);
     }
 
     /**
@@ -53,7 +70,13 @@ class RoomController extends Controller
      */
     public function update(UpdateRoomRequest $request, Room $room)
     {
-        //
+        //write update method like Day update method
+        try {
+            $room->update($request->all());
+            return response()->json($room, 200); // 200 OK
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+        }
     }
 
     /**
@@ -61,6 +84,11 @@ class RoomController extends Controller
      */
     public function destroy(Room $room)
     {
-        //
+        try {
+            $room->delete();
+            return response()->json([ 'room'=>$room,  'message' => 'Resource successfully deleted'], 200);
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
     }
 }

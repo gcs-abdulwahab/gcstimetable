@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Teacher;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
+use App\Models\Teacher;
+use Illuminate\Database\QueryException;
 
 class TeacherController extends Controller
 {
@@ -13,7 +14,11 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return response()->json(Teacher::all(), 200); // 200 OK
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
     }
 
     /**
@@ -29,7 +34,13 @@ class TeacherController extends Controller
      */
     public function store(StoreTeacherRequest $request)
     {
-        //
+        try{
+            $teacher = Teacher::create($request->all());
+            return response()->json($teacher, 201); // 201 Created
+           }
+           catch(QueryException $exception){
+            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()  ], 422);
+           }
     }
 
     /**
@@ -37,7 +48,10 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        //
+        if (!$teacher) {
+            return response()->json(['message' => 'Teacher not found'], 404);
+        }
+        return response()->json($teacher);
     }
 
     /**
@@ -53,7 +67,12 @@ class TeacherController extends Controller
      */
     public function update(UpdateTeacherRequest $request, Teacher $teacher)
     {
-        //
+        try {
+            $teacher->update($request->all());
+            return response()->json($teacher, 200); // 200 OK
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+        }
     }
 
     /**
@@ -61,6 +80,11 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        //
+        try {
+            $teacher->delete();
+            return response()->json([ 'teacher'=>$teacher,  'message' => 'Resource successfully deleted'], 200);
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
     }
 }
