@@ -9,6 +9,17 @@ class Program extends Model
 {
     use HasFactory;
 
+    // add fillables
+    protected $fillable = [
+        'name',
+        'code',
+        'duration',
+        'type',
+        'isMorning',
+        'department_id'
+    ];
+    
+
 
     // program belongs to a department
     public function department()
