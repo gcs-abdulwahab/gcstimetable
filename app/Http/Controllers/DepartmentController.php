@@ -35,10 +35,10 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {
-       // write Department store method like Day store method
+       
        try{
         $department = Department::create($request->all());
-        return response()->json($department, 204); // 204 Successfully Deleted
+        return response()->json($department, 201); // 
        }
        catch(QueryException $exception){
         return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()  ], 422);

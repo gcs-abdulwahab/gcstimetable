@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DayController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProgramController;
@@ -41,3 +42,6 @@ Route::resource('teachers', TeacherController::class);
 
 // write Api for Slots
 Route::resource('slots',SlotController::class);
+
+// write Api for Courses
+Route::resource('courses',CourseController::class);

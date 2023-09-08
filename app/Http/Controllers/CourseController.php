@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
+use App\Models\Course;
+use Illuminate\Database\QueryException;
 
 class CourseController extends Controller
 {
@@ -13,7 +14,11 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return response()->json(Course::all(), 200); // 200 OK
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
     }
 
     /**
@@ -29,7 +34,13 @@ class CourseController extends Controller
      */
     public function store(StoreCourseRequest $request)
     {
-        //
+        try{
+            $semester = Course::create($request->all());
+            return response()->json($semester, 201); // 201 Created
+        }
+        catch(QueryException $exception){
+            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()  ], 422);
+        }
     }
 
     /**
@@ -37,7 +48,11 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        //
+        
+        if (!$course) {
+            return response()->json(['message' => 'Semester not found'], 404);
+        }
+        return response()->json($course);
     }
 
     /**
@@ -53,7 +68,12 @@ class CourseController extends Controller
      */
     public function update(UpdateCourseRequest $request, Course $course)
     {
-        //
+        try {            
+            $course->update($request->all());
+            return response()->json($course, 200); // 200 OK
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
     }
 
     /**
@@ -61,6 +81,11 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        //
+        try {
+            $course->delete();
+            return response()->json([ 'course'=>$course,  'message' => 'Resource successfully deleted'], 200);
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
     }
 }
