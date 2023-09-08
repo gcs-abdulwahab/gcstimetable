@@ -9,6 +9,27 @@ class Allocation extends Model
 {
     use HasFactory;
 
+    //fillables
+    protected $fillable = [
+        'course_id',
+        'teacher_id',
+        'room_id',
+        'day_id',
+        'slot_id',
+        'name',
+    ];
+
+    // courses
+    public function course()
+    {
+        return $this->belongsTo(Course::class,'course_id');
+    }
+
+    // teachers
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class,'teacher_id');
+    }
 
 // rooms
     public function room()
