@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AllocationController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DayController;
 use App\Http\Controllers\DepartmentController;
@@ -35,3 +36,6 @@ Route::resource('slots',SlotController::class);
 
 // write Api for Courses
 Route::resource('courses',CourseController::class);
+
+// write api for Allocations
+Route::resource('allocations',AllocationController::class);
