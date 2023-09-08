@@ -10,16 +10,6 @@ use App\Http\Controllers\SlotController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
 // write API Route for Day
 Route::apiResource('days', DayController::class);
