@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DayController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProgramController;
@@ -9,16 +10,6 @@ use App\Http\Controllers\SlotController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
 // write API Route for Day
 Route::apiResource('days', DayController::class);
@@ -41,3 +32,6 @@ Route::resource('teachers', TeacherController::class);
 
 // write Api for Slots
 Route::resource('slots',SlotController::class);
+
+// write Api for Courses
+Route::resource('courses',CourseController::class);
