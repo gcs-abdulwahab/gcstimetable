@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
+use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use Illuminate\Database\QueryException;
 
@@ -54,7 +55,7 @@ class RoomController extends Controller
         if (!$room) {
             return response()->json(['message' => 'Room not found'], 404);
         }
-        return response()->json($room);
+        return new RoomResource($room);
     }
 
     /**
