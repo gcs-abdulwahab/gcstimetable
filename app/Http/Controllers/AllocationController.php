@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAllocationRequest;
 use App\Http\Requests\UpdateAllocationRequest;
+use App\Http\Resources\AllocationCollection;
 use App\Models\Allocation;
 use Illuminate\Database\QueryException;
 
@@ -15,7 +16,17 @@ class AllocationController extends Controller
     public function index()
     {
         try {
-            return response()->json(Allocation::all(), 200); // 200 OK
+
+
+            $allocations = Allocation::all();
+            $teacherId = 82;
+
+            $filteredAllocations = $allocations->filter(function ($allocation) use ($teacherId) {
+                return $allocation->teacher_id == $teacherId;
+            });
+
+
+            return new AllocationCollection($filteredAllocations , 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
         }
