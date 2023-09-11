@@ -16,5 +16,11 @@ class Section extends Model
         return $this->belongsTo(Semester::class);
     }
 
+    // Section has many Courses
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
+
 
 }

@@ -22,13 +22,7 @@ class Semester extends Model
     {
         return $this->hasMany(Section::class);
     }
-
-
-// Semester Has Many Courses
-    public function courses()
-    {
-        return $this->hasMany(Course::class);
-    }
+    
     // belongs to a program
     public function program()
     {

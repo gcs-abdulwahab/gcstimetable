@@ -17,7 +17,7 @@ class Course extends Model
         'code',
         'credit_hours',
         'type',
-        'semester_id',
+        'section_id',
     ];
     
     

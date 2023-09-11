@@ -21,37 +21,26 @@ class AllocationFactory extends Factory
      */
     public function definition(): array
     {
-/* 
-            // foreign key to course
-            $table->foreignId('course_id')->constrained()->onDelete('cascade');
-            // foreign key to teacher
-            $table->foreignId('teacher_id')->constrained()->onDelete('cascade');
-            // foreign key to room
-            $table->foreignId('room_id')->constrained()->onDelete('cascade');
-            // foreign key to day
-            $table->foreignId('day_id')->constrained()->onDelete('cascade');
-            // foreign key to slot
-            $table->foreignId('slot_id')->constrained()->onDelete('cascade');
- */
+
         $faker = $this->faker;
-        
-$faker->seed(1234);
+
+        $faker->seed(1234);
 
         $num = $faker->unique()->numberBetween(1, 1000);
         return [
 
 
-            
+
             // foreign key to course
-            'course_id' => Course::inRandomOrder(    $num      )->pluck('id')->first(),
+            'course_id' => Course::inRandomOrder($num)->pluck('id')->first(),
             // foreign key to teacher
-            'teacher_id' => Teacher::inRandomOrder(    $num      )->pluck('id')->first(),
+            'teacher_id' => Teacher::inRandomOrder($num)->pluck('id')->first(),
             // foreign key to room
-            'room_id' =>  Room::inRandomOrder(    $num      )->pluck('id')->first(),
+            'room_id' =>  Room::inRandomOrder($num)->pluck('id')->first(),
             // foreign key to day
-            'day_id' =>  Day::inRandomOrder(    $num      )->pluck('id')->first(),
+            'day_id' =>  Day::inRandomOrder($num)->pluck('id')->first(),
             // foreign key to slot
-            'slot_id' =>   Slot::inRandomOrder(    $num      )->pluck('id')->first(),
+            'slot_id' =>   Slot::inRandomOrder($num)->pluck('id')->first(),
         ];
     }
 }
