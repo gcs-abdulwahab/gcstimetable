@@ -27,8 +27,8 @@ return new class extends Migration
             $table->integer('credit_hours')->default(3);
             // course type
             $table->enum('type', [ 'CLASS','LAB'])->default('CLASS');
-            // course belongs to Section of a Semester
-            $table->foreignId('section_id')->constrained('sections');
+            
+            $table->foreignId('semester_id')->constrained('semesters');
             
 
 
