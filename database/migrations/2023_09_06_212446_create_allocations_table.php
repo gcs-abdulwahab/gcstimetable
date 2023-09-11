@@ -24,6 +24,8 @@ return new class extends Migration
             $table->foreignId('day_id')->constrained()->onDelete('cascade');
             // foreign key to slot
             $table->foreignId('slot_id')->constrained()->onDelete('cascade');
+            // foreign key to section
+            $table->foreignId('section_id')->constrained()->onDelete('cascade');
 
             // Allocation Name
             $table->string('name')->nullable();
@@ -34,7 +36,7 @@ return new class extends Migration
             // Unique Constraint A room cannot be allocated to same slot on same day to two different courses
              $table->unique(['room_id', 'day_id', 'slot_id']);
 
-
+            // More Constraints  to come or they can be put in the Rules
             
 
 

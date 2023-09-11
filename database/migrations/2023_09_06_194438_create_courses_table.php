@@ -22,12 +22,12 @@ return new class extends Migration
             // course DisplayCode
             $table->string('display_code');
             
-            $table->string('code')->unique();
+            $table->string('code');
             // course credit hours
             $table->integer('credit_hours')->default(3);
             // course type
             $table->enum('type', [ 'CLASS','LAB'])->default('CLASS');
-            // course belongs to Section of a Semester
+            
             $table->foreignId('semester_id')->constrained('semesters');
             
 
