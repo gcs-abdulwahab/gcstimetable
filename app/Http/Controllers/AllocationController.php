@@ -17,7 +17,6 @@ class AllocationController extends Controller
     {
         try {
 
-
             $allocations = Allocation::all();
             $teacherId = 82;
 
