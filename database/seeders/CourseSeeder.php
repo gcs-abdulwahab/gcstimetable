@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Section;
 use App\Models\Semester;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
@@ -12,7 +13,7 @@ class CourseSeeder extends Seeder
      */
     public function run(): void
     {
-        // create 5 to 6 courses of each program in every semester
+        // create 5 to 6 courses of each program in every section
 
         $semesters = Semester::all();
 
@@ -22,7 +23,7 @@ class CourseSeeder extends Seeder
 
             $courseData = [];
 
-            $departmentCode = $semester->program->department->code;
+           $departmentCode = $semester->program->department->code;
             
             for ($i = 101; $i <= 105; $i++) {
                 $courseName = "Course Name " . $i; // Replace with your desired pattern
@@ -36,12 +37,22 @@ class CourseSeeder extends Seeder
                     'semester_id' => $semester->id,
                 ];
             }
+
             
-            $semester->courses()->createMany($courseData);
+
+            try {
+            // save all courses
+                $semester->courses()->createMany($courseData);           
             
-            
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+
         
             }
+
+
+
         }
 
 
