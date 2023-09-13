@@ -86,6 +86,7 @@ class DayController extends Controller
             return response()->json(['message' => 'Day not found'], 404);
         }
     
+        $day->delete();
         // return response()->json($day);
         return response()->json([ 'day'=> $day , 'message' => 'Resource successfully deleted'], 200);
 
