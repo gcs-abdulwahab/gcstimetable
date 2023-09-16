@@ -16,6 +16,7 @@ class Allocation extends Model
         'room_id',
         'day_id',
         'slot_id',
+        'section_id',
         'name',
     ];
 

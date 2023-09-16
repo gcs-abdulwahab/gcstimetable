@@ -22,7 +22,12 @@ class StoreAllocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'course_id' => 'required',
+            'teacher_id' => 'required|unique:allocations,teacher_id,NULL,id,day_id,slot_id',
+            'room_id' => 'required',
+            'day_id' => 'required',
+            'slot_id' => 'required',
+            'section_id' => 'required',
         ];
     }
 }

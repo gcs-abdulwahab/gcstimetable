@@ -30,10 +30,7 @@ class AllocationFactory extends Factory
         $num = $faker->unique()->numberBetween(1, 1000);
         return [
 
-
-
             // foreign key to course
-            
             'course_id' => Course::all()->random()->id,
             // foreign key to teacher
             'teacher_id' => Teacher::all()->random()->id,
