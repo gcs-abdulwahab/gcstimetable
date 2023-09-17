@@ -59,7 +59,7 @@ class AllocationController extends Controller
     public function show(Allocation $allocation)
     {
         if (!$allocation) {
-            return response()->json(['message' => 'Allocation not found'], 404);
+            return response()->json(['message' => 'Resource not found'], 404);
         }
         return response()->json($allocation);
     }

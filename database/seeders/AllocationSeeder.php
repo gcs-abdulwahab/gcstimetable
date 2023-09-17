@@ -57,5 +57,9 @@ class AllocationSeeder extends Seeder
             $allocation->save();
 
 
+
+
+            
+
     }
 }
