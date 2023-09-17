@@ -15,7 +15,7 @@ class CourseController extends Controller
     public function index()
     {
         try {
-            return response()->json(Course::all(), 200); // 200 OK
+            return response()->json(Course::all()->sortByDesc('updated_at'), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
         }

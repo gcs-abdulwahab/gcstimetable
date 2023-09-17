@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Section;
 use App\Http\Requests\StoreSectionRequest;
 use App\Http\Requests\UpdateSectionRequest;
+use App\Models\Section;
+use Illuminate\Database\QueryException;
 
 class SectionController extends Controller
 {
@@ -13,7 +14,14 @@ class SectionController extends Controller
      */
     public function index()
     {
-        //
+          // return all programs with proper exception handling just like DepartmentController
+        try {
+            return response()->json(Section::all()->sortByDesc('updated_at'), 200); // 200 OK
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
+
+
     }
 
     /**
@@ -29,7 +37,14 @@ class SectionController extends Controller
      */
     public function store(StoreSectionRequest $request)
     {
-        //
+         
+         try{
+            $section = Section::create($request->all());
+            return response()->json($section, 201); // 201 Created
+        }
+        catch(QueryException $exception){
+            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()  ], 422);
+        }
     }
 
     /**
@@ -37,7 +52,11 @@ class SectionController extends Controller
      */
     public function show(Section $section)
     {
-        //
+         // write show method like Day show method
+         if (!$section) {
+            return response()->json(['message' => 'Section not found'], 404);
+        }
+        return response()->json($section);
     }
 
     /**
@@ -53,7 +72,13 @@ class SectionController extends Controller
      */
     public function update(UpdateSectionRequest $request, Section $section)
     {
-        //
+         
+         try {            
+            $section->update($request->all());
+            return response()->json($section, 200); // 200 OK
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
     }
 
     /**
@@ -61,6 +86,11 @@ class SectionController extends Controller
      */
     public function destroy(Section $section)
     {
-        //
+        try {
+            $section->delete();
+            return response()->json([ 'section'=>$section,  'message' => 'Resource successfully deleted'], 200);
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+        }
     }
 }

@@ -17,7 +17,7 @@ class RoomController extends Controller
     {
         // return all rooms with proper exception handling just like DepartmentController
         try {
-            return response()->json(Room::all(), 200); // 200 OK
+            return response()->json(Room::all()->sortByDesc('updated_at'), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
         }

@@ -16,7 +16,7 @@ class ProgramController extends Controller
     {
         // return all programs with proper exception handling just like DepartmentController
         try {
-            return response()->json(Program::all(), 200); // 200 OK
+            return response()->json(Program::all()->sortByDesc('updated_at'), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
         }

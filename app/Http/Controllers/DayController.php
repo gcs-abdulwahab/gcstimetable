@@ -16,7 +16,7 @@ class DayController extends Controller
     {
         // return all days with proper exception handling
         try {
-            return response()->json(Day::all(), 200); // 200 OK
+            return response()->json(Day::all()->sortByDesc('updated_at'), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
         }

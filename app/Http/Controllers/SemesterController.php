@@ -14,11 +14,9 @@ class SemesterController extends Controller
      */
     public function index()
     {
-    // write index method like Program Controller index Method
-
-        // return all programs with proper exception handling just like DepartmentController
+          // return all programs with proper exception handling just like DepartmentController
         try {
-            return response()->json(Semester::all(), 200); // 200 OK
+            return response()->json(Semester::all()->sortByDesc('updated_at'), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
         }
