@@ -9,6 +9,12 @@ class Section extends Model
 {
     use HasFactory;
 
+    // fillable
+    protected $fillable = [
+        'name',
+        'semester_id',
+    ];
+
 
     // Section Belongs to a Semester
     public function semester()

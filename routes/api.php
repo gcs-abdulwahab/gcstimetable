@@ -6,6 +6,7 @@ use App\Http\Controllers\DayController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\SlotController;
 use App\Http\Controllers\TeacherController;
@@ -20,6 +21,10 @@ Route::apiResource('departments', DepartmentController::class);
 
 //write API for Program
 Route::resource('programs', ProgramController::class);
+
+//write API for Section
+Route::resource('sections', SectionController::class);
+
 
 //write API for Semester
 Route::resource('semesters', SemesterController::class);
