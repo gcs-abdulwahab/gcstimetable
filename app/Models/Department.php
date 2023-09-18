@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Institution;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,12 +10,8 @@ class Department extends Model
 {
     use HasFactory;
 
-    // add fillables
-    protected $fillable = [
-        'name',
-        'code',
-      
-    ];
+  // guarded
+    protected $guarded = [];
 
  //Department has many teachers
     public function teachers()
@@ -28,6 +25,11 @@ class Department extends Model
         return $this->hasMany(Program::class);
     }
 
+    // Department belongs to an Institution
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
+    }
 
 
 }

@@ -65,6 +65,7 @@ return new class extends Migration
             // isActive
             $table->boolean('isActive')->default(true);
 
+
             $table->timestamps();
         });
     }

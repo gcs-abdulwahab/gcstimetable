@@ -18,7 +18,15 @@ return new class extends Migration
             // day name
             $table->string('name');
             // day code
-            $table->string('code')->unique();
+            $table->string('code');
+
+            $institution_id = 1;
+            // belongs to some institution
+            $table->foreignId('institution_id')->default($institution_id)->constrained()->onDelete('cascade');
+
+            // unique constraint of code and institution_id
+            $table->unique(['code', 'institution_id']);
+
 
             $table->timestamps();
         });

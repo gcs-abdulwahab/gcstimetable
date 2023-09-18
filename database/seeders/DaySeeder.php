@@ -23,10 +23,23 @@ $days = [
     ['name' => 'Saturday', 'code' => 'SAT', 'number' => 6],
 ];
 
+$insitution_id = 1;
+
 // Create records for days using the array
 foreach ($days as $dayData) {
+    $dayData['institution_id'] = $insitution_id;
     Day::create($dayData);
 }
+
+$insitution_id = 2;
+
+// Create records for days using the array
+foreach ($days as $dayData) {
+    $dayData['institution_id'] = $insitution_id;
+    Day::create($dayData);
+}
+
+
 
     }
 }
