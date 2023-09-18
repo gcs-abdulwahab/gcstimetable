@@ -21,9 +21,19 @@ class SlotSeeder extends Seeder
             ['name' => '12-1', 'code' => 'p5', 'start_time' => '12:00:00', 'end_time' => '13:00:00'],
         ];
 
+        $insitution_id = 1;
         // Create records for slots using the array
         foreach ($slots as $slotData) {
+            $slotData['institution_id'] = $insitution_id;
             Slot::create($slotData);
         }
+
+        $insitution_id = 2;
+        // Create records for slots using the array
+        foreach ($slots as $slotData) {
+            $slotData['institution_id'] = $insitution_id;
+            Slot::create($slotData);
+        }
+
     }
 }

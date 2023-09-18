@@ -59,6 +59,7 @@ foreach ($departments as $department) {
             'rank' => 'Assistant Professor', // You can change this as needed
             'department_id' => $department->id,
             'isvisiting' => false,
+            
         ]);
     }
 }

@@ -9,16 +9,8 @@ class Program extends Model
 {
     use HasFactory;
 
-    // add fillables
-    protected $fillable = [
-        'name',
-        'code',
-        'duration',
-        'type',
-        'isMorning',
-        'department_id'
-    ];
-    
+ // guarded
+    protected $guarded = [];
 
 
     // program belongs to a department

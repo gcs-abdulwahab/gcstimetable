@@ -35,6 +35,8 @@ class RoomSeeder extends Seeder
 
              $faker = Faker::create();
 
+        $institution_id = 1;
+
         // create room with same pattern upto 200
         for ($i = 1; $i <= 200; $i++) {
             Room::create([
@@ -45,8 +47,28 @@ class RoomSeeder extends Seeder
                 'type' => $faker->randomElement(['intermediate', 'bs', 'both']),
 
                 'isavailable' => true,
+                'institution_id' => $institution_id
             ]);
         }
+
+
+
+        $institution_id = 2;
+
+        // create room with same pattern upto 200
+        for ($i = 1; $i <= 200; $i++) {
+            Room::create([
+                'name' => 'R-' . $i,
+                'code' => 'R-' . $i,
+                'capacity' => 50,
+                //type would be random
+                'type' => $faker->randomElement(['intermediate', 'bs', 'both']),
+
+                'isavailable' => true,
+                'institution_id' => $institution_id
+            ]);
+        }
+
 
 
 

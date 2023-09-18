@@ -8,13 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Semester extends Model
 {
     use HasFactory;
+// guarded
+    protected $guarded = [];
 
-    protected $fillable = [
-        'name',
-        'number',
-        'is_active',
-        'program_id'
-    ];
 
 
     // Semester Has Many Sections
