@@ -52,11 +52,13 @@ class DepartmentController extends Controller
      * Display the specified resource.
      */
     public function show(Department $department)
-    {
-        // write show method like Day show method
+    {        // write show method like Day show method
         if (!$department) {
             return response()->json(['message' => 'Department not found'], 404);
         }
+        // return response()->json($department);
+        return response()->json($department, 200);
+
     }
 
     /**
