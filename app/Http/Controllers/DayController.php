@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDayRequest;
 use App\Http\Requests\UpdateDayRequest;
-use App\Http\Resources\DayResourceCollection;
+use App\Http\Resources\DayCollection;
 use App\Models\Day;
 use Illuminate\Database\QueryException;
 
@@ -20,7 +20,7 @@ class DayController extends Controller
 
         // return all days by institution
         try {
-            $days = new DayResourceCollection(Day::all()->where('institution_id', $institutionId)->sortByDesc('updated_at'));
+            $days = new DayCollection(Day::all()->where('institution_id', $institutionId)->sortByDesc('updated_at'));
             return response()->json($days, 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
