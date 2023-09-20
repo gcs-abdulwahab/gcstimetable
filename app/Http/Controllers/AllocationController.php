@@ -25,7 +25,7 @@ class AllocationController extends Controller
             });
 
 
-            return new AllocationCollection($filteredAllocations , 200); // 200 OK
+            return new AllocationCollection($allocations , 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
         }

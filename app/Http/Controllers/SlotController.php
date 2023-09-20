@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSlotRequest;
 use App\Http\Requests\UpdateSlotRequest;
+use App\Http\Resources\SlotCollection;
 use App\Models\Slot;
 use Illuminate\Database\QueryException;
 
@@ -18,7 +19,7 @@ class SlotController extends Controller
         $institutionId = request()->input('institution_id');
 
         try {
-            return response()->json(Slot::all()->where('institution_id', $institutionId)->sortByDesc('updated_at'), 200); // 200 OK
+            return response()->json(new SlotCollection(Slot::all()->where('institution_id', $institutionId)->sortByDesc('updated_at')), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
         }

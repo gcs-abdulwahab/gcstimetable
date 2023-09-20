@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
+use App\Http\Resources\DepartmentCollection;
 use App\Models\Department;
 use Illuminate\Database\QueryException;
 
@@ -20,7 +21,7 @@ class DepartmentController extends Controller
 
         // return DEpartments with proper Exception Handling
          try {
-          return response()->json(Department::all()->where('institution_id',$institutionId)->sortByDesc('updated_at'), 200); // 200 OK
+          return response()->json(new DepartmentCollection(Department::all()->where('institution_id',$institutionId)->sortByDesc('updated_at')), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
         }
