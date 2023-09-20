@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateCourseRequest;
 use App\Http\Resources\SemesterCollection;
 use App\Models\Course;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller
 {
@@ -15,10 +16,11 @@ class CourseController extends Controller
      */
     public function index()
     {
-        // get semester id from the request
+        // get the query parameter from the URL
         $semesterid = request()->input('semesterid');
+        Log::debug('semesterid: '.$semesterid);
         try {
-            return response()->json(new SemesterCollection(Course::all()->where('semesterid',$semesterid)->sortByDesc('updated_at')), 200); // 200 OK
+            return response()->json(new SemesterCollection(Course::all()->where('semester_id',$semesterid)->sortByDesc('updated_at')), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
         }

@@ -18,7 +18,7 @@ class SectionController extends Controller
         $semesterid = request()->input('semesterid');  
 
         try {
-            return response()->json(new SectionCollection (Section::all()->where('semesterid',$semesterid)->sortByDesc('updated_at')), 200); // 200 OK
+            return response()->json(new SectionCollection (Section::all()->where('semester_id',$semesterid)->sortByDesc('updated_at')), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
         }
