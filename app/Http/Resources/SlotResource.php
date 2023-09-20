@@ -18,6 +18,7 @@ class SlotResource extends JsonResource
             'id' => $this->id,
             'code' => $this->code,
             'name' => $this->name,
+            'institution_id' => $this->institution_id,
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
         ];

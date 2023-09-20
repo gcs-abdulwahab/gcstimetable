@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSemesterRequest;
 use App\Http\Requests\UpdateSemesterRequest;
+use App\Http\Resources\SemesterCollection;
 use App\Models\Semester;
 use Illuminate\Database\QueryException;
 
@@ -14,9 +15,12 @@ class SemesterController extends Controller
      */
     public function index()
     {
-          // return all programs with proper exception handling just like DepartmentController
+
+        // get program id from the request
+        $programId = request()->input('program_id');
+        
         try {
-            return response()->json(Semester::all()->sortByDesc('updated_at'), 200); // 200 OK
+            return response()->json(new SemesterCollection(Semester::all()->where('program_id',$programId)->sortByDesc('updated_at')), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
         }
