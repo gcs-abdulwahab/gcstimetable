@@ -20,6 +20,9 @@ Route::apiResource('institutions', InstitutionController::class);
 // write API Route for Day
 Route::apiResource('days', DayController::class);
 
+
+
+
 // write API Route for Department
 Route::apiResource('departments', DepartmentController::class);
 

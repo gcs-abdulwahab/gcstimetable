@@ -14,9 +14,13 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-       // return DEpartments with proper Exception Handling
+
+        // get the institution id from the request
+        $institutionId = request()->input('institution_id');
+
+        // return DEpartments with proper Exception Handling
          try {
-          return response()->json(Department::all()->sortByDesc('updated_at'), 200); // 200 OK
+          return response()->json(Department::all()->where('institution_id',$institutionId)->sortByDesc('updated_at'), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
         }
