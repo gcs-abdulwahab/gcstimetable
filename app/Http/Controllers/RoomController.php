@@ -17,7 +17,7 @@ class RoomController extends Controller
     public function index()
     {
         // get the Institution id from the request
-        $institution_id = request()->input('institution_id');
+        $institution_id = request()->input('institutionid');
         // return all rooms with proper exception handling just like DepartmentController
         try {
             return response()->json(new RoomCollection(Room::all()->where('institution_id', $institution_id)->sortByDesc('updated_at')), 200); // 200 OK

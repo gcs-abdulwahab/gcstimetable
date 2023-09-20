@@ -16,9 +16,9 @@ class CourseController extends Controller
     public function index()
     {
         // get semester id from the request
-        $semesterid = request()->input('semester_id');
+        $semesterid = request()->input('semesterid');
         try {
-            return response()->json(new SemesterCollection(Course::all()->where('semester_id',$semesterid)->sortByDesc('updated_at')), 200); // 200 OK
+            return response()->json(new SemesterCollection(Course::all()->where('semesterid',$semesterid)->sortByDesc('updated_at')), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
         }

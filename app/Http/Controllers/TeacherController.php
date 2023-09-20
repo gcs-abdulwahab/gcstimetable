@@ -18,7 +18,7 @@ class TeacherController extends Controller
         try {
             
             
-            $departmentid = request()->input('department_id');
+            $departmentid = request()->input('departmentid');
 
             return response()->json( new TeacherCollection(Teacher::all()->where('department_id',$departmentid)->sortByDesc('updated_at'))   , 200); // 200 OK
 

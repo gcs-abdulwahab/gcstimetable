@@ -16,7 +16,7 @@ class SlotController extends Controller
     public function index()
     {
         // get the institution id from the request
-        $institutionId = request()->input('institution_id');
+        $institutionId = request()->input('institutionid');
 
         try {
             return response()->json(new SlotCollection(Slot::all()->where('institution_id', $institutionId)->sortByDesc('updated_at')), 200); // 200 OK
