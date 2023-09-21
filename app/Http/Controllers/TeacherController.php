@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
+use App\Http\Resources\TeacherCollection;
 use App\Models\Teacher;
 use Illuminate\Database\QueryException;
 
@@ -15,7 +16,12 @@ class TeacherController extends Controller
     public function index()
     {
         try {
-            return response()->json(Teacher::all()->sortByDesc('updated_at'), 200); // 200 OK
+            
+            
+            $departmentid = request()->input('departmentid');
+
+            return response()->json( new TeacherCollection(Teacher::all()->where('department_id',$departmentid)->sortByDesc('updated_at'))   , 200); // 200 OK
+
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
         }

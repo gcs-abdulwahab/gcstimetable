@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSectionRequest;
 use App\Http\Requests\UpdateSectionRequest;
+use App\Http\Resources\SectionCollection;
 use App\Models\Section;
 use Illuminate\Database\QueryException;
 
@@ -14,9 +15,10 @@ class SectionController extends Controller
      */
     public function index()
     {
-          // return all programs with proper exception handling just like DepartmentController
+        $semesterid = request()->input('semesterid');  
+
         try {
-            return response()->json(Section::all()->sortByDesc('updated_at'), 200); // 200 OK
+            return response()->json(new SectionCollection (Section::all()->where('semesterid',$semesterid)->sortByDesc('updated_at')), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
         }

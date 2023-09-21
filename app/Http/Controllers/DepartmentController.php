@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
+use App\Http\Resources\DepartmentCollection;
 use App\Models\Department;
 use Illuminate\Database\QueryException;
 
@@ -14,9 +15,13 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-       // return DEpartments with proper Exception Handling
+
+        // get the institution id from the request
+        $institutionId = request()->input('institutionid');
+
+        // return DEpartments with proper Exception Handling
          try {
-          return response()->json(Department::all()->sortByDesc('updated_at'), 200); // 200 OK
+          return response()->json(new DepartmentCollection(Department::all()->where('institution_id',$institutionId)->sortByDesc('updated_at')), 200); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
         }
@@ -52,11 +57,13 @@ class DepartmentController extends Controller
      * Display the specified resource.
      */
     public function show(Department $department)
-    {
-        // write show method like Day show method
+    {        // write show method like Day show method
         if (!$department) {
             return response()->json(['message' => 'Department not found'], 404);
         }
+        // return response()->json($department);
+        return response()->json($department, 200);
+
     }
 
     /**

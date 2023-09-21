@@ -4,6 +4,7 @@ use App\Http\Controllers\AllocationController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DayController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SectionController;
@@ -13,8 +14,14 @@ use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 
+//write API Route for Institution
+Route::apiResource('institutions', InstitutionController::class);
+
 // write API Route for Day
 Route::apiResource('days', DayController::class);
+
+
+
 
 // write API Route for Department
 Route::apiResource('departments', DepartmentController::class);

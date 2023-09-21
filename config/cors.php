@@ -15,7 +15,10 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    // disable cors and allow everyone
+    'paths' => ['*'],
+    
+    
 
     'allowed_methods' => ['*'],
 

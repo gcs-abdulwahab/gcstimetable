@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Seeders\InstitutionSeeder;
 use Database\Seeders\RoomSeeder;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // call seeder of institution            
+        $this->call(InstitutionSeeder::class);
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

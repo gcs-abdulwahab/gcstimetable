@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSlotRequest;
 use App\Http\Requests\UpdateSlotRequest;
+use App\Http\Resources\SlotCollection;
 use App\Models\Slot;
 use Illuminate\Database\QueryException;
 
@@ -14,10 +15,13 @@ class SlotController extends Controller
      */
     public function index()
     {
+        // get the institution id from the request
+        $institutionId = request()->input('institutionid');
+
         try {
-            return response()->json(Slot::all()->sortByDesc('updated_at'), 200); // 200 OK
+            return response()->json(new SlotCollection(Slot::all()->where('institution_id', $institutionId)->sortByDesc('updated_at')), 200); // 200 OK
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
         }
     }
 
@@ -34,12 +38,11 @@ class SlotController extends Controller
      */
     public function store(StoreSlotRequest $request)
     {
-        try{
+        try {
             $semester = Slot::create($request->all());
             return response()->json($semester, 201); // 201 Created
-        }
-        catch(QueryException $exception){
-            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()  ], 422);
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Constraint violation or other database error' . $exception->getMessage()], 422);
         }
     }
 
@@ -67,11 +70,11 @@ class SlotController extends Controller
      */
     public function update(UpdateSlotRequest $request, Slot $slot)
     {
-        try {            
+        try {
             $slot->update($request->all());
             return response()->json($slot, 200); // 200 OK
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
         }
     }
 
@@ -82,9 +85,9 @@ class SlotController extends Controller
     {
         try {
             $slot->delete();
-            return response()->json([ 'slot'=>$slot,  'message' => 'Resource successfully deleted'], 200);
+            return response()->json(['slot' => $slot,  'message' => 'Resource successfully deleted'], 200);
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
         }
     }
 }

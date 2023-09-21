@@ -42,14 +42,26 @@ $departments = [
     ['name' => 'Urdu', 'code' => 'URDU'],
     ['name' => 'Zoology', 'code' => 'ZOO'],
 ];
-
+        $institution_id = 1;
 // Create records for departments using the array
 foreach ($departments as $departmentData) {
     Department::create([
         'name' => $departmentData['name'],
         'code' => $departmentData['code'],
+        'institution_id' => $institution_id
     ]);
 }
+
+$institution_id = 2;
+// Create records for departments using the array
+foreach ($departments as $departmentData) {
+    Department::create([
+        'name' => $departmentData['name'],
+        'code' => $departmentData['code'],
+        'institution_id' => $institution_id
+    ]);
+}
+
 
 
 

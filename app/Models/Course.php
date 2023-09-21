@@ -10,15 +10,8 @@ class Course extends Model
     use HasFactory;
 
     // Course model
-    
-    protected $fillable = [
-        'name',
-        'display_code',
-        'code',
-        'credit_hours',
-        'type',
-        'semester_id',
-    ];
+    // guarded
+    protected $guarded = [];
     
     
     // unique constraint    $table->unique(['course_id', 'teacher_id', 'room_id', 'day_id', 'slot_id']);

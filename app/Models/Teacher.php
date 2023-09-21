@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Institution;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,7 +12,7 @@ class Teacher extends Model
 
 
     // blacklist
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
 
 
@@ -25,6 +26,12 @@ class Teacher extends Model
     public function allocations()
     {
         return $this->hasMany(Allocation::class);
+    }
+
+    // Teacher Belongs to some Institution
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
     }
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDayRequest;
 use App\Http\Requests\UpdateDayRequest;
+use App\Http\Resources\DayCollection;
 use App\Models\Day;
 use Illuminate\Database\QueryException;
 
@@ -14,17 +15,25 @@ class DayController extends Controller
      */
     public function index()
     {
-        // get Institutionid from the queryString
-        $institutionId = request('institution_id');
-        
-        // return all days with proper exception handling
+
+
+        // get the institution id from the request
+        $institutionId = request()->input('institutionid');
+
+        // return all days by institution
         try {
-            return response()->json(Day::all()->where('institution_id',$institutionId)->sortByDesc('updated_at'), 200); // 200 OK
+            $days = new DayCollection(Day::all()->where('institution_id', $institutionId)->sortByDesc('updated_at'));
+            return response()->json($days, 200); // 200 OK
+
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
         }
-        
     }
+
+
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -43,11 +52,10 @@ class DayController extends Controller
             $day = Day::create($request->all());
             return response()->json($day, 201); // 201 Created
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()  ], 422);
+            return response()->json(['error' => 'Constraint violation or other database error' . $exception->getMessage()], 422);
         }
-        
-
     }
+
 
     /**
      * Display the specified resource.
@@ -57,7 +65,7 @@ class DayController extends Controller
         if (!$day) {
             return response()->json(['message' => 'Day not found'], 404);
         }
-    
+
         return response()->json($day);
     }
 
@@ -77,7 +85,6 @@ class DayController extends Controller
         // save the request data and return it
         $day->update($request->all());
         return $day;
-
     }
 
     /**
@@ -88,10 +95,9 @@ class DayController extends Controller
         if (!$day) {
             return response()->json(['message' => 'Day not found'], 404);
         }
-    
+
         $day->delete();
         // return response()->json($day);
-        return response()->json([ 'day'=> $day , 'message' => 'Resource successfully deleted'], 200);
-
+        return response()->json(['day' => $day, 'message' => 'Resource successfully deleted'], 200);
     }
 }
