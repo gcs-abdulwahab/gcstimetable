@@ -5,6 +5,7 @@ namespace App\Rules;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DaySlotTeacherCourseUniqueRule implements ValidationRule
 {
@@ -15,7 +16,9 @@ class DaySlotTeacherCourseUniqueRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $fail('The selected combination of day, slot, teacher, and course is not unique.');
+
+        Log::info('DaySlotTeacherCourseUniqueRule: validate method called.');
+        
         [$day_id, $slot_id, $teacher_id, $course_id] = explode('-', $value);
 
         $count = DB::table('allocations')

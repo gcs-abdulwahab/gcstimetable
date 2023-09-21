@@ -10,7 +10,7 @@ use Illuminate\Database\QueryException;
 
 class AllocationController extends Controller
 {
-   /**
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -23,11 +23,9 @@ class AllocationController extends Controller
             $filteredAllocations = $allocations->filter(function ($allocation) use ($teacherId) {
                 return $allocation->teacher_id == $teacherId;
             });
-
-
-            return new AllocationCollection($allocations ); // 200 OK
+            return new AllocationCollection($allocations); // 200 OK
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
         }
     }
 
@@ -44,13 +42,12 @@ class AllocationController extends Controller
      */
     public function store(StoreAllocationRequest $request)
     {
-        try{
+        try {
             $allocation = Allocation::create($request->all());
             return response()->json($allocation, 201); // 201 Created
-           }
-           catch(QueryException $exception){
-            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()  ], 422);
-           }
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Constraint violation or other database error' . $exception->getMessage()], 422);
+        }
     }
 
     /**
@@ -92,9 +89,9 @@ class AllocationController extends Controller
     {
         try {
             $allocation->delete();
-            return response()->json([ 'allocation'=>$allocation,  'message' => 'Resource successfully deleted'], 200);
+            return response()->json(['allocation' => $allocation,  'message' => 'Resource successfully deleted'], 200);
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
         }
     }
 }

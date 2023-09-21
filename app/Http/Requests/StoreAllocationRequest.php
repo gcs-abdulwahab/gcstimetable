@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\DaySlotTeacherCourseUniqueRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class StoreAllocationRequest extends FormRequest
 {
@@ -22,6 +23,8 @@ class StoreAllocationRequest extends FormRequest
      */
     public function rules()
     {
+        Log::info('StoreAllocationRequest: Rules method called.');
+
         return [
             'course_id' => 'required',
             'teacher_id' => 'nullable',
@@ -29,7 +32,8 @@ class StoreAllocationRequest extends FormRequest
             'slot_id' => 'required',
             'section_id' => 'required',
             'name' => 'nullable',
-            'room_id' => 'required' ,new DaySlotTeacherCourseUniqueRule,
+            'room_id' => 'required'  ,
+            new DaySlotTeacherCourseUniqueRule,
         ];
     }
     
