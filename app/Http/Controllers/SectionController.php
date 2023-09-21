@@ -15,6 +15,7 @@ class SectionController extends Controller
      */
     public function index()
     {
+
         $semesterid = request()->input('semester_id');  
 
         try {

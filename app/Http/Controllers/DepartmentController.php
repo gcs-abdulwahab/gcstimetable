@@ -17,7 +17,7 @@ class DepartmentController extends Controller
     {
 
         // get the institution id from the request
-        $institutionId = request()->input('institution_id');
+        $institutionId = request()->input('institutionid');
 
         // return DEpartments with proper Exception Handling
          try {

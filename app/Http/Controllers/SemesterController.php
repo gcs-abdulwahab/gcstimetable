@@ -17,7 +17,9 @@ class SemesterController extends Controller
     {
 
         // get program id from the request
+
         $programId = request()->input('program_id');
+
         
         try {
             return response()->json(new SemesterCollection(Semester::all()->where('program_id',$programId)->sortByDesc('updated_at')), 200); // 200 OK
