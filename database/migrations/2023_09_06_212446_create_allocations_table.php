@@ -30,16 +30,7 @@ return new class extends Migration
             // Allocation Name
             $table->string('name')->nullable();
 
-            // unique constraint
-            $table->unique(['course_id', 'teacher_id', 'room_id', 'day_id', 'slot_id'])->name('course_teacher_room_day_slot_unique');
-
-            // Unique Constraint A room cannot be allocated to same slot on same day to two different courses
-             $table->unique(['room_id', 'day_id', 'slot_id'])->name('room_day_slot_unique :A room cannot be allocated to same slot on same day to two different courses');
-
-            // More Constraints  to come or they can be put in the Rules
-            
-
-
+          
             $table->timestamps();
         });
     }

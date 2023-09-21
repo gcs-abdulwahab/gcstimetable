@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
         
-            // create a unique code for each room
             $table->string('code');
+            
             $table->integer ('capacity');
             // create a column so it could be either Intermediate , BS or both   enum
             $table->enum('type', ['intermediate', 'bs','both']);
@@ -28,11 +28,6 @@ return new class extends Migration
             // belongs to some institution
             $table->foreignId('institution_id')->default($institution_id)->constrained()->onDelete('cascade');
 
-            // Define a unique constraint for 'code' and 'institution_id' combination
-            $table->unique(['code', 'institution_id']);
-
-            // Define a unique constraint for 'name' and 'institution_id' combination
-            $table->unique(['name', 'institution_id']);
 
             $table->timestamps();
         });

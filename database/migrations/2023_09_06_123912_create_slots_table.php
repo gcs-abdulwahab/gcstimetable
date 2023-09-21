@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('slots', function (Blueprint $table) {
             $table->id();
-            // create unique slot code
+           
             $table->string('code');
             // slot name
             $table->string('name');
@@ -32,8 +32,7 @@ return new class extends Migration
             // belongs to some institution
             $table->foreignId('institution_id')->default($institution_id)->constrained()->onDelete('cascade');
 
-            // Define a unique constraint for 'code' and 'institution_id' combination
-            $table->unique(['code', 'institution_id' , 'is_morning']);
+           
 
             $table->timestamps();
         });

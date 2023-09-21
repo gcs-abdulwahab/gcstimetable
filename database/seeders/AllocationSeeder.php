@@ -16,7 +16,7 @@ class AllocationSeeder extends Seeder
         Allocation::truncate();
 
         // Specify the number of allocations you want to create
-        $totalAllocations = 450;
+        $totalAllocations = 0;
 
         for ($i = 1; $i <= $totalAllocations; $i++) {
             try {
@@ -60,12 +60,12 @@ class AllocationSeeder extends Seeder
 
 
             $allocation = new Allocation();
-            $allocation->course_id = 4;
-            $allocation->teacher_id = 4;
-            $allocation->room_id = 4;
-            $allocation->day_id = 4;
-            $allocation->slot_id = 4;
-            $allocation->section_id = 4;
+            $allocation->course_id = 1;
+            $allocation->teacher_id = 1;
+            $allocation->room_id = 1;
+            $allocation->day_id = 1;
+            $allocation->slot_id = 1;
+            $allocation->section_id = 1;
             $allocation->save();
 
 
