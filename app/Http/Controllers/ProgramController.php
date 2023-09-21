@@ -16,7 +16,9 @@ class ProgramController extends Controller
     public function index()
     {
         // get the department id from the request
-        $departmentId = request()->input('departmentid');
+
+        $departmentId = request()->input('department_id');
+
         // return all programs with proper exception handling just like DepartmentController
         try {
             return response()->json(new ProgramCollection(Program::all()->where('department_id',$departmentId)->sortByDesc('updated_at')), 200); // 200 OK

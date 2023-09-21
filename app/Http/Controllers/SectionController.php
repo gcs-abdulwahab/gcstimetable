@@ -15,7 +15,8 @@ class SectionController extends Controller
      */
     public function index()
     {
-        $semesterid = request()->input('semesterid');  
+
+        $semesterid = request()->input('semester_id');  
 
         try {
             return response()->json(new SectionCollection (Section::all()->where('semester_id',$semesterid)->sortByDesc('updated_at')), 200); // 200 OK

@@ -16,9 +16,11 @@ class CourseController extends Controller
      */
     public function index()
     {
+
         // get the query parameter from the URL
-        $semesterid = request()->input('semesterid');
+        $semesterid = request()->input('semester_id');
         Log::debug('semesterid: '.$semesterid);
+
         try {
             return response()->json(new SemesterCollection(Course::all()->where('semester_id',$semesterid)->sortByDesc('updated_at')), 200); // 200 OK
         } catch (QueryException $exception) {
