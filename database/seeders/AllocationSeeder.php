@@ -13,6 +13,8 @@ class AllocationSeeder extends Seeder
      */
     public function run(): void
     {
+        Allocation::truncate();
+
         // Specify the number of allocations you want to create
         $totalAllocations = 450;
 
@@ -55,6 +57,17 @@ class AllocationSeeder extends Seeder
             $allocation->slot_id = 1;
             $allocation->section_id = 1;
             $allocation->save();
+
+
+            $allocation = new Allocation();
+            $allocation->course_id = 4;
+            $allocation->teacher_id = 4;
+            $allocation->room_id = 4;
+            $allocation->day_id = 4;
+            $allocation->slot_id = 4;
+            $allocation->section_id = 4;
+            $allocation->save();
+
 
 
 
