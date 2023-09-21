@@ -21,6 +21,12 @@ return new class extends Migration
             $table->time('start_time');
             // slot ending time
             $table->time('end_time');
+
+            // isPractical is by default false
+            $table->boolean('is_practical')->default(false);
+
+            // slot can be of isMorning which is by default true
+            $table->boolean('isMorning')->default(true);
             
             $institution_id = 1;
             // belongs to some institution
