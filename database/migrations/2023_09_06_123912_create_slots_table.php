@@ -21,13 +21,19 @@ return new class extends Migration
             $table->time('start_time');
             // slot ending time
             $table->time('end_time');
+
+            // isPractical is by default false
+            $table->boolean('is_practical')->default(false);
+
+            // slot can be of isMorning which is by default true
+            $table->boolean('is_morning')->default(true);
             
             $institution_id = 1;
             // belongs to some institution
             $table->foreignId('institution_id')->default($institution_id)->constrained()->onDelete('cascade');
 
             // Define a unique constraint for 'code' and 'institution_id' combination
-            $table->unique(['code', 'institution_id']);
+            $table->unique(['code', 'institution_id' , 'is_morning']);
 
             $table->timestamps();
         });

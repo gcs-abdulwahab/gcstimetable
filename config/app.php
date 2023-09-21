@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Laravel GCS TimeTable'),
 
     /*
     |--------------------------------------------------------------------------
@@ -183,6 +183,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'TimeSlotHelper' => App\Helpers\TimeSlotHelper::class,
     ])->toArray(),
 
 ];
