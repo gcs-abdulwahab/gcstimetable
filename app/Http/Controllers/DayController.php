@@ -15,6 +15,8 @@ class DayController extends Controller
      */
     public function index()
     {
+
+
         // get the institution id from the request
         $institutionId = request()->input('institutionid');
 
@@ -22,6 +24,7 @@ class DayController extends Controller
         try {
             $days = new DayCollection(Day::all()->where('institution_id', $institutionId)->sortByDesc('updated_at'));
             return response()->json($days, 200); // 200 OK
+
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
         }
