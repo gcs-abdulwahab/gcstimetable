@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Providers\Rules;
+namespace App\Providers;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
