@@ -32,8 +32,8 @@ class StoreAllocationRequest extends FormRequest
             'slot_id' => 'required',
             'section_id' => 'required',
             'name' => 'nullable',
-            'room_id' => 'required'  ,
-            new DaySlotTeacherCourseUniqueRule,
+             'room_id' => ['required', new DaySlotTeacherCourseUniqueRule],
+           // new DaySlotTeacherCourseUniqueRule,
         ];
     }
     

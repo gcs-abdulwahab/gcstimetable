@@ -17,7 +17,7 @@ return new class extends Migration
             // foreign key to course
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             // foreign key to teacher
-            $table->foreignId('teacher_id')->constrained()->onDelete('cascade')->nullable();
+            $table->foreignId('teacher_id')->nullable()->constrained()->onDelete('cascade');
             // foreign key to room
             $table->foreignId('room_id')->constrained()->onDelete('cascade');
             // foreign key to day

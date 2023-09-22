@@ -16,16 +16,21 @@ class DaySlotTeacherCourseUniqueRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+       Log::info('DaySlotTeacherCourseUniqueRule: validate method called.');
+       Log::info($value);
+ // Add debugging statements
+    Log::info($attribute.'attribute');
+    Log::info($value.'value');
 
-        Log::info('DaySlotTeacherCourseUniqueRule: validate method called.');
-        
-        [$day_id, $slot_id, $teacher_id, $course_id] = explode('-', $value);
+
+        [$day_id, $slot_id, $teacher_id, $course_id ] = explode('-', $value);
 
         $count = DB::table('allocations')
             ->where('day_id', $day_id)
             ->where('slot_id', $slot_id)
             ->where('teacher_id', $teacher_id)
             ->where('course_id', $course_id)
+            
             ->count();
             
         if ($count > 0) {
