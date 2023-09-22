@@ -14,6 +14,9 @@ use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 
+
+
+
 //write API Route for Institution
 Route::apiResource('institutions', InstitutionController::class);
 

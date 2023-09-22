@@ -1,5 +1,9 @@
 <?php
 
+
+use App\Livewire\Counter;
+use App\Livewire\CreatePost;
+use App\Livewire\Crud;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/counter', Counter::class);
+Route::get('/post', CreatePost::class);
+
+
+
 
 Route::get('/', function () {
     return view('welcome');
