@@ -12,9 +12,17 @@ class Course extends Model
     // Course model
     // guarded
     protected $guarded = [];
+   
     
+    // Allocation is said to be completed if all the fields are not null
+    public function isCompleted()
+    {
+        return $this->day_id && $this->slot_id && $this->teacher_id && $this->room_id && $this->section_id;
+    }
+
     
-    // unique constraint    $table->unique(['course_id', 'teacher_id', 'room_id', 'day_id', 'slot_id']);
+
+
 
     // Course my Taught by many Teachers on Different Days
     public function teachers()

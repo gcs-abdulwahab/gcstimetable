@@ -2,12 +2,15 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\DaySlotTeacherCourseUniqueRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
 
 class StoreAllocationRequest extends FormRequest
 {
+
+    // do not redirect anywhere in case of failure
+     public $redirect = "http://www.google.com";
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,6 +28,7 @@ class StoreAllocationRequest extends FormRequest
     {
         Log::info('StoreAllocationRequest: Rules method called.');
 
+        
         return [
             'course_id' => 'required',
             'teacher_id' => 'nullable',
@@ -32,8 +36,8 @@ class StoreAllocationRequest extends FormRequest
             'slot_id' => 'required',
             'section_id' => 'required',
             'name' => 'nullable',
-             'room_id' => ['required', new DaySlotTeacherCourseUniqueRule],
-           // new DaySlotTeacherCourseUniqueRule,
+            'room_id' => 'required',
+            
         ];
     }
     
