@@ -12,9 +12,12 @@ class Course extends Model
     // Course model
     // guarded
     protected $guarded = [];
+   
     
+   
     
-    // unique constraint    $table->unique(['course_id', 'teacher_id', 'room_id', 'day_id', 'slot_id']);
+
+
 
     // Course my Taught by many Teachers on Different Days
     public function teachers()

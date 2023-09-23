@@ -13,6 +13,57 @@ class Allocation extends Model
     protected $guarded = [];
     
 
+     // create queryscope complete
+        // public function scopeComplete($query)
+        // {
+        //     return $query->whereNotNull('day_id')
+        //         ->whereNotNull('slot_id')
+        //         ->whereNotNull('teacher_id')
+        //         ->whereNotNull('room_id')
+        //         ->whereNotNull('course_id')
+        //         ->whereNotNull('section_id');
+        // }
+
+        // // create queryscope incomplete
+        // public function scopeIncomplete($query)
+        // {
+        //     return $query->whereNull('day_id')
+        //         ->orWhereNull('slot_id')
+        //         ->orWhereNull('teacher_id')
+        //         ->orWhereNull('course_id')
+        //         ->orWhereNull('room_id')
+        //         ->orWhereNull('section_id');
+        // }
+
+
+    // create dynamic queryscope complete  on passing the boolean true  it returns the complete allocations and vice verca
+    // and by default its true
+    public function scopeComplete($query, $complete = true)
+    {
+        if ($complete) {
+            return $query->whereNotNull('day_id')
+                ->whereNotNull('slot_id')
+                ->whereNotNull('teacher_id')
+                ->whereNotNull('room_id')
+                ->whereNotNull('course_id')
+                ->whereNotNull('section_id');
+        } else {
+            return $query->whereNull('day_id')
+                ->orWhereNull('slot_id')
+                ->orWhereNull('teacher_id')
+                ->orWhereNull('course_id')
+                ->orWhereNull('room_id')
+                ->orWhereNull('section_id');
+        }
+    }
+    
+    
+
+
+
+
+
+
     // courses
     public function course()
     {
