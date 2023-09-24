@@ -48,10 +48,16 @@ class Allocation extends Model
             if ($allocation->hasRoom() && (!$allocation->hasTeacher() || !$allocation->hasCourse())) {
                 throw new Exception('Room allocation must have a teacher and a course');
             }
+
+            // if a Teacher is there then there must be a course
+            if ($allocation->hasTeacher() && !$allocation->hasCourse()) {
+                throw new Exception('Teacher allocation must have a course');
+            }
+
+            
             
 
 
-            
 
         });
     }
