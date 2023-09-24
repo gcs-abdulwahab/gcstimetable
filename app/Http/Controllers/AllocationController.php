@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAllocationRequest;
 use App\Http\Requests\UpdateAllocationRequest;
 use App\Http\Resources\AllocationCollection;
 use App\Models\Allocation;
@@ -43,7 +44,7 @@ class AllocationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAllocationRequest $request)
     {
 //        $constraints = new Constraint();
         Log::info($request->all());
