@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 
 class StoreAllocationRequest extends FormRequest
 {
@@ -25,13 +24,8 @@ class StoreAllocationRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
     public function rules()
-    {
-        Log::info('StoreAllocationRequest: Rules method called.');
-
-        
+    {        
         return [
-            
-            
             'day_id' => 'required',
             'slot_id' => 'required',
             'name' => 'nullable',
