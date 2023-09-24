@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
+        /* TODO:  Instead of an attribute   it is better to create shifts 
+            and a program belongs to shift and a shift has many programs
+
+
+*/
+
         Schema::create('programs', function (Blueprint $table) {
-            $table->id() ;
+            $table->id();
             // program name
             $table->string('name');
             // program code
@@ -20,7 +26,7 @@ return new class extends Migration
             // program duration
             $table->integer('duration')->default(4);
             // program type
-            $table->enum('type', ['ADP', 'INTER','BS'])->default('BS');
+            $table->enum('type', ['ADP', 'INTER', 'BS'])->default('BS');
             // is Morning
             $table->boolean('isMorning')->default(true);
             // Offered by which department
