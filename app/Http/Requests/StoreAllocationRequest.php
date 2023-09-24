@@ -30,14 +30,12 @@ class StoreAllocationRequest extends FormRequest
 
         
         return [
-            'course_id' => 'required',
-            'teacher_id' => 'nullable',
+            
+            
             'day_id' => 'required',
             'slot_id' => 'required',
-            'section_id' => 'required',
             'name' => 'nullable',
-            'room_id' => 'required',
-            
+                        
         ];
     }
     
