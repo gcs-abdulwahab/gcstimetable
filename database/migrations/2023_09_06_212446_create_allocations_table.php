@@ -15,17 +15,17 @@ return new class extends Migration
             $table->id();
             
             // foreign key to course
-            $table->foreignId('course_id')->constrained()->onDelete('cascade');
+            $table->foreignId('course_id')->nullable()->constrained()->onDelete('cascade');
             // foreign key to teacher
             $table->foreignId('teacher_id')->nullable()->constrained()->onDelete('cascade');
             // foreign key to room
-            $table->foreignId('room_id')->constrained()->onDelete('cascade');
+            $table->foreignId('room_id')->nullable()->constrained()->onDelete('cascade');
             // foreign key to day
             $table->foreignId('day_id')->constrained()->onDelete('cascade');
             // foreign key to slot
             $table->foreignId('slot_id')->constrained()->onDelete('cascade');
             // foreign key to section
-            $table->foreignId('section_id')->constrained()->onDelete('cascade');
+            $table->foreignId('section_id')->nullable()->constrained()->onDelete('cascade');
 
             // Allocation Name
             $table->string('name')->nullable();
