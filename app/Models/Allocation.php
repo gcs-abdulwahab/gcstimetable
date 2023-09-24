@@ -15,42 +15,46 @@ class Allocation extends Model
 
     // guarded
     protected $guarded = [];
-    
+
+
+    // create a function hasTeacher if teacher id is not null then return true else false
+    public function hasTeacher()
+    {
+        return $this->teacher_id ? true : false;
+    }
+    // create a function hasCourse if course id is not null then return true else false
+    public function hasCourse()
+    {
+        return $this->course_id ? true : false;
+    }
+    // create a function hasRoom if room id is not null then return true else false
+    public function hasRoom()
+    {
+        return $this->room_id ? true : false;
+    }
+
+
+
 
     // create a model event creating to check if the allocation is valid or not
     protected static function booted()
     {
         static::creating(function (Allocation $allocation) {
 
-            // $constraint = new Constraint($allocation);
+            Log::info('in the creating function of allocation model    ' . $allocation->course);
 
-
-            Log::info('in the creating function of allocation model    '. $allocation->course );
-
-            // if Course is allocated to teacher then Room ID should be mentioned 
-            if (!$allocation->isTeacherAllocatedCoursewithoutRoom()) {
-                Log::info('$constraint->isTeacherAllocatedCoursewithoutRoom()   constraint failed');
-                throw new Exception('The teacher is already allocated to another course in the same day, same timeslot.');
+            
+            // if hasRoom and doesnot have a teacher or course then it should throw Exception
+            if ($allocation->hasRoom() && (!$allocation->hasTeacher() || !$allocation->hasCourse())) {
+                throw new Exception('Room allocation must have a teacher and a course');
             }
-
+            
 
 
             
+
         });
     }
-
-    public function isTeacherAllocatedCoursewithoutRoom(): bool
-    {
-        Log::info('in the isTeacherAllocatedCoursewithoutRoom function of allocation model');
-        
-        //$result = 
-
-
-        return true;
-    }
-
-
-
 
 
     // create dynamic queryscope complete  on passing the boolean true  it returns the complete allocations and vice verca
@@ -73,8 +77,8 @@ class Allocation extends Model
                 ->orWhereNull('section_id');
         }
     }
-    
-    
+
+
 
 
 
@@ -84,36 +88,30 @@ class Allocation extends Model
     // courses
     public function course()
     {
-        return $this->belongsTo(Course::class,'course_id');
+        return $this->belongsTo(Course::class, 'course_id');
     }
 
     // teachers
     public function teacher()
     {
-        return $this->belongsTo(Teacher::class,'teacher_id');
+        return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 
-// rooms
+    // rooms
     public function room()
     {
-        return $this->belongsTo(Room::class,'room_id');
+        return $this->belongsTo(Room::class, 'room_id');
     }
 
     // slots
     public function slot()
     {
-        return $this->belongsTo(Slot::class,'slot_id');
+        return $this->belongsTo(Slot::class, 'slot_id');
     }
 
     // days
     public function day()
     {
-        return $this->belongsTo(Day::class,'day_id');
+        return $this->belongsTo(Day::class, 'day_id');
     }
-
-    
-
-
-
-
 }
