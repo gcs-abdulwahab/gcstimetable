@@ -96,7 +96,7 @@ class Allocation extends Model
             if (!$allocation->hasDay() || !$allocation->hasSlot()) {
                 throw new Exception('Allocation must have a day and a slot');
             }
-            
+            //TODO: do we really have to allocate the teacher    please revise
             // if hasRoom and doesnot have a teacher or course then it should throw Exception
             if ($allocation->hasRoom() && (!$allocation->hasTeacher() || !$allocation->hasCourse())) {
                 throw new Exception('Room allocation must have a teacher and a course');
@@ -117,9 +117,8 @@ class Allocation extends Model
            
             if ($allocation->doesExist(['day_id' => $dayid, 'slot_id' => $slotid, 'teacher_id' => $teacherid , 'course_id' => $courseid]) ) {
                 
-                Log::info('Merger :: Allocation Does Exist     ' . $allocation->course);
+                Log::info('Merger :: Allocation Does Exist ' . $allocation->course);
                 
-               
                 $existingAllocation = $allocation->getExistingAllocation(['day_id' => $dayid, 'slot_id' => $slotid, 'teacher_id' => $teacherid ]);
            
                 if ($existingAllocation->course->display_code != $allocation->course->display_code) {
@@ -133,6 +132,7 @@ class Allocation extends Model
             else{
                 Log::info('Merger :: Allocation Does not Exist     ' . $allocation->course);
             }
+            
         });
     }
 
@@ -159,57 +159,6 @@ class Allocation extends Model
     }
 
 
-
-
-
-
-
-
-     // create queryscope complete
-        // public function scopeComplete($query)
-        // {
-        //     return $query->whereNotNull('day_id')
-        //         ->whereNotNull('slot_id')
-        //         ->whereNotNull('teacher_id')
-        //         ->whereNotNull('room_id')
-        //         ->whereNotNull('course_id')
-        //         ->whereNotNull('section_id');
-        // }
-
-        // // create queryscope incomplete
-        // public function scopeIncomplete($query)
-        // {
-        //     return $query->whereNull('day_id')
-        //         ->orWhereNull('slot_id')
-        //         ->orWhereNull('teacher_id')
-        //         ->orWhereNull('course_id')
-        //         ->orWhereNull('room_id')
-        //         ->orWhereNull('section_id');
-        // }
-
-
-    // create dynamic queryscope complete  on passing the boolean true  it returns the complete allocations and vice verca
-    // and by default its true
-    public function scopeComplete($query, $complete = true)
-    {
-        if ($complete) {
-            return $query->whereNotNull('day_id')
-                ->whereNotNull('slot_id')
-                ->whereNotNull('teacher_id')
-                ->whereNotNull('room_id')
-                ->whereNotNull('course_id')
-                ->whereNotNull('section_id');
-        } else {
-            return $query->whereNull('day_id')
-                ->orWhereNull('slot_id')
-                ->orWhereNull('teacher_id')
-                ->orWhereNull('course_id')
-                ->orWhereNull('room_id')
-                ->orWhereNull('section_id');
-        }
-    }
-    
-    
 
 
 

@@ -25,15 +25,10 @@ return new class extends Migration
             // isPractical is by default false
             $table->boolean('is_practical')->default(false);
 
-            // slot can be of isMorning which is by default true
-            $table->boolean('is_morning')->default(true);
+            // belongs to some shift
+            $table->foreignId('shift_id')->constrained()->onDelete('cascade');
+
             
-            $institution_id = 1;
-            // belongs to some institution
-            $table->foreignId('institution_id')->default($institution_id)->constrained()->onDelete('cascade');
-
-           
-
             $table->timestamps();
         });
     }
