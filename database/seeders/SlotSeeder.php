@@ -44,8 +44,6 @@ class SlotSeeder extends Seeder
             ['name' => '3:30-4:30',   'code' => 'p8', 'start_time' => '15:30:00', 'end_time' => '16:30:00' , 'shift_id'=>3],
 
 
-
-
             // Evening Inter
             ['name' => '11:10-12:30', 'code' => 'practical', 'start_time' => '11:10', 'end_time' => '12:30', 'is_practical' => true , 'shift_id'=>4 ],
             ['name' => '1:30-2:10', 'code' => 'p2', 'start_time' => '13:30', 'end_time' => '14:10' ,  'shift_id'=>2 ],
@@ -56,10 +54,9 @@ class SlotSeeder extends Seeder
             ['name' => '4:50-5:30', 'code' => 'p7', 'start_time' => '16:50', 'end_time' => '17:30' ,  'shift_id'=>2 ],
         ];
         
-        $insitution_id = 1;
+
         // Create records for slotsMorning$slotsMorning using the array
         foreach ($slotsMorning as $slotData) {
-            $slotData['institution_id'] = $insitution_id;
             Slot::create($slotData);
         }
         
