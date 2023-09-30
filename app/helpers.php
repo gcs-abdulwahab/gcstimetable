@@ -2,7 +2,7 @@
 use App\Types\TimeSlot;
 
 function DaystoText($days) {
-    if (empty($days)) {
+    if (empty($days)) { 
         return "";
     }
 
