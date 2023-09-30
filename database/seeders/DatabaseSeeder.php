@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // call seeder of institution            
+        // call seeder of institution
         $this->call(InstitutionSeeder::class);
 
         // \App\Models\User::factory(10)->create();
@@ -49,7 +49,8 @@ class DatabaseSeeder extends Seeder
         // call AllocationSeeder
         $this->call(AllocationSeeder::class);
 
-
+        // call StudentSeeder
+        $this->call(StudentSeeder::class);
 
     }
 }

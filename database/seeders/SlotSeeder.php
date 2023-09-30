@@ -23,8 +23,7 @@ class SlotSeeder extends Seeder
             ['name' => '2:30-3:30',   'code' => 'p7', 'start_time' => '14:30:00', 'end_time' => '15:30:00'],
             ['name' => '3:30-4:30',   'code' => 'p8', 'start_time' => '15:30:00', 'end_time' => '16:30:00'],
 
-            
-            
+
         ];
 
         $insitution_id = 1;
@@ -50,11 +49,11 @@ class SlotSeeder extends Seeder
             ['name' => '3:30-4:10', 'code' => 'p5', 'start_time' => '15:30', 'end_time' => '16:10' , 'is_morning'=>false],
             ['name' => '4:10-4:50', 'code' => 'p6', 'start_time' => '16:10', 'end_time' => '16:50' , 'is_morning'=>false],
             ['name' => '4:50-5:30', 'code' => 'p7', 'start_time' => '16:50', 'end_time' => '17:30' , 'is_morning'=>false],
-                
+
         ];
 
         $insitution_id = 1;
-        
+
         foreach ($slotEvening as $slotData) {
             $slotData['institution_id'] = $insitution_id;
             Slot::create($slotData);
