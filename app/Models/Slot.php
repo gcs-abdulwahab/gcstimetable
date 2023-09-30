@@ -12,6 +12,12 @@ class Slot extends Model
   //guarded
     protected $guarded = [];
     
+    // Slot belongs to a Shift
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class);
+    }
+
 
     // Slot has many Allocations
     public function allocations()

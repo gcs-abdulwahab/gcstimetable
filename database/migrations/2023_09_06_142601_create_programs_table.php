@@ -22,7 +22,7 @@ return new class extends Migration
             // program name
             $table->string('name');
             // program code
-            $table->string('code')->unique();
+            $table->string('code');
             // program duration
             $table->integer('duration')->default(4);
             // program type
