@@ -31,8 +31,10 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
+
             "app/helpers.php",
             "app/Constraint.php"
+
         ]
     },
     "autoload-dev": {
