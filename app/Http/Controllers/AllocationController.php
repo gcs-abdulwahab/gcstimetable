@@ -1,14 +1,21 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateAllocationRequest;
 use App\Http\Resources\AllocationCollection;
 use App\Models\Allocation;
+
+use Exception;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
+
 use App\Models\Course;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Log;
 
 class AllocationController extends Controller
@@ -46,52 +53,19 @@ class AllocationController extends Controller
     public function store(Request $request)
     {
 
-        // check if there is a duplicate entry against the $request data
-        // if there is a duplicate entry, then check if the displaycode of the course is same
-        // if the displaycode is same, then allow the entry
-        // if the displaycode is not same, then throw an error
-        // if there is no duplicate entry, then allow the entry
-
+//        $constraints = new Constraint();
         Log::info($request->all());
 
-        $allocation = DB::table('allocations')
-            ->where('day_id', $request->day_id)
-            ->where('slot_id', $request->slot_id)
-            ->where('teacher_id', $request->teacher_id)
-           
-            ->where('room_id', $request->room_id)
-            ->where('course_id', $request->course_id);
-
-            $count = $allocation->count();
-            
-            if ($count == 0 )
-                {
-                    Log::info('count is 0   first time entry');            
-                    Allocation::create($request->all());
-                }
-                else{
-                    Log::info('count is not 0   duplicate entry  count is '.$count);
-                    $course = Course::where('id', $request->course_id);
-                  //  if ($course->display_code ==   )
-                    }
-/* 
-
-        // get the displaycode of the course
-        $displaycode = Course::where('id', $request->course_id)->first()->display_code;
-
-        Log::info('displaycode ' . $displaycode);
- */
-
-            // if validation fails, it will throw an exception
-            // if validation passes, it will return the validated data
-            
-
-        // try {
-        //     $allocation = Allocation::create($validated);
-        //     return response()->json($allocation, 201); // 201 Created
-        // } catch (QueryException $exception) {
-        //     return response()->json(['error' => 'Constraint violation or other database error' . $exception->getMessage()], 422);
-        // }
+        try {
+            $allocation = Allocation::create($request->all());
+            Log::info('It passes the Creating function of allocation model');
+            return response()->json($allocation, 201); // 201 Created
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Constraint violation or other database error' . $exception->getMessage()], 422);
+        }
+        catch (Exception $exception) {
+            return response()->json(['error' => 'Constraint violation or other database error' . $exception->getMessage()], 400);
+        }
     }
 
     /**
