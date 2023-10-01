@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\User;
 use Database\Seeders\InstitutionSeeder;
 use Database\Seeders\RoomSeeder;
 use Illuminate\Database\Seeder;
@@ -15,6 +17,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        // call seeder of user
+        User::factory()->create([
+            'name' => 'abdul Wahab',
+            'email' => 'abdulwahab@gmail.com',
+            'password' => bcrypt('abdulwahab@gmail.com'),
+        ]
+        );        
+
+
         // call seeder of institution
         $this->call(InstitutionSeeder::class);
 
