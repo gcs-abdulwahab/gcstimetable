@@ -36,6 +36,7 @@ class ProgramSeeder extends Seeder
             ['name' => 'BS Urdu', 'pcode' => 'BS-URDU', 'dcode' => 'URDU',              'shift_id'=>2               ],
             ['name' => 'BS Zoology', 'pcode' => 'BS-ZOO', 'dcode' => 'ZOO',              'shift_id'=>2               ],
             
+
             ['name' => 'Msc Mathematics', 'pcode' => 'Msc-MATH', 'dcode' => 'MATH',              'shift_id'=>2               ],
             ['name' => 'Msc Physics', 'pcode' => 'Msc-PHY', 'dcode' => 'PHY','shift_id'=>2               ],
             ['name' => 'Msc Chemistry', 'pcode' => 'Msc-CHEM', 'dcode' => 'Chem','shift_id'=>2               ],
@@ -62,7 +63,9 @@ class ProgramSeeder extends Seeder
             ['name' => 'Fsc Pre Eng', 'pcode' => 'Inter-PreEng-II', 'dcode' => 'Inter-SECOND','shift_id'=>4               ],
             ['name' => 'ICS Phy',     'pcode' => 'Inter-ICSPhy-II',  'dcode' => 'Inter-SECOND','shift_id'=>4               ],
 
-            
+            ['name' => 'Msc Mathematics', 'pcode' => 'Msc-MATH', 'dcode' => 'MATH',   'type' => 'ADP'          , 'shift_id'=>2               ],
+            ['name' => 'Msc Physics', 'pcode' => 'Msc-PHY', 'dcode' => 'PHY',   'type' => 'ADP'          , 'shift_id'=>2               ],
+            ['name' => 'Msc Chemistry', 'pcode' => 'Msc-CHEM', 'dcode' => 'Chem',   'type' => 'ADP'          , 'shift_id'=>2               ],
             
 
         ];
