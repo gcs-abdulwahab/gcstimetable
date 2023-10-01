@@ -30,7 +30,6 @@ class StudentResource extends Resource
                     ->required()
                     ->email(),
                 TextInput::make('mobile')
-                    ->name('Phone')
                     ->required()
                     ->numeric()
                     ->minLength(11),
@@ -41,9 +40,9 @@ class StudentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('mobile'),
+                Tables\Columns\TextColumn::make('mobile')->label('Phone'),
             ])
             ->filters([
                 //

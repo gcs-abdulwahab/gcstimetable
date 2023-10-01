@@ -15,7 +15,7 @@ class TeacherSeeder extends Seeder
      */
     public function run(): void
     {
-        /* 
+        /*
                     $table->string('name');
             // unique code for each teacher  is personnel number
             $table->string('personnel_number')->unique();
@@ -28,11 +28,11 @@ class TeacherSeeder extends Seeder
             $table->string('phone_number')->unique();
             // teacher bank IBAN
             $table->string('bank_iban')->unique();
-    
+
             // teacher could either be Lecturer , Assistant Professor , Associate Professor or Professor
             $table->enum('rank', ['Lecturer', 'Assistant Professor','Associate Professor','Professor'])->default('Lecturer');
 
-            // teacher belongs to some department 
+            // teacher belongs to some department
             $table->foreignId('department_id')->constrained('departments');
             //isvisiting
             $table->boolean('isvisiting')->default(false);
@@ -59,7 +59,6 @@ foreach ($departments as $department) {
             'rank' => 'Assistant Professor', // You can change this as needed
             'department_id' => $department->id,
             'isvisiting' => false,
-            
         ]);
     }
 }
