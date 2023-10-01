@@ -15,25 +15,6 @@ class ProgramSeeder extends Seeder
     {
 
 
-        /*
-        Create the Program of the following departments 
-BSCS
-BBA
-Botany
-Chemistry
-Economics
-Education
-English
-Islamic Studies
-Mass Commmunication
-Mathematics
-Physics
-Political Science
-Sociology
-Statistics
-Urdu
-Zoology
- */
 
       // Define an array of department names and their respective codes, indicating which have both morning and evening programs
 $programs = [
