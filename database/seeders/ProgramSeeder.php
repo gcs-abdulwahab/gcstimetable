@@ -36,29 +36,31 @@ class ProgramSeeder extends Seeder
             ['name' => 'BS Urdu', 'pcode' => 'BS-URDU', 'dcode' => 'URDU',              'shift_id'=>2               ],
             ['name' => 'BS Zoology', 'pcode' => 'BS-ZOO', 'dcode' => 'ZOO',              'shift_id'=>2               ],
             
-            ['name' => 'Msc Mathematics', 'pcode' => 'Msc-MATH', 'dcode' => 'MATH',   'type' => 'ADP'          , 'shift_id'=>2               ],
-            ['name' => 'Msc Physics', 'pcode' => 'Msc-PHY', 'dcode' => 'PHY',   'type' => 'ADP'          , 'shift_id'=>2               ],
-            ['name' => 'Msc Chemistry', 'pcode' => 'Msc-CHEM', 'dcode' => 'Chem',   'type' => 'ADP'          , 'shift_id'=>2               ],
+            ['name' => 'Msc Mathematics', 'pcode' => 'Msc-MATH', 'dcode' => 'MATH',              'shift_id'=>2               ],
+            ['name' => 'Msc Physics', 'pcode' => 'Msc-PHY', 'dcode' => 'PHY','shift_id'=>2               ],
+            ['name' => 'Msc Chemistry', 'pcode' => 'Msc-CHEM', 'dcode' => 'Chem','shift_id'=>2               ],
             
             
-
-
-
             // BS Evening Shift = 3
-            ['name' => 'BS BSCS', 'pcode' => 'BS-BSCS', 'dcode' => 'BSCS', 'type' => 'BS'          , 'shift_id'=>3       ],
-            ['name' => 'BS BBA', 'pcode' => 'BS-BBA', 'dcode' => 'BBA',    'type' => 'BS'          , 'shift_id'=>3       ],
+            ['name' => 'BS BSCS', 'pcode' => 'BS-BSCS', 'dcode' => 'BSCS','shift_id'=>3       ],
+            ['name' => 'BS BBA', 'pcode' => 'BS-BBA', 'dcode' => 'BBA',   'shift_id'=>3       ],
             
-
 
             // Inter Morning   = 1
-            ['name' => 'Fsc Pre Med', 'pcode' => 'Inter-PreMed-I', 'dcode' => 'Inter-FIRST',     'type' => 'inter'          , 'shift_id'=>1               ],
-            ['name' => 'Fsc Pre Eng', 'pcode' => 'Inter-PreEng-I', 'dcode' => 'Inter-FIRST',     'type' => 'inter'          , 'shift_id'=>1               ],
-            ['name' => 'ICS Phy',     'pcode' => 'Inter-ICSPhy-I',  'dcode' => 'Inter-FIRST',    'type' => 'inter'          , 'shift_id'=>1               ],
+            ['name' => 'Fsc Pre Med', 'pcode' => 'Inter-PreMed-I', 'dcode' => 'Inter-FIRST','shift_id'=>1               ],
+            ['name' => 'Fsc Pre Eng', 'pcode' => 'Inter-PreEng-I', 'dcode' => 'Inter-FIRST','shift_id'=>1               ],
+            ['name' => 'ICS Phy',     'pcode' => 'Inter-ICSPhy-I',  'dcode' => 'Inter-FIRST','shift_id'=>1               ],
+            ['name' => 'Fsc Pre Med', 'pcode' => 'Inter-PreMed-I', 'dcode' => 'Inter-SECOND','shift_id'=>1               ],
+            ['name' => 'Fsc Pre Eng', 'pcode' => 'Inter-PreEng-I', 'dcode' => 'Inter-SECOND','shift_id'=>1               ],
+            ['name' => 'ICS Phy',     'pcode' => 'Inter-ICSPhy-I', 'dcode' => 'Inter-SECOND','shift_id'=>1               ],
 
             // Inter Evening = 4
-            ['name' => 'Fsc Pre Med', 'pcode' => 'Inter-PreMed-I', 'dcode' => 'Inter-FIRST',     'type' => 'inter'          , 'shift_id'=>4               ],
-            ['name' => 'Fsc Pre Eng', 'pcode' => 'Inter-PreEng-I', 'dcode' => 'Inter-FIRST',     'type' => 'inter'          , 'shift_id'=>4               ],
-            ['name' => 'ICS Phy',     'pcode' => 'Inter-ICSPhy-I',  'dcode' => 'Inter-FIRST',    'type' => 'inter'          , 'shift_id'=>4               ],
+            ['name' => 'Fsc Pre Med', 'pcode' => 'Inter-PreMed-I', 'dcode' => 'Inter-FIRST','shift_id'=>4               ],
+            ['name' => 'Fsc Pre Eng', 'pcode' => 'Inter-PreEng-I', 'dcode' => 'Inter-FIRST','shift_id'=>4               ],
+            ['name' => 'ICS Phy',     'pcode' => 'Inter-ICSPhy-I',  'dcode' => 'Inter-FIRST','shift_id'=>4               ],
+            ['name' => 'Fsc Pre Med', 'pcode' => 'Inter-PreMed-II', 'dcode' => 'Inter-SECOND','shift_id'=>4               ],
+            ['name' => 'Fsc Pre Eng', 'pcode' => 'Inter-PreEng-II', 'dcode' => 'Inter-SECOND','shift_id'=>4               ],
+            ['name' => 'ICS Phy',     'pcode' => 'Inter-ICSPhy-II',  'dcode' => 'Inter-SECOND','shift_id'=>4               ],
 
             
             

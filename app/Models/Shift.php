@@ -19,6 +19,11 @@ class Shift extends Model
         return $this->hasMany(Slot::class);
     }
 
+    // has many programs
+    public function programs()
+    {
+        return $this->hasMany(Program::class);
+    }
 
 
 }
