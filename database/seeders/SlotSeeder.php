@@ -70,8 +70,6 @@ class SlotSeeder extends Seeder
         foreach ($slots as $slot) {
             Slot::create($slot);
         }
-        
-
 
     }
 }
