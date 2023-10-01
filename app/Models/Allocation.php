@@ -136,7 +136,6 @@ class Allocation extends Model
         });
     }
 
-
     // create dynamic queryscope complete  on passing the boolean true  it returns the complete allocations and vice verca
     // and by default its true
     public function scopeComplete($query, $complete = true)
@@ -157,14 +156,8 @@ class Allocation extends Model
                 ->orWhereNull('section_id');
         }
     }
-
-
-
-
-
-
-
-
+    
+    
     // courses
     public function course()
     {

@@ -13,7 +13,7 @@ class AllocationPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class AllocationPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
