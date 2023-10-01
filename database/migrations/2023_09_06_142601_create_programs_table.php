@@ -27,8 +27,10 @@ return new class extends Migration
             $table->integer('duration')->default(4);
             // program type
             $table->enum('type', ['ADP', 'INTER', 'BS'])->default('BS');
-            // is Morning
-            $table->boolean('isMorning')->default(true);
+            
+            // belongs to some shift
+            $table->foreignId('shift_id')->constrained()->onDelete('cascade');            
+
             // Offered by which department
             $table->foreignId('department_id')->constrained()->onDelete('cascade');
 
