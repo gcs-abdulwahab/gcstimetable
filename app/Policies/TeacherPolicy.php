@@ -45,7 +45,7 @@ class TeacherPolicy
      */
     public function delete(User $user, Teacher $teacher): bool
     {
-        //
+        return true;
     }
 
     /**

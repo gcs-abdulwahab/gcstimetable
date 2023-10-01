@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -45,7 +46,13 @@ class StudentResource extends Resource
                 Tables\Columns\TextColumn::make('mobile')->label('Phone'),
             ])
             ->filters([
-                //
+                Filter::make('search')
+                    ->form([
+                        TextInput::make('search')
+                    ])
+                    ->query(function (Builder $query, array $data) : Builder {
+                        return $query->where('email', 'like', "%{$data['search']}%");
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

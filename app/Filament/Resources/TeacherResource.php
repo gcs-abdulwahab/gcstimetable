@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TeacherResource\Pages;
 use App\Filament\Resources\TeacherResource\RelationManagers;
+use App\Models\Department;
 use App\Models\Teacher;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
@@ -11,8 +12,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TeacherResource extends Resource
 {
@@ -25,25 +24,26 @@ class TeacherResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')->label('Teacher Name')->required(),
-                TextInput::make('personnel_number')->label('Personal Number')->required()->unique(),
-                TextInput::make('email')->label('Email')->email()->unique()->nullable(),
-                TextInput::make('cnic')->label('CNIC')->unique()->nullable(),
-                TextInput::make('phone_number')->label('Phone Number')->unique()->nullable(),
-                TextInput::make('bank_iban')->label('Bank IBAN')->unique()->nullable(),
-                Forms\Components\Select::make('isMale')->label('Gender')->options(['1' => 'Male', '0' => 'Female'])->default(true),
-                Forms\Components\DatePicker::make('date_of_birth')->label('Date of Birth')->format('d/m/Y')->nullable(),
-                Forms\Components\DatePicker::make('date_of_joining_in_this_college')->label('Date of Joining in College')->format('d/m/Y')->nullable(),
-                Forms\Components\DatePicker::make('date_of_joining_govt_service')->label('Date of Joining in Govt Service')->format('d/m/Y')->nullable(),
-                Forms\Components\DatePicker::make('date_of_joining_current_rank')->label('Date of Joining Current Rank')->format('d/m/Y')->nullable(),
+                TextInput::make('personnel_number')->label('Personal Number')->required()->unique(ignorable: fn($record) => $record),
+                TextInput::make('email')->label('Email')->email()->unique(ignorable: fn($record) => $record)->nullable(),
+                TextInput::make('cnic')->label('CNIC')->unique(ignorable: fn($record) => $record)->nullable(),
+                TextInput::make('phone_number')->label('Phone Number')->unique(ignorable: fn($record) => $record)->nullable(),
+                TextInput::make('bank_iban')->label('Bank IBAN')->unique(ignorable: fn($record) => $record)->nullable(),
+                Forms\Components\Select::make('isMale')->label('Gender')->options([1 => 'Male', 0 => 'Female'])->native(false),
+                Forms\Components\DatePicker::make('date_of_birth')->label('Date of Birth')->format('Y-m-d')->nullable(),
+                Forms\Components\DatePicker::make('date_of_joining_in_this_college')->label('Date of Joining in College')->format('Y-m-d')->nullable(),
+                Forms\Components\DatePicker::make('date_of_joining_govt_service')->label('Date of Joining in Govt Service')->format('Y-m-d')->nullable(),
+                Forms\Components\DatePicker::make('date_of_joining_current_rank')->label('Date of Joining Current Rank')->format('Y-m-d')->nullable(),
                 TextInput::make('father_name')->label('Father Name')->nullable(),
                 TextInput::make('seniority_number')->label('Seniority Number')->numeric()->nullable(),
-                Forms\Components\Select::make('qualification')->options(['MSc', 'BS(Hons)', 'MPhil', 'PhD'])->default('MPhil'),
+                Forms\Components\Select::make('qualification')->options(['MSc', 'BS(Hons)', 'MPhil', 'PhD'])->default('MPhil')->native(false),
                 TextInput::make('highest_degree_awarding_institute')->label('Degree Awarding Institute')->nullable(),
                 TextInput::make('highest_degree_awarding_country')->label('Degree Awarding Country')->nullable(),
-                Forms\Components\DatePicker::make('highest_degree_awarding_year')->label('Degree Awarding Year')->date('Y')->nullable(),
+                Forms\Components\DatePicker::make('highest_degree_awarding_year')->label('Degree Awarding Year')->format('Y')->nullable(),
                 TextInput::make('degree_title')->label('Degree Title')->nullable(),
-                Forms\Components\Select::make('rank')->options(['Lecturer', 'Assistant Professor', 'Associate Professor', 'Professor'])->default('Lecturer'),
-                Forms\Components\Select::make('position')->options(['HOD', 'Regular', 'Vice Principal', 'Principal'])->label('Position'),
+                Forms\Components\Select::make('rank')->options(['Lecturer', 'Assistant Professor', 'Associate Professor', 'Professor'])->native(false),
+                Forms\Components\Select::make('position')->options(['HOD', 'Regular', 'Vice Principal', 'Principal'])->label('Position')->native(false),
+                Forms\Components\Select::make('department_id')->label('Department')->options(Department::all()->pluck('name', 'id'))->required()->native(false),
                 Forms\Components\Checkbox::make('isvisiting')->label('Is Visiting')->default(false),
                 Forms\Components\Checkbox::make('isActive')->label('Is Active')->default(true),
             ]);
@@ -56,19 +56,31 @@ class TeacherResource extends Resource
                 Tables\Columns\TextColumn::make('name')->label('Teacher Name'),
                 Tables\Columns\TextColumn::make('personnel_number')->label('Personnel Number'),
                 Tables\Columns\TextColumn::make('email')->label('Email'),
+                Tables\Columns\TextColumn::make('isMale')->label('Gender')
+                    ->formatStateUsing(function (int $state): string {
+                        return $state === 1 ? 'Male' : 'Female';
+                    }),
+                Tables\Columns\TextColumn::make('isActive')
+                    ->badge()
+                    ->color(fn(int $state): string =>
+                    match ($state) {
+                        1 => 'success',
+                        0 => 'danger',
+                    })
+                    ->label('Is Active')
+                    ->formatStateUsing(function (int $state) {
+                        return ($state === 1) ? 'Active' : 'Inactive';
+                    }),
                 Tables\Columns\TextColumn::make('cnic')->label('CNIC'),
                 Tables\Columns\TextColumn::make('phone_number')->label('Phone Number'),
                 Tables\Columns\TextColumn::make('bank_iban')->label('Bank IBAN'),
-                Tables\Columns\CheckboxColumn::make('isMale')->label('Gender'),
                 Tables\Columns\TextColumn::make('date_of_birth')->label('Date of Birth')->date(),
                 Tables\Columns\TextColumn::make('date_of_joining_in_this_college')->label('Date of Joining in College')->date(),
                 Tables\Columns\TextColumn::make('date_of_joining_govt_service')->label('Date of Joining in Govt Service')->date(),
                 Tables\Columns\TextColumn::make('date_of_joining_current_rank')->label('Date of Joining Current Rank')->date(),
                 Tables\Columns\TextColumn::make('father_name')->label('Father Name'),
                 Tables\Columns\TextColumn::make('seniority_number')->label('Seniority Number')->numeric(),
-                Tables\Columns\SelectColumn::make('qualification')
-                    ->options(['MSc', 'BS(Hons)', 'MPhil', 'PhD'])
-                    ->label('Qualification'),
+                Tables\Columns\TextColumn::make('qualification')->label('Qualification'),
                 Tables\Columns\TextColumn::make('highest_degree_awarding_institute')
                     ->label('Degree Awarding Institute'),
                 Tables\Columns\TextColumn::make('highest_degree_awarding_country')
@@ -77,20 +89,28 @@ class TeacherResource extends Resource
                     ->label('Degree Awarding Year')
                     ->date('Y'),
                 Tables\Columns\TextColumn::make('degree_title')->label('Degree Title'),
-                Tables\Columns\SelectColumn::make('rank')
-                    ->options(['Lecturer', 'Assistant Professor', 'Associate Professor', 'Professor'])
+                Tables\Columns\TextColumn::make('rank')
                     ->label('Rank'),
-                Tables\Columns\SelectColumn::make('position')
-                    ->options(['HOD', 'Regular', 'Vice Principal', 'Principal'])
+                Tables\Columns\TextColumn::make('position')
                     ->label('Position'),
-                Tables\Columns\CheckboxColumn::make('isvisiting')->label('Is Visiting'),
-                Tables\Columns\CheckboxColumn::make('isActive')->label('Is Active'),
+                Tables\Columns\TextColumn::make('isvisiting')
+                    ->badge()
+                    ->color(fn(int $state): string =>
+                    match ($state) {
+                        1 => 'success',
+                        0 => 'danger',
+                    })
+                    ->label('Is Visiting')
+                    ->formatStateUsing(function (int $state) {
+                        return ($state === 1) ? 'Yes' : 'No';
+                    }),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
