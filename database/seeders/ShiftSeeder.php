@@ -38,6 +38,16 @@ class ShiftSeeder extends Seeder
                 'comments' => 'Evening Inter',
                 'institution_id' => 1,
             ],
+
+            [
+                'id' =>5,
+                'name' => 'Morning ADP',
+                'comments' => 'Morning ADP',
+                'institution_id' => 1,
+            ],
+
+
+
         ];
 
         foreach ($shifts as $shift) {
