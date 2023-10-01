@@ -14,17 +14,9 @@ class DepartmentSeeder extends Seeder
     {
       // Define an array of department names and codes
 $departments = [
-    /* ['name' => 'Intermediate Fsc PreMedical', 'code' => 'Inter-FSC-MEDICAL'],
-    ['name' => 'Intermediate Fsc PreEngineering', 'code' => 'Inter-FSC-ENG'],
-    ['name' => 'Intermediate Fsc ICS Phsyics', 'code' => 'Inter-ICS-PHY'],
-    ['name' => 'Intermediate ICS Stats', 'code' => 'Inter-ICS-STATS'],
-    ['name' => 'Intermediate ICOM ', 'code' => 'Inter-ICOM'],
-    ['name' => 'Intermediate FA', 'code' => 'Inter-FA'], */
-
     ['name' => 'Intermediate First Year', 'code' => 'Inter-FIRST'],
     ['name' => 'Intermediate Second Year', 'code' => 'Inter-SECOND'],
     
-
     ['name' => 'BBA', 'code' => 'BBA'],
     ['name' => 'Botany', 'code' => 'BOT'],
     ['name' => 'Chemistry', 'code' => 'CHEM'],

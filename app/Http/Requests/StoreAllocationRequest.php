@@ -30,7 +30,7 @@ class StoreAllocationRequest extends FormRequest
             'day_id' => 'required',
             'slot_id' => 'required',
             'name' => 'nullable',
-   
+                        
         ];
     }
     

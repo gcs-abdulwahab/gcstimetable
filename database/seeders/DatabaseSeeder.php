@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
 
         // call seeder of institution
         $this->call(InstitutionSeeder::class);
+        $this->call(ShiftSeeder::class);
 
         // \App\Models\User::factory(10)->create();
 
