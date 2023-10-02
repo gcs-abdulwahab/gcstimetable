@@ -65,7 +65,8 @@ class StudentResource extends Resource
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
-            ]);
+            ])
+            ->paginated(false);
     }
 
     public static function getRelations(): array

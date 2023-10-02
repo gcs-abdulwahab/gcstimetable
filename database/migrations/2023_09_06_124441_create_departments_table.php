@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('departments', static function (Blueprint $table) {
             $table->id();
             $table->string('name');
             // unique code for each department  is department code
             $table->string('code');
-           
+
             $institution_id = 1;
             // belongs to some institution
             $table->foreignId('institution_id')->default($institution_id)->constrained()->onDelete('cascade');

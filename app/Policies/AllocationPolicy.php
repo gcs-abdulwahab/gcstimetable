@@ -37,7 +37,7 @@ class AllocationPolicy
      */
     public function update(User $user, Allocation $allocation): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class AllocationPolicy
      */
     public function delete(User $user, Allocation $allocation): bool
     {
-        //
+        return true;
     }
 
     /**
