@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TeacherResource\Pages;
+use App\Filament\Resources\TeacherResource\Widgets\TeachersOverview;
 use App\Models\Department;
 use App\Models\Teacher;
 use Filament\Forms;
@@ -14,6 +15,7 @@ use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
@@ -157,6 +159,13 @@ class TeacherResource extends Resource
             'index' => Pages\ListTeachers::route('/'),
             'create' => Pages\CreateTeacher::route('/create'),
             'edit' => Pages\EditTeacher::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            TeachersOverview::class
         ];
     }
 }
