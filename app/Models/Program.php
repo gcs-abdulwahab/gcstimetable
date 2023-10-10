@@ -14,7 +14,6 @@ class Program extends Model
  // guarded
     protected $guarded = [];
 
-
     // program belongs to a department
     public function department() : BelongsTo
     {

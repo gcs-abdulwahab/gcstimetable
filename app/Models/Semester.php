@@ -2,32 +2,46 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Semester extends Model
 {
+
     use HasFactory;
-// guarded
+    // guarded
     protected $guarded = [];
 
-
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope('admin', static function (Builder $builder) {
+            $department_ids = auth()->user()->institution->departments()->pluck('id');
+            $program_ids = Program::whereIn('department_id', $department_ids)->pluck('id');
+            $builder->whereIn('program_id', $program_ids);
+        });
+    }
 
     // Semester Has Many Sections
-    public function sections()
+    public function sections() : HasMany
     {
         return $this->hasMany(Section::class);
     }
 
     // Semester has many Courses
-    public function courses()
+    public function courses() : HasMany
     {
         return $this->hasMany(Course::class);
     }
 
 
     // belongs to a program
-    public function program()
+    public function program() : BelongsTo
     {
         return $this->belongsTo(Program::class);
     }

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProgramResource\Pages;
 use App\Filament\Resources\ProgramResource\RelationManagers;
+use Filament\Forms\Components\Section;
 use App\Models\Program;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -55,7 +56,6 @@ class ProgramResource extends Resource
 
                 Forms\Components\Select::make('department_id')
                     ->relationship('department', 'name')
-                    ->searchable()
                     ->required()
                     ->native(false),
             ]);

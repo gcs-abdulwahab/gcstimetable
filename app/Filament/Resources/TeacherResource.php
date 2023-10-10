@@ -71,6 +71,12 @@ class TeacherResource extends Resource
                 Tables\Columns\TextColumn::make('position')
                     ->label('Position')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('position')
+                    ->label('Position')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('department.name')
+                    ->label('Department')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('isvisiting')
                     ->badge()
                     ->color(fn(int $state): string => match ($state) {

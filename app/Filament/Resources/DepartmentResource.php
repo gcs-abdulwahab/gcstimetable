@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DepartmentResource extends Resource
@@ -61,6 +62,11 @@ class DepartmentResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ])
             ->paginated(false);
+    }
+
+    protected function getTableQuery(): Builder
+    {
+        return parent::getTableQuery()->withoutGlobalScopes();
     }
 
     public static function getRelations(): array
