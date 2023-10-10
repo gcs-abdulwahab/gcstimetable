@@ -20,7 +20,7 @@ class ListTeachers extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            TeacherResource\Widgets\TeachersOverview::class,
+//            TeacherResource\Widgets\TeachersOverview::class,
         ];
     }
 }

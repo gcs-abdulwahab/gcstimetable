@@ -9,12 +9,19 @@ use App\Models\Slot;
 use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Institution extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+
+    // Institution has one Admin
+    public function admin() : hasOne
+    {
+        return $this->hasOne(User::class)->where('role_id', 1);
+    }
 
     // Institution has many Departments
     public function departments()
@@ -33,7 +40,7 @@ class Institution extends Model
     {
         return $this->hasManyThrough(Teacher::class, Department::class);
     }
-    
+
 
     // Institution has many days
     public function days()

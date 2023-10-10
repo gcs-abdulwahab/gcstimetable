@@ -18,8 +18,6 @@ class DepartmentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-building-office';
 
-    protected static ?string $navigationGroup = 'Institution';
-
     public static function form(Form $form): Form
     {
         return $form
@@ -33,11 +31,6 @@ class DepartmentResource extends Resource
                     ->required()
                     ->unique(Department::class, 'code', ignorable: fn($record) => $record)
                     ->placeholder(__('Code')),
-                Forms\Components\BelongsToSelect::make('institution_id')
-                    ->relationship('institution', 'name')
-                    ->required()
-                    ->placeholder(__('Institution'))
-                    ->native(false),
             ]);
     }
 
@@ -49,13 +42,6 @@ class DepartmentResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('code')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('institution.name')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('institution.address')
-                    ->label('Institution Address')
                     ->searchable()
                     ->sortable(),
             ])

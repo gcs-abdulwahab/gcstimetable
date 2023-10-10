@@ -139,7 +139,7 @@ class TeacherResource extends Resource
                         TextInput::make('degree_title')->label('Degree Title')->nullable(),
                         Forms\Components\Select::make('rank')->options(['Lecturer', 'Assistant Professor', 'Associate Professor', 'Professor'])->native(false),
                         Forms\Components\Select::make('position')->options(['HOD', 'Regular', 'Vice Principal', 'Principal'])->label('Position')->native(false),
-                        Forms\Components\Select::make('department_id')->label('Department')->options(Department::all()->pluck('name', 'id'))->required()->native(false),
+                        Forms\Components\Select::make('department_id')->label('Department')->relationship('department', 'name')->required()->native(false),
                     ])->columns(2),
                 Forms\Components\Checkbox::make('isvisiting')->label('Is Visiting')->default(false),
                 Forms\Components\Checkbox::make('isActive')->label('Is Active')->default(true),
@@ -165,7 +165,7 @@ class TeacherResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            TeachersOverview::class
+//            TeachersOverview::class
         ];
     }
 }
