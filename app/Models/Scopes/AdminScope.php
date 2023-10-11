@@ -14,8 +14,8 @@ class AdminScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        if (auth()->user()->role_id === Role::Admin) {
-            $builder->where('institution_id', auth()->user()->institution_id);
-        }
+        // if (auth()->user()->role_id ===    ) {
+        //     $builder->where('institution_id', auth()->user()->institution_id);
+        // }
     }
 }

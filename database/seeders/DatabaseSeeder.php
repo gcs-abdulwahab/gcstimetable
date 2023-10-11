@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 
 class DatabaseSeeder extends Seeder
@@ -16,26 +17,41 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        // call seeder of institution
+        $superadmin_role = Role::create(['name' => 'sadmin']);
+        $institute_admin_role = Role::create(['name' => 'iadmin']);
+        $department_admin_role = Role::create(['name' => 'dadmin']);
+
+
+
+
+        // call seeder of user Superadmin
+        User::factory()->create([
+            'name' => 'superadmin',
+            'email' => 'sadmin@gmail.com',
+            'password' => bcrypt('sadmin@gmail.com'),
+
+        ])->assignRole($superadmin_role);
+
+
+         // call seeder of institution
         $this->call(InstitutionSeeder::class);
 
-        // call seeder of user
+
+        // call seeder of user Institution Admin
         User::factory()->create([
-            'name' => 'abdul Wahab',
-            'email' => 'abdulwahab@gmail.com',
-            'password' => bcrypt('abdulwahab@gmail.com'),
-            'role_id' => 1,
-            'institution_id' => 1,
-        ]);
+            'name' => 'iadmin',
+            'email' => 'iadmin@gmail.com',
+            'password' => bcrypt('iadmin@gmail.com'),
+        ])->assignRole($institute_admin_role)  ;
+
+        // call seeder of user Department Admin
+        User::factory()->create([
+            'name' => 'dadmin',
+            'email' => 'dadmin@gmail.com',
+            'password' => bcrypt('dadmin@gmail.com'),
+            ])->assignRole($department_admin_role);
 
         $this->call(ShiftSeeder::class);
-
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
 
         // call seeder of room
         $this->call(RoomSeeder::class);
@@ -53,6 +69,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SemesterSeeder::class);
         // call SectionSeeder
         $this->call(SectionSeeder::class);
+
+
+
 
         // call Course Seeder
         $this->call(CourseSeeder::class);

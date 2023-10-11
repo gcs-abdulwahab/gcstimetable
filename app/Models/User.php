@@ -3,18 +3,30 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Enums\User\Role;
+use Filament\Panel;
+
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
+
+    use HasRoles;
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->hasRole('sadmin');
+    }
+
+
 
     /**
      * The attributes that are mass assignable.
@@ -25,8 +37,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id',
-        'institution_id',
+
     ];
 
     /**
@@ -48,7 +59,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'role_id' => Role::class,
+        // 'role_id' => Role::class,
     ];
 
     /**
@@ -60,16 +71,16 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    /**
-     * The relationships that should always be loaded.
-     */
-    protected $with = [
-        'institution',
-    ];
+//     /**
+//      * The relationships that should always be loaded.
+//      */
+//     protected $with = [
+//         'institution',
+//     ];
 
-    // User belongs to one Institution
-    public function institution() : BelongsTo
-    {
-        return $this->belongsTo(Institution::class);
-    }
+//     // User belongs to one Institution
+//     public function institution() : BelongsTo
+//     {
+//         return $this->belongsTo(Institution::class);
+//     }
 }

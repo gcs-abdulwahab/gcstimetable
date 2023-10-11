@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "althinect/filament-spatie-roles-permissions": "^2.0",
         "filament/filament": "3.0-stable",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
@@ -16,7 +17,8 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
         "pxlrbt/filament-excel": "^2.1",
-        "pxlrbt/filament-spotlight": "^1.0"
+        "pxlrbt/filament-spotlight": "^1.0",
+        "spatie/laravel-permission": "^5.11"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",
