@@ -71,6 +71,25 @@ class User extends Authenticatable implements FilamentUser
         'profile_photo_url',
     ];
 
+
+    // create a method  isSuperadmin
+    public function isSuperadmin() : bool
+    {
+        return $this->hasRole('sadmin');
+    }
+
+    // create a method isInstitutionAdmin
+    public function isInstitutionAdmin() : bool
+    {
+        return $this->hasRole('iadmin');
+    }
+    // create a method isDepartmentAdmin
+    public function isDepartmentAdmin() : bool
+    {
+        return $this->hasRole('dadmin');
+    }
+
+
 //     /**
 //      * The relationships that should always be loaded.
 //      */
