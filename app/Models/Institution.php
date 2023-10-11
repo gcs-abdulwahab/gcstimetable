@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\User\Role;
 use App\Models\Day;
 use App\Models\Department;
 use App\Models\Room;
@@ -22,7 +23,7 @@ class Institution extends Model
     // Institution has one Admin
     public function admin() : hasOne
     {
-        return $this->hasOne(User::class)->where('role_id', 1);
+        return $this->hasOne(User::class)->where('role_id', Role::Admin);
     }
 
     // Institution has many Departments

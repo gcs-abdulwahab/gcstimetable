@@ -20,6 +20,7 @@ class ProgramResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
+
     public static function form(Form $form): Form
     {
         return $form
@@ -72,6 +73,9 @@ class ProgramResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('duration')
+                    ->formatStateUsing(function (int $state): string {
+                        return ($state === 2) ? '2 Years' : '4 Years';
+                    })
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
@@ -97,7 +101,8 @@ class ProgramResource extends Resource
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
-            ]);
+            ])
+            ->defaultPaginationPageOption(25);
     }
 
     public static function getRelations(): array

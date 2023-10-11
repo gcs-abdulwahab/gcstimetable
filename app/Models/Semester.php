@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\ProgramScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,11 +21,7 @@ class Semester extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope('admin', static function (Builder $builder) {
-            $department_ids = auth()->user()->institution->departments()->pluck('id');
-            $program_ids = Program::whereIn('department_id', $department_ids)->pluck('id');
-            $builder->whereIn('program_id', $program_ids);
-        });
+        static::addGlobalScope(new ProgramScope);
     }
 
     // Semester Has Many Sections

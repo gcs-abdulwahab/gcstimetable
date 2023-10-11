@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Institution;
+use App\Models\Scopes\DepartmentScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,9 +22,7 @@ class Teacher extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope('admin', static function (Builder $builder) {
-            $builder->whereIn('department_id', auth()->user()->institution->departments()->pluck('id'));
-        });
+        static::addGlobalScope(new DepartmentScope);
     }
 
     // Teacher Belongs to Department
