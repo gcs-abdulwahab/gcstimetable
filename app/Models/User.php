@@ -23,7 +23,8 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasRole('sadmin');
+        //return $this->hasRole('sadmin');
+        return true;
     }
 
 
