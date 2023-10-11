@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\DepartmentResource\Pages;
-use App\Filament\Resources\DepartmentResource\RelationManagers;
 use App\Models\Department;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DepartmentResource extends Resource
@@ -32,11 +32,6 @@ class DepartmentResource extends Resource
                     ->required()
                     ->unique(Department::class, 'code', ignorable: fn($record) => $record)
                     ->placeholder(__('Code')),
-                Forms\Components\BelongsToSelect::make('institution_id')
-                    ->relationship('institution', 'name')
-                    ->required()
-                    ->placeholder(__('Institution'))
-                    ->native(false),
             ]);
     }
 
@@ -48,13 +43,6 @@ class DepartmentResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('code')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('institution.name')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('institution.address')
-                    ->label('Institution Address')
                     ->searchable()
                     ->sortable(),
             ])
@@ -74,6 +62,11 @@ class DepartmentResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ])
             ->paginated(false);
+    }
+
+    protected function getTableQuery(): Builder
+    {
+        return parent::getTableQuery()->withoutGlobalScopes();
     }
 
     public static function getRelations(): array

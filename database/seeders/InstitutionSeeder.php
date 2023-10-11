@@ -12,11 +12,11 @@ class InstitutionSeeder extends Seeder
      */
     public function run(): void
     {
-        
+
         // Define an array of institution data
         $institutions = [
-            ['id'=>1,'name' => 'Inst One', 'address' => 'P.O. Box 30197, Nairobi', 'phone' => '020-4910000', 'email' => 'admin@uol.com'],
-            [ 'id'=>2, 'name' => 'Inst 2', 'address' => 'P.O. Box 43844, Nairobi', 'phone' => '020-4910000', 'email' => 'kenya@africa.com']
+            ['id'=>1,'name' => 'Govt. Graduate College of Science', 'address' => 'P.O. Box 30197, Nairobi', 'phone' => '020-4910000', 'email' => 'admin@uol.com'],
+            [ 'id'=>2, 'name' => 'Govt. Islamic College', 'address' => 'P.O. Box 43844, Nairobi', 'phone' => '020-4910000', 'email' => 'kenya@africa.com']
         ];
 
         // Create records for institutions using the array
@@ -24,6 +24,6 @@ class InstitutionSeeder extends Seeder
             Institution::create($institutionData);
         }
 
-        
+
     }
 }

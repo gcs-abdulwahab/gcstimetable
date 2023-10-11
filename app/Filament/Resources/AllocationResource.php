@@ -20,6 +20,7 @@ class AllocationResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+
     public static function form(Form $form): Form
     {
         return $form
@@ -51,14 +52,14 @@ class AllocationResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -66,5 +67,5 @@ class AllocationResource extends Resource
             'create' => Pages\CreateAllocation::route('/create'),
             'edit' => Pages\EditAllocation::route('/{record}/edit'),
         ];
-    }    
+    }
 }

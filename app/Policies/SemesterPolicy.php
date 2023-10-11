@@ -13,7 +13,7 @@ class SemesterPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class SemesterPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class SemesterPolicy
      */
     public function update(User $user, Semester $semester): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class SemesterPolicy
      */
     public function delete(User $user, Semester $semester): bool
     {
-        //
+        return true;
     }
 
     /**

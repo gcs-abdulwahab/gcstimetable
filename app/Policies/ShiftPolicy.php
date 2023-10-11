@@ -13,7 +13,7 @@ class ShiftPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class ShiftPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class ShiftPolicy
      */
     public function update(User $user, Shift $shift): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class ShiftPolicy
      */
     public function delete(User $user, Shift $shift): bool
     {
-        //
+        return true;
     }
 
     /**
