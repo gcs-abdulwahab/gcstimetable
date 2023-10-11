@@ -22,7 +22,7 @@ class Teacher extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new DepartmentScope);
+        // static::addGlobalScope(new DepartmentScope);
     }
 
     // Teacher Belongs to Department

@@ -16,27 +16,15 @@ class Semester extends Model
     // guarded
     protected $guarded = [];
 
-<<<<<<< Updated upstream
-    /**
-     * The "booted" method of the model.
-     */
-    protected static function booted(): void
-    {
-        static::addGlobalScope(new ProgramScope);
-    }
-=======
+
     // /**
     //  * The "booted" method of the model.
     //  */
     // protected static function booted(): void
     // {
-    //     static::addGlobalScope('admin', static function (Builder $builder) {
-    //         $department_ids = auth()->user()->institution->departments()->pluck('id');
-    //         $program_ids = Program::whereIn('department_id', $department_ids)->pluck('id');
-    //         $builder->whereIn('program_id', $program_ids);
-    //     });
+    //     static::addGlobalScope(new ProgramScope);
     // }
->>>>>>> Stashed changes
+
 
     // Semester Has Many Sections
     public function sections() : HasMany
