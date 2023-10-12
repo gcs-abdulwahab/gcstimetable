@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\DepartmentResource\Pages;
 use App\Models\Department;
+use App\Models\Scopes\AdminScope;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -61,12 +62,8 @@ class DepartmentResource extends Resource
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
             ])
-            ->paginated(false);
-    }
-
-    protected function getTableQuery(): Builder
-    {
-        return parent::getTableQuery()->withoutGlobalScopes();
+            ->paginated(false)
+            ->baseQuery(fn (): Builder => Department::query()->withGlobalScope(AdminScope::class, new AdminScope));
     }
 
     public static function getRelations(): array

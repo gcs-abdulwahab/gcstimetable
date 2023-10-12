@@ -21,7 +21,7 @@ class Department extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new AdminScope);
+        // static::addGlobalScope(new AdminScope);
     }
 
  //Department has many teachers
