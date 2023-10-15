@@ -13,8 +13,22 @@ class DepartmentScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        $institution = auth()->user()->institution;
-        $department_ids = $institution->departments()->pluck('id');
-        $builder->whereIn('department_id', $department_ids);
+        $user = auth()->user();
+        // if user is Institutional Admin
+        if($user){
+            if ($user->isInstitutionAdmin()) {
+                $institution = $user->institution;
+                if ($institution) {
+                    $departments = $institution->departments;
+                    if ($departments) {
+                        $builder->whereIn('department_id', $departments->pluck('id'));;
+                    }
+                }
+            }
+            elseif($user->isDepartmentAdmin())
+            {
+                    $builder->whereIn('department_id', $user->department_id);;
+            }
+        }
     }
 }

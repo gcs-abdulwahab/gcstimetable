@@ -20,11 +20,6 @@ class Institution extends Model
 
     protected $guarded = [];
 
-    // Institution has one Admin
-    public function admin() : hasOne
-    {
-        return $this->hasOne(User::class)->where('role_id', Role::Admin);
-    }
 
     // Institution has many Departments
     public function departments() : HasMany

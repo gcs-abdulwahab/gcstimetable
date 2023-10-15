@@ -5,6 +5,7 @@ namespace App\Filament\Resources\ProgramResource\Pages;
 use App\Filament\Resources\ProgramResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 
 class ListPrograms extends ListRecords
 {

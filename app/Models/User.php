@@ -3,9 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Filament\Panel;
-
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,34 +17,7 @@ class User extends Authenticatable implements FilamentUser
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
-
     use HasRoles;
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-            // // users with sadmin role can access only the SuperAdmin panel
-            // if ($panel->id === 'sadmin' && $this->hasRole('sadmin')) {
-            //     return true;
-            // }
-
-            return true;
-
-
-    }
-
-
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-
-    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -58,7 +30,6 @@ class User extends Authenticatable implements FilamentUser
         'two_factor_recovery_codes',
         'two_factor_secret',
     ];
-
     /**
      * The attributes that should be cast.
      *
@@ -66,9 +37,7 @@ class User extends Authenticatable implements FilamentUser
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        // 'role_id' => Role::class,
     ];
-
     /**
      * The accessors to append to the model's array form.
      *
@@ -78,35 +47,60 @@ class User extends Authenticatable implements FilamentUser
         'profile_photo_url',
     ];
 
-
-    // create a method  isSuperadmin
-    public function isSuperadmin() : bool
+    public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasRole('sadmin');
+        $BrandName = "";
+        if ($this->isInstitutionAdmin()) {
+            $BrandName = $this->institution->name;
+        }
+
+        if ($this->isDepartmentAdmin()) {
+            $BrandName = $this->department->name;
+        }
+
+        if ($this->isSuperadmin()) {
+            $BrandName = "Super Admin Panel";
+        }
+
+        if ($BrandName) {
+            $panel->brandName($BrandName);
+        }
+
+        return true;
     }
 
-    // create a method isInstitutionAdmin
-    public function isInstitutionAdmin() : bool
+
+    // create a method  isSuperadmin
+
+    public function isInstitutionAdmin(): bool
     {
         return $this->hasRole('iadmin');
     }
-    // create a method isDepartmentAdmin
-    public function isDepartmentAdmin() : bool
+
+    // create a method isInstitutionAdmin
+
+    public function isDepartmentAdmin(): bool
     {
         return $this->hasRole('dadmin');
     }
 
+    // create a method isDepartmentAdmin
 
-//     /**
-//      * The relationships that should always be loaded.
-//      */
-//     protected $with = [
-//         'institution',
-//     ];
+    public function isSuperadmin(): bool
+    {
+        return $this->hasRole('sadmin');
+    }
 
-//     // User belongs to one Institution
-//     public function institution() : BelongsTo
-//     {
-//         return $this->belongsTo(Institution::class);
-//     }
+
+    // User belongs to one Institution
+
+    public function institution(): BelongsTo
+    {
+        return $this->belongsTo(Institution::class);
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

@@ -17,13 +17,13 @@ class Semester extends Model
     protected $guarded = [];
 
 
-    // /**
-    //  * The "booted" method of the model.
-    //  */
-    // protected static function booted(): void
-    // {
-    //     static::addGlobalScope(new ProgramScope);
-    // }
+     /**
+      * The "booted" method of the model.
+      */
+     protected static function booted(): void
+     {
+         static::addGlobalScope(new ProgramScope);
+     }
 
 
     // Semester Has Many Sections

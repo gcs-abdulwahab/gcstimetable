@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\AdminScope;
+use App\Models\Scopes\InstitutionScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,21 +12,12 @@ class Room extends Model
 {
     use HasFactory;
 
-    // guarded
-    protected $fillable = [
-        'name',
-        'code',
-        'capacity',
-        'type',
-        'isavailable'
-    ];
-
     /**
      * The "booted" method of the model.
      */
     protected static function booted(): void
     {
-        parent::addGlobalScope(new AdminScope);
+        parent::addGlobalScope(new InstitutionScope);
     }
 
     // Room has many Allocations

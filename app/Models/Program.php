@@ -12,7 +12,7 @@ class Program extends Model
 {
     use HasFactory;
 
- // guarded
+    // guarded
     protected $guarded = [];
 
     /**
@@ -20,7 +20,7 @@ class Program extends Model
      */
     protected static function booted(): void
     {
-        // parent::addGlobalScope(new DepartmentScope);
+         parent::addGlobalScope(new DepartmentScope);
     }
 
     // program belongs to a department

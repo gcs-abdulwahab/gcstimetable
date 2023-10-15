@@ -29,7 +29,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'superadmin',
             'email' => 'sadmin@gmail.com',
             'password' => bcrypt('sadmin@gmail.com'),
-
         ])->assignRole($superadmin_role);
 
 
@@ -42,21 +41,32 @@ class DatabaseSeeder extends Seeder
             'name' => 'iadmin',
             'email' => 'iadmin@gmail.com',
             'password' => bcrypt('iadmin@gmail.com'),
+            'institution_id' => 1
         ])->assignRole($institute_admin_role)  ;
+
+        User::factory()->create([
+            'name' => 'IAdmin',
+            'email' => 'iadmin2@gmail.com',
+            'password' => bcrypt('iadmin2@gmail.com'),
+            'institution_id' => 2
+        ])->assignRole($institute_admin_role)  ;
+
+        // call seeder of department
+        $this->call(DepartmentSeeder::class);
 
         // call seeder of user Department Admin
         User::factory()->create([
             'name' => 'dadmin',
             'email' => 'dadmin@gmail.com',
             'password' => bcrypt('dadmin@gmail.com'),
+            'department_id' => 1
             ])->assignRole($department_admin_role);
 
         $this->call(ShiftSeeder::class);
 
         // call seeder of room
         $this->call(RoomSeeder::class);
-        // call seeder of department
-        $this->call(DepartmentSeeder::class);
+
         // // call seeder of slot
         $this->call(SlotSeeder::class);
         // call seeder of day
