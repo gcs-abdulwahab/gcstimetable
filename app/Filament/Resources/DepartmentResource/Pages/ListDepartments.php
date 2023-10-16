@@ -22,4 +22,5 @@ class ListDepartments extends ListRecords
     {
         return parent::getTableQuery()->where('institution_id', auth()->user()->institution_id);
     }
+
 }

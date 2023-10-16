@@ -31,6 +31,7 @@ class SemesterScope implements Scope
                             ->pluck('id');
                         if ($semester_ids) {
                             $builder->whereIn('semester_id', $semester_ids);
+                            return;
                         }
                     }
                 }
@@ -50,6 +51,7 @@ class SemesterScope implements Scope
                         ->pluck('id');
                     if($semester_ids){
                         $builder->whereIn('semester_id', $semester_ids);
+                        return;
                     }
                 }
             }

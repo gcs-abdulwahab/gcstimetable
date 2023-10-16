@@ -14,33 +14,34 @@ class ProgramScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        $user= auth()->user();
-        if($user && $user->isInstitutionAdmin()){
+        $user = auth()->user();
+        if ($user && $user->isInstitutionAdmin()) {
             $institution = $user->institution;
             $department_ids = $institution->departments()->pluck('id');
-
-            if ($department_ids->isEmpty()) {
-                return;
+            if ($department_ids) {
+                $program_ids = Program::query()
+                    ->whereIn('department_id', $department_ids)
+                    ->pluck('id');
+                if ($program_ids) {
+                    $builder->whereIn('program_id', $program_ids);
+                    return;
+                }
             }
-            $program_ids = Program::query()
-                ->whereIn('department_id', $department_ids)
-                ->pluck('id');
-
-            $builder->whereIn('program_id', $program_ids);
+            $builder->whereNull('program_id');
         }
 
-        if($user && $user->isDepartmentAdmin()){
-            $department_id = $user->department->id;
-
-            if ($department_id->isEmpty()) {
-                return;
+        if ($user && $user->isDepartmentAdmin()) {
+            $department_id = $user->department_id;
+            if ($department_id) {
+                $program_ids = Program::query()
+                    ->whereIn('department_id', [$department_id])
+                    ->pluck('id');
+                if ($program_ids) {
+                    $builder->whereIn('program_id', $program_ids);
+                    return;
+                }
             }
-
-            $program_ids = Program::query()
-                ->whereIn('department_id', [$department_id])
-                ->pluck('id');
-
-            $builder->whereIn('program_id', $program_ids);
+            $builder->whereNull('program_id');
         }
     }
 }

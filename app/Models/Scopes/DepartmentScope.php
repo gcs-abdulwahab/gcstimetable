@@ -17,13 +17,16 @@ class DepartmentScope implements Scope
         // if user is Institutional Admin
         if($user){
             if ($user->isInstitutionAdmin()) {
+
                 $institution = $user->institution;
                 if ($institution) {
                     $departments = $institution->departments;
                     if ($departments) {
-                        $builder->whereIn('department_id', $departments->pluck('id'));;
+                        $builder->whereIn('department_id', $departments->pluck('id'));
+                        return;
                     }
                 }
+                $builder->whereNull('department_id');
             }
             elseif($user->isDepartmentAdmin())
             {
