@@ -12,6 +12,7 @@
         "althinect/filament-spatie-roles-permissions": "^2.0",
         "filament/filament": "3.0-stable",
         "guzzlehttp/guzzle": "^7.2",
+        "inertiajs/inertia-laravel": "^0.6.10",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",

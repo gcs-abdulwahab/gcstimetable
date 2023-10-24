@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
+use App\Filament\Pages\Login;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -24,9 +25,9 @@ class SuperAdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('sadmin')
-            ->path('sadmin')
-            ->login()
+            ->id('admin')
+            ->path('admin')
+            ->login(Login::class)
             ->colors([
                 'primary' => Color::Amber,
             ])

@@ -30,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('iadmin')
             ->brandName('Institution Demo')
             ->path('iadmin')
-            ->login(Login::class)
+            // ->login(Login::class)
             ->colors([
                 'primary' => Color::Amber,
             ])
