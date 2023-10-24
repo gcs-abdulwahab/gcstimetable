@@ -61,7 +61,7 @@ class Allocation extends Model
 
     // create a function doesExists that accepts the array of fields like day_id , slot_id , teacher_id , room_id , course_id , section_id
     // and check if the allocation is unique or not
-    // the parameter list is dyanmic and where query should be updated accordingly
+    // the parameter list is dynamic and where query should be updated accordingly
 
     public function doesExist($fields) : bool
     {

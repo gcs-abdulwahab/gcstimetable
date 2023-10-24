@@ -18,12 +18,9 @@ class Allocation extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public array $shift;
-    public array $program;
-    public array $semester;
-    public Shift|Collection $shiftModel;
-    public Program|Collection $programModel;
-    public Semester|Collection $semesterModel;
+    public Shift|Collection $shift, $shifts;
+    public Program|Collection  $program, $programs;
+    public Semester|Collection $semester, $semesters;
 
     public ?array $data = [];
 
@@ -35,15 +32,13 @@ class Allocation extends Component implements HasForms
     public function form(Form $form): Form
     {
         $courses = [];
-        if (isset($this->semester['id'])) {
-            $courses = Course::query()->where('semester_id', $this->semester['id'])->pluck('name', 'id');
+        if (isset($this->semester, $this->semester->id)) {
+            $courses = Course::query()->where('semester_id', $this->semester->id)->pluck('name', 'id');
         }
         return $form
             ->schema([
                 Select::make('Courses')
                     ->options($courses)
-                    ->searchable()
-                    ->preload()
                     ->required(),
                 TextInput::make('Shift')
                     ->required(),
@@ -59,50 +54,53 @@ class Allocation extends Component implements HasForms
 
     public function render(): \Illuminate\Contracts\View\View
     {
-        $shifts = $this->shiftModel ?? Shift::all();
+        $this->shifts = Shift::all();
         if (!isset($this->shift)) {
-            $this->filterShifts($shifts->first()->toArray());
+            $this->filterShifts($this->shifts->first()->toArray());
         }
 
         return view('livewire.allocation')
             ->with([
-                'shifts' => $shifts,
-                'semesters' => $this->semesterModel ?? Semester::all(),
-                'programs' => $this->programModel,
+                'shifts' => $this->shifts,
+                'semesters' => $this->semesters ?? Semester::all(),
+                'programs' => $this->programs,
             ]);
     }
 
     public function filterShifts($shift): void
     {
-        $this->shift = $shift;
-        $programs = Program::query()->where('shift_id', $shift['id'])->get();
-        if ($programs && count($programs) > 0) {
-            $this->programModel = $programs;
-            $this->program = $programs->first()->toArray();
-            $this->semesterModel = Semester::query()
-                ->whereIn('program_id', [$this->program['id']])
-                ->get();
-            if ($this->semesterModel->count() > 0) {
-                $this->semester = $this->semesterModel->first()->toArray();
+        $this->shift = Shift::query()->find($shift['id']);
+        if ($this->shift) {
+            
+            $programs = Program::query()->where('shift_id', $this->shift->id)->get();
+            if ($programs && count($programs) > 0) {
+
+                $this->programs = $programs;
+                $this->program = $programs->first();
+                $this->semesters = Semester::query()
+                    ->whereIn('program_id', [$this->program->id])
+                    ->get();
+
+                if ($this->semesters && $this->semesters->count() > 0) {
+                    $this->semester = $this->semesters->first();
+                }
             }
         }
     }
 
     public function filterThroughProgram($program): void
     {
-        $this->program = $program;
-        $this->semesterModel = Semester::query()
-            ->whereIn('program_id', [$this->program['id']])
-            ->get();
+        $this->program = Program::query()->find($program['id']);
+        if($this->program){
 
-        if ($this->semesterModel->count() > 0) {
-            $this->semester = $this->semesterModel->first()->toArray();
+            $this->semesters = Semester::query()
+                ->whereIn('program_id', [$this->program->id])
+                ->get();
+    
+            if ($this->semesters && $this->semesters->count() > 0) {
+                $this->semester = $this->semesters->first();
+            }
         }
-    }
-
-    public function filterThroughSemester($semester): void
-    {
-        $this->semester = $semester;
     }
 
     public function getSemesterNumber(int $number): string

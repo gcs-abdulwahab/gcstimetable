@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Telescope\TelescopeServiceProvider;
@@ -13,12 +14,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-       if ($this->app->environment('local')) {
         if ($this->app->environment('local')) {
-            $this->app->register(TelescopeServiceProvider::class);
-            
+            if ($this->app->environment('local')) {
+                $this->app->register(TelescopeServiceProvider::class);
+            }
         }
-    }
+
     }
 
     /**
@@ -27,5 +28,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::unguard();
+
+        Select::configureUsing(function (Select $select) {
+            $select->native(false);
+        });
     }
 }

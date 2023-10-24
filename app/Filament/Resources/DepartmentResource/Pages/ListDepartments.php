@@ -18,9 +18,9 @@ class ListDepartments extends ListRecords
         ];
     }
 
-    protected function getTableQuery(): Builder
-    {
-        return parent::getTableQuery()->where('institution_id', auth()->user()->institution_id);
-    }
+    // protected function getTableQuery(): Builder
+    // {
+    //     return parent::getTableQuery()->where('institution_id', auth()->user()->institution_id);
+    // }
 
 }
