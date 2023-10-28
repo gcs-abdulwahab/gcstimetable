@@ -2,8 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\Login;
-use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -30,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('iadmin')
             ->brandName('Institution Demo')
             ->path('iadmin')
-            // ->login(Login::class)
+            ->login()
             ->colors([
                 'primary' => Color::Amber,
             ])
