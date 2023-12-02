@@ -24,8 +24,6 @@ Route::apiResource('institutions', InstitutionController::class);
 Route::apiResource('days', DayController::class);
 
 
-
-
 // write API Route for Department
 Route::apiResource('departments', DepartmentController::class);
 

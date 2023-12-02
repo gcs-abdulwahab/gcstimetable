@@ -10,23 +10,27 @@ use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class AllocationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
 
             $allocations = Allocation::all();
-            $teacherId = 82;
+            
+            if($request->wantsJson()){
+                return response()->json(new AllocationCollection($allocations));
+            }else{
+                return Inertia::render('AllocationForm', [
+                    'allocations' => new AllocationCollection($allocations),
+                ]);
+            }
 
-            $filteredAllocations = $allocations->filter(function ($allocation) use ($teacherId) {
-                return $allocation->teacher_id == $teacherId;
-            });
-            return new AllocationCollection($allocations); // 200 OK
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
         }
@@ -45,19 +49,42 @@ class AllocationController extends Controller
      */
     public function store(Request $request)
     {
-//        $constraints = new Constraint();
-        Log::info($request->all());
+        //        $constraints = new Constraint();
+        Log::channel("allocations")->info("CreateAllocation_Request", $request->all());
 
+        $message = "";
+        $status_code = 201;
+        $allocation = null;
         try {
+
             $allocation = Allocation::create($request->all());
-            Log::info('It passes the Creating function of allocation model');
-            return response()->json($allocation, 201); // 201 Created
+            $message = 'Resource successfully created';
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Constraint violation or other database error' . $exception->getMessage()], 422);
+            $status_code =  422;
+            $message = 'Constraint violation or other database error ' . $exception->getMessage();
+        } catch (Exception $exception) {
+            $status_code =  400;
+            $message = 'Constraint violation or other database error ' . $exception->getMessage();
         }
-        catch (Exception $exception) {
-            return response()->json(['error' => 'Constraint violation or other database error' . $exception->getMessage()], 400);
+
+        Log::channel("allocations")->info($message);
+        $data = [
+            'allocation' => $allocation,
+            'message' => $message,
+            'status' => $status_code
+        ];
+
+        if($request->wantsJson()){
+            return response()->json($data, $status_code);
         }
+
+        return Inertia::render("AllocationForm/Create", 
+                [
+                    'allocation' => $allocation, 
+                    'message' => $message, 
+                    'status' => $status_code
+                ]
+            );
     }
 
     /**

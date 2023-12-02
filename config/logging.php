@@ -126,6 +126,14 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        // create a log channel which logs date wise in a file
+        'allocations' => [
+            'driver' => 'single',
+            'path' => storage_path("logs/". now()->toDateString() ."/allocations.log"),
+            'level' => 'debug',
+            'days' => 30,
+        ],
     ],
 
 ];

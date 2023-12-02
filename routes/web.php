@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AllocationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,11 +15,9 @@ use Inertia\Inertia;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return Inertia::render('Welcome');
+});
 
-Route::get('/allocation/form', function(){
-    return Inertia::render('AllocationForm');
-})->name('allocation.form');
+Route::get('/allocations/create', [AllocationController::class, 'index'])->name('allocation.form');
 

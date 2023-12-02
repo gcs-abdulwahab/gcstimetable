@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Head } from '@inertiajs/react'
 
 
-function HelloWorld() {
+function HelloWorld({ allocations }) {
+
+
+    function handleSubmit(e) {
+        e.preventDefault()
+    }
+
+    useEffect(() => {
+        console.log(allocations)
+    }, [allocations])
+
     return (
         <>
             <Head title="Hello World!" />
