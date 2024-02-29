@@ -171,7 +171,6 @@ return [
         App\Providers\Filament\SuperAdminPanelProvider::class,
         App\Providers\Filament\DepartmentAdminPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\TelescopeServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -187,7 +186,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
-        'TimeSlotHelper' => App\Helpers\TimeSlotHelper::class,
+        // 'TimeSlotHelper' => App\Helpers\TimeSlotHelper::class,
     ])->toArray(),
 
 ];

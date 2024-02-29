@@ -17,81 +17,80 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        // $superadmin_role = Role::create(['name' => 'sadmin']);
-        // $institute_admin_role = Role::create(['name' => 'iadmin']);
-        // $department_admin_role = Role::create(['name' => 'dadmin']);
+        $superadmin_role = Role::create(['name' => 'sadmin']);
+        $institute_admin_role = Role::create(['name' => 'iadmin']);
+        $department_admin_role = Role::create(['name' => 'dadmin']);
 
 
 
 
-        // // call seeder of user Superadmin
-        // User::factory()->create([
-        //     'name' => 'superadmin',
-        //     'email' => 'sadmin@gmail.com',
-        //     'password' => bcrypt('sadmin@gmail.com'),
-        // ])->assignRole($superadmin_role);
+        // call seeder of user Superadmin
+        User::factory()->create([
+            'name' => 'superadmin',
+            'email' => 'sadmin@gmail.com',
+            'password' => bcrypt('sadmin@gmail.com'),
+        ])->assignRole($superadmin_role);
 
 
-        //  // call seeder of institution
-        // $this->call(InstitutionSeeder::class);
+        // call seeder of institution
+        $this->call(InstitutionSeeder::class);
 
 
-        // // call seeder of user Institution Admin
-        // User::factory()->create([
-        //     'name' => 'iadmin',
-        //     'email' => 'iadmin@gmail.com',
-        //     'password' => bcrypt('iadmin@gmail.com'),
-        //     'institution_id' => 1
-        // ])->assignRole($institute_admin_role)  ;
+        // call seeder of user Institution Admin
+        User::factory()->create([
+            'name' => 'iadmin',
+            'email' => 'iadmin@gmail.com',
+            'password' => bcrypt('iadmin@gmail.com'),
+            'institution_id' => 1
+        ])->assignRole($institute_admin_role);
 
-        // User::factory()->create([
-        //     'name' => 'IAdmin',
-        //     'email' => 'iadmin2@gmail.com',
-        //     'password' => bcrypt('iadmin2@gmail.com'),
-        //     'institution_id' => 2
-        // ])->assignRole($institute_admin_role)  ;
+        User::factory()->create([
+            'name' => 'IAdmin',
+            'email' => 'iadmin2@gmail.com',
+            'password' => bcrypt('iadmin2@gmail.com'),
+            'institution_id' => 2
+        ])->assignRole($institute_admin_role);
 
-        // // call seeder of department
-        // $this->call(DepartmentSeeder::class);
+        // call seeder of department
+        $this->call(DepartmentSeeder::class);
 
-        // // call seeder of user Department Admin
-        // User::factory()->create([
-        //     'name' => 'dadmin',
-        //     'email' => 'dadmin@gmail.com',
-        //     'password' => bcrypt('dadmin@gmail.com'),
-        //     'department_id' => 1
-        //     ])->assignRole($department_admin_role);
+        // call seeder of user Department Admin
+        User::factory()->create([
+            'name' => 'dadmin',
+            'email' => 'dadmin@gmail.com',
+            'password' => bcrypt('dadmin@gmail.com'),
+            'department_id' => 1
+        ])->assignRole($department_admin_role);
 
-        // $this->call(ShiftSeeder::class);
+        $this->call(ShiftSeeder::class);
 
-        // // call seeder of room
-        // $this->call(RoomSeeder::class);
+        // call seeder of room
+        $this->call(RoomSeeder::class);
 
-        // // // call seeder of slot
-        // $this->call(SlotSeeder::class);
-        // // call seeder of day
-        // $this->call(DaySeeder::class);
-        // // call ProgramSeeder
-        // $this->call(ProgramSeeder::class);
-        // // call TeacherSeeder
-        // $this->call(TeacherSeeder::class);
-        // // call SemesterSeeder
-        // $this->call(SemesterSeeder::class);
-        // // call SectionSeeder
-        // $this->call(SectionSeeder::class);
-
-
+        // // call seeder of slot
+        $this->call(SlotSeeder::class);
+        // call seeder of day
+        $this->call(DaySeeder::class);
+        // call ProgramSeeder
+        $this->call(ProgramSeeder::class);
+        // call TeacherSeeder
+        $this->call(TeacherSeeder::class);
+        // call SemesterSeeder
+        $this->call(SemesterSeeder::class);
+        // call SectionSeeder
+        $this->call(SectionSeeder::class);
 
 
-        // // call Course Seeder
-        // $this->call(CourseSeeder::class);
+
+
+        // call Course Seeder
+        $this->call(CourseSeeder::class);
 
 
         // call AllocationSeeder
         $this->call(AllocationSeeder::class);
 
         // call StudentSeeder
-        // $this->call(StudentSeeder::class);
-
+        $this->call(StudentSeeder::class);
     }
 }

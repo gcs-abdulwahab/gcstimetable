@@ -14,7 +14,7 @@ class DepartmentScope implements Scope
     public function apply(Builder $builder, Model $model): void
     {
         $user = auth()->user();
-        // if user is Institutional Admin
+        
         if($user){
             if ($user->isInstitutionAdmin()) {
 
@@ -28,9 +28,9 @@ class DepartmentScope implements Scope
                 }
                 $builder->whereNull('department_id');
             }
-            elseif($user->isDepartmentAdmin())
-            {
-                    $builder->whereIn('department_id', $user->department_id);;
+            elseif($user->isDepartmentAdmin()){
+
+                    $builder->whereIn('department_id', [$user->department_id]);;
             }
         }
     }
