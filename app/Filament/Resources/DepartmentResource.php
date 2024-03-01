@@ -3,15 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\DepartmentResource\Pages;
+use App\Filament\Resources\DepartmentResource\RelationManagers;
 use App\Models\Department;
-use App\Models\Scopes\InstitutionScope;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DepartmentResource extends Resource
@@ -25,15 +25,24 @@ class DepartmentResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+
                     ->autofocus()
+
                     ->required()
-                    ->unique(Department::class, 'name', ignorable: fn($record) => $record)
+
+                    ->unique(Department::class, 'name', ignorable: fn ($record) => $record)
+
                     ->placeholder(__('Name')),
+
                 Forms\Components\TextInput::make('code')
+
                     ->required()
-                    ->unique(Department::class, 'code', ignorable: fn($record) => $record)
+
+                    ->unique(Department::class, 'code', ignorable: fn ($record) => $record)
+
                     ->placeholder(__('Code')),
-            ]);
+            ])
+            ->columns(1);
     }
 
     public static function table(Table $table): Table
@@ -41,10 +50,15 @@ class DepartmentResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+
                     ->searchable()
+
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('code')
+
                     ->searchable()
+
                     ->sortable(),
             ])
             ->filters([
@@ -61,23 +75,13 @@ class DepartmentResource extends Resource
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
-            ])
-            ->paginated(false);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+            ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDepartments::route('/'),
-            'create' => Pages\CreateDepartment::route('/create'),
-            'edit' => Pages\EditDepartment::route('/{record}/edit'),
+            'index' => Pages\ManageDepartments::route('/'),
         ];
     }
 }
