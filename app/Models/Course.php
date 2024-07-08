@@ -12,19 +12,13 @@ class Course extends Model
     // Course model
     // guarded
     protected $guarded = [];
-   
-    
-   
-    
-
-
 
     // Course my Taught by many Teachers on Different Days
     public function teachers()
     {
         return $this->belongsToMany(Teacher::class, 'allocations');
     }
-    
+
     // Course has many Allocations
     public function allocations()
     {

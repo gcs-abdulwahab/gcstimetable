@@ -33,7 +33,7 @@ class Institution extends Model
     {
         return $this->hasManyThrough(Teacher::class, Department::class);
     }
-    
+
 
     // Institution has many days
     public function days()
@@ -41,11 +41,11 @@ class Institution extends Model
         return $this->hasMany(Day::class);
     }
 
-    // Institution has many slots
-    public function slots(){
-        return $this->hasMany(Slot::class);
+ // Institution has many shifts
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
     }
-
 
 
 

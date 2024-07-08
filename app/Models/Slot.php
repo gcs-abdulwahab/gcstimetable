@@ -9,15 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 class Slot extends Model
 {
     use HasFactory;
-  //guarded
+
     protected $guarded = [];
-    
+
     // Slot belongs to a Shift
     public function shift()
     {
         return $this->belongsTo(Shift::class);
     }
-
 
     // Slot has many Allocations
     public function allocations()
@@ -25,11 +24,7 @@ class Slot extends Model
         return $this->hasMany(Allocation::class);
     }
 
-    // Slot belongs to an Institution
-    public function institution()
-    {
-        return $this->belongsTo(Institution::class);
-    }
+ 
 
 
 }
