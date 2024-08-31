@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-[x-cloak] {
-    display: none;
-}
+@layer utilities {
+    .size-6 {
+      width: 1.5rem; /* or whatever size you want */
+      height: 1.5rem;
+    }
+  }

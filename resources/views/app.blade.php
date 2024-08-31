@@ -1,17 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
+
+    <title inertia>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Scripts -->
+    @routes
     @viteReactRefresh
-    @vite(['resources/css/app.css', 'resources/js/app.jsx'])
-    <!-- As you can see, we will use vite with jsx syntax for React-->
+    @vite(['resources/js/app.tsx', "resources/js/Pages/{$page['component']}.tsx", 'resources/css/app.css'])
     @inertiaHead
 </head>
 
-<body>
+<body class="font-sans antialiased">
     @inertia
 </body>
 
