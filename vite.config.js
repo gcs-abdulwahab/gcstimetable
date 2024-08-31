@@ -11,8 +11,7 @@ export default defineConfig({
                 'resources/js/app.js',
             ],
             refresh: [
-                ...refreshPaths,
-                'app/Livewire/**',
+                ...refreshPaths
             ],
         }),
         react(),

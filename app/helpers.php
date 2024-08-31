@@ -1,8 +1,10 @@
 <?php
+
 use App\Types\TimeSlot;
 
-function DaystoText($days) {
-    if (empty($days)) { 
+function DaystoText($days)
+{
+    if (empty($days)) {
         return "";
     }
 
@@ -48,15 +50,13 @@ function DaystoText($days) {
      * @param TimeSlot $timeSlot2
      * @return bool
      */
-     function isTimeSlotOverlapping(TimeSlot $timeSlot1, TimeSlot $timeSlot2)
-    {
-        // Convert 24-hour time format to timestamps
-        $start1 = strtotime($timeSlot1->startTime);
-        $end1 = strtotime($timeSlot1->endTime);
-        $start2 = strtotime($timeSlot2->startTime);
-        $end2 = strtotime($timeSlot2->endTime);
+function isTimeSlotOverlapping(TimeSlot $timeSlot1, TimeSlot $timeSlot2)
+{
+    // Convert 24-hour time format to timestamps
+    $start1 = strtotime($timeSlot1->startTime);
+    $end1 = strtotime($timeSlot1->endTime);
+    $start2 = strtotime($timeSlot2->startTime);
+    $end2 = strtotime($timeSlot2->endTime);
 
-        return ($start1 < $end2 && $end1 > $start2);
-    }
-
-?>
+    return ($start1 < $end2 && $end1 > $start2);
+}

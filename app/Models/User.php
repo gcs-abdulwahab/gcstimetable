@@ -2,17 +2,14 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
@@ -46,28 +43,6 @@ class User extends Authenticatable implements FilamentUser
     protected $appends = [
         'profile_photo_url',
     ];
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        $BrandName = "";
-        if ($this->isInstitutionAdmin()) {
-            $BrandName = $this->institution->name;
-        }
-
-        if ($this->isDepartmentAdmin()) {
-            $BrandName = $this->department->name;
-        }
-
-        if ($this->isSuperadmin()) {
-            $BrandName = "Super Admin Panel";
-        }
-
-        if ($BrandName) {
-            $panel->brandName($BrandName);
-        }
-
-        return true;
-    }
 
 
     // create a method  isSuperadmin
