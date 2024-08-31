@@ -18,7 +18,7 @@ class Institution extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    
 
 
     // Institution has many Departments

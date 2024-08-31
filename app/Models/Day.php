@@ -12,9 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Day extends Model
 {
     use HasFactory;
-    // guarded
-    protected $guarded = [];
-
 
     /**
      * The "booted" method of the model.

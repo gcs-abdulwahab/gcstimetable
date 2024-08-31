@@ -12,7 +12,7 @@ class Slot extends Model
 {
     use HasFactory;
   //guarded
-    protected $guarded = [];
+    
 
     // Slot belongs to a Shift
     public function shift() : BelongsTo

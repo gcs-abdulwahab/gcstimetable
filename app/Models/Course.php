@@ -12,10 +12,6 @@ class Course extends Model
 {
     use HasFactory;
 
-    // Course model
-    // guarded
-    protected $guarded = [];
-
     protected static function booted() : void
     {
         parent::addGlobalScope(new SemesterScope);

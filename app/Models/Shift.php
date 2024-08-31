@@ -14,7 +14,7 @@ class Shift extends Model
 
 
     // guarded
-    protected $guarded = [];
+    
 
     /**
      * The "booted" method of the model.

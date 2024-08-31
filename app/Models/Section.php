@@ -12,7 +12,7 @@ class Section extends Model
     use HasFactory;
 
   // guarded
-    protected $guarded = [];
+    
 
 
     // Section Belongs to a Semester

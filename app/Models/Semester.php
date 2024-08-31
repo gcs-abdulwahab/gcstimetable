@@ -14,7 +14,7 @@ class Semester extends Model
 
     use HasFactory;
     // guarded
-    protected $guarded = [];
+    
 
 
      /**

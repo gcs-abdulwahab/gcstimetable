@@ -12,10 +12,6 @@ class Allocation extends Model
 {
     use HasFactory;
 
-    // guarded
-    protected $guarded = [];
-
-
     // create a function hasTeacher if teacher id is not null then return true else false
     public function hasTeacher() : bool
     {

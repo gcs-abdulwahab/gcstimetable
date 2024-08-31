@@ -10,5 +10,5 @@ class Student extends Model
     use HasFactory;
 
     // guarded
-protected $guarded = [];
+
 }

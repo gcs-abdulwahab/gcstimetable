@@ -14,7 +14,7 @@ class Teacher extends Model
 
 
     // blacklist
-    protected $guarded = [];
+    
 
 
     /**
