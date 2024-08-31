@@ -17,8 +17,6 @@ return [
 
     // disable cors and allow everyone
     'paths' => ['*'],
-    
-    
 
     'allowed_methods' => ['*'],
 

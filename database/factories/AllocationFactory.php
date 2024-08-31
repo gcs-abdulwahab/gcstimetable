@@ -28,6 +28,7 @@ class AllocationFactory extends Factory
         $faker->seed(1234);
 
         $num = $faker->unique()->numberBetween(1, 1000);
+
         return [
 
             // foreign key to course
@@ -35,13 +36,13 @@ class AllocationFactory extends Factory
             // foreign key to teacher
             'teacher_id' => Teacher::all()->random()->id,
             // foreign key to room
-            'room_id' =>  Room::all()->random()->id,
+            'room_id' => Room::all()->random()->id,
             // foreign key to day
-            'day_id' =>  Day::all()->random()->id,
+            'day_id' => Day::all()->random()->id,
             // foreign key to slot
-            'slot_id' =>   Slot::all()->random()->id,
+            'slot_id' => Slot::all()->random()->id,
             // foreign key to slot
-            'section_id' =>   Section::all()->random()->id,
+            'section_id' => Section::all()->random()->id,
         ];
     }
 }

@@ -20,4 +20,3 @@ Route::get('/', function () {
 });
 
 Route::get('/allocations/create', [AllocationController::class, 'index'])->name('allocation.form');
-

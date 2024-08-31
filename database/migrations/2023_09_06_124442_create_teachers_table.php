@@ -40,7 +40,7 @@ return new class extends Migration
             // Teacher Seniority Number
             $table->integer('seniority_number')->default(0);
             // Teacher Qualification  enum type  MSc , MPhil , PhD and by default MPhil
-            $table->enum('qualification', ['MSc', 'BS(Hons)','MPhil','PhD'])->default('MPhil');
+            $table->enum('qualification', ['MSc', 'BS(Hons)', 'MPhil', 'PhD'])->default('MPhil');
             // Teacher Highest Degree Awarding Institute with should by default nullable
             $table->string('highest_degree_awarding_institute')->nullable();
             //Teacher Highest Degree Awarding Country with should by default nullable
@@ -50,21 +50,19 @@ return new class extends Migration
             // Teacher Degree Title with should by default nullable
             $table->string('degree_title')->nullable();
 
-    
             // teacher could either be Lecturer , Assistant Professor , Associate Professor or Professor
-            $table->enum('rank', ['Lecturer', 'Assistant Professor','Associate Professor','Professor'])->default('Lecturer');
+            $table->enum('rank', ['Lecturer', 'Assistant Professor', 'Associate Professor', 'Professor'])->default('Lecturer');
 
             //Teacher can be HOD , Vice Principal or a Principal
-            $table->enum('position', ['HOD', 'Regular' ,'Vice Principal','Principal'])->nullable()->default('Regular');
+            $table->enum('position', ['HOD', 'Regular', 'Vice Principal', 'Principal'])->nullable()->default('Regular');
 
-            // teacher belongs to some department 
+            // teacher belongs to some department
             $table->foreignId('department_id')->constrained('departments');
             //isvisiting
             $table->boolean('isvisiting')->default(false);
 
             // isActive
             $table->boolean('isActive')->default(true);
-
 
             $table->timestamps();
         });

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Shift;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ShiftSeeder extends Seeder
@@ -15,38 +14,36 @@ class ShiftSeeder extends Seeder
     {
         $shifts = [
             [
-                'id' =>1,
+                'id' => 1,
                 'name' => 'Morning Inter',
                 'comments' => 'Morning Inter',
                 'institution_id' => 1,
             ],
             [
-                'id' =>2,
+                'id' => 2,
                 'name' => 'Morning BS',
                 'comments' => 'Morning BS',
                 'institution_id' => 1,
             ],
             [
-                'id' =>3,
+                'id' => 3,
                 'name' => 'Evening BS',
                 'comments' => 'Evening BS',
                 'institution_id' => 1,
             ],
             [
-                'id' =>4,
+                'id' => 4,
                 'name' => 'Evening Inter',
                 'comments' => 'Evening Inter',
                 'institution_id' => 1,
             ],
 
             [
-                'id' =>5,
+                'id' => 5,
                 'name' => 'Morning ADP',
                 'comments' => 'Morning ADP',
                 'institution_id' => 1,
             ],
-
-
 
         ];
 

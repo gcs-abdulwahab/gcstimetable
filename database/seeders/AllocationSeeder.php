@@ -18,7 +18,7 @@ class AllocationSeeder extends Seeder
 
         // create allocation for course_id = 1
         try {
-            $allocation = new Allocation();
+            $allocation = new Allocation;
             $allocation->id = 1;
             $allocation->course_id = 1;
             $allocation->teacher_id = 1;
@@ -28,12 +28,11 @@ class AllocationSeeder extends Seeder
             $allocation->section_id = 1;
             $allocation->save();
         } catch (Exception $e) {
-            Log::info('Error creating allocation: ' . $e->getMessage() . ' ' . $e->getLine());
+            Log::info('Error creating allocation: '.$e->getMessage().' '.$e->getLine());
         }
 
-
         try {
-            $allocation = new Allocation();
+            $allocation = new Allocation;
             $allocation->id = 2;
             $allocation->course_id = 1;
             $allocation->teacher_id = 1;
@@ -43,7 +42,7 @@ class AllocationSeeder extends Seeder
             $allocation->section_id = 1;
             $allocation->save();
         } catch (Exception $e) {
-            Log::info('Error creating allocation: ' . $e->getMessage() . ' ' . $e->getLine());
+            Log::info('Error creating allocation: '.$e->getMessage().' '.$e->getLine());
         }
 
         // Specify the number of allocations you want to create
@@ -55,7 +54,7 @@ class AllocationSeeder extends Seeder
                 Allocation::factory()->create();
             } catch (\Exception $e) {
                 // For example, log the error message:
-                Log::error('Error creating allocation: ' . $e->getMessage());
+                Log::error('Error creating allocation: '.$e->getMessage());
             }
         }
     }

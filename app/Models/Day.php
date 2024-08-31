@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Institution;
 use App\Models\Scopes\InstitutionScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,16 +20,14 @@ class Day extends Model
         parent::addGlobalScope(new InstitutionScope);
     }
 
-
-
     // Day has many Allocations
-    public function allocations() : HasMany
+    public function allocations(): HasMany
     {
         return $this->hasMany(Allocation::class);
     }
 
     // Day belongs to an Institution
-    public function institution() : BelongsTo
+    public function institution(): BelongsTo
     {
         return $this->belongsTo(Institution::class);
     }

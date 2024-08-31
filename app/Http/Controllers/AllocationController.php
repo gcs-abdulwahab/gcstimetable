@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateAllocationRequest;
@@ -22,17 +21,17 @@ class AllocationController extends Controller
         try {
 
             $allocations = Allocation::all();
-            
-            if($request->wantsJson()){
+
+            if ($request->wantsJson()) {
                 return response()->json(new AllocationCollection($allocations));
-            }else{
+            } else {
                 return Inertia::render('AllocationForm', [
                     'allocations' => new AllocationCollection($allocations),
                 ]);
             }
 
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 
@@ -50,9 +49,9 @@ class AllocationController extends Controller
     public function store(Request $request)
     {
         //        $constraints = new Constraint();
-        Log::channel("allocations")->info("CreateAllocation_Request", $request->all());
+        Log::channel('allocations')->info('CreateAllocation_Request', $request->all());
 
-        $message = "";
+        $message = '';
         $status_code = 201;
         $allocation = null;
         try {
@@ -60,31 +59,31 @@ class AllocationController extends Controller
             $allocation = Allocation::create($request->all());
             $message = 'Resource successfully created';
         } catch (QueryException $exception) {
-            $status_code =  422;
-            $message = 'Constraint violation or other database error ' . $exception->getMessage();
+            $status_code = 422;
+            $message = 'Constraint violation or other database error '.$exception->getMessage();
         } catch (Exception $exception) {
-            $status_code =  400;
-            $message = 'Constraint violation or other database error ' . $exception->getMessage();
+            $status_code = 400;
+            $message = 'Constraint violation or other database error '.$exception->getMessage();
         }
 
-        Log::channel("allocations")->info($message);
+        Log::channel('allocations')->info($message);
         $data = [
             'allocation' => $allocation,
             'message' => $message,
-            'status' => $status_code
+            'status' => $status_code,
         ];
 
-        if($request->wantsJson()){
+        if ($request->wantsJson()) {
             return response()->json($data, $status_code);
         }
 
-        return Inertia::render("AllocationForm/Create", 
-                [
-                    'allocation' => $allocation, 
-                    'message' => $message, 
-                    'status' => $status_code
-                ]
-            );
+        return Inertia::render('AllocationForm/Create',
+            [
+                'allocation' => $allocation,
+                'message' => $message,
+                'status' => $status_code,
+            ]
+        );
     }
 
     /**
@@ -92,9 +91,10 @@ class AllocationController extends Controller
      */
     public function show(Allocation $allocation)
     {
-        if (!$allocation) {
+        if (! $allocation) {
             return response()->json(['message' => 'Resource not found'], 404);
         }
+
         return response()->json($allocation);
     }
 
@@ -113,9 +113,10 @@ class AllocationController extends Controller
     {
         try {
             $allocation->update($request->all());
+
             return response()->json($allocation, 200); // 200 OK
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 
@@ -126,9 +127,10 @@ class AllocationController extends Controller
     {
         try {
             $allocation->delete();
+
             return response()->json(['allocation' => $allocation,  'message' => 'Resource successfully deleted'], 200);
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 }

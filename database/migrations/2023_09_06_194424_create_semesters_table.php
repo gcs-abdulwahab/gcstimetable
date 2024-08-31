@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             // semester name
             $table->string('name');
-            
+
             // Semester Number which could either be 1 to 8
             $table->integer('number')->default(1);
             // Semester active or not
@@ -23,7 +23,6 @@ return new class extends Migration
 
             // foreign key to program
             $table->foreignId('program_id')->constrained()->onDelete('cascade');
-            
 
             $table->timestamps();
         });

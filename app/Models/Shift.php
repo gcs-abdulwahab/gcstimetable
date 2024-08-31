@@ -12,9 +12,7 @@ class Shift extends Model
 {
     use HasFactory;
 
-
     // guarded
-    
 
     /**
      * The "booted" method of the model.
@@ -25,21 +23,19 @@ class Shift extends Model
     }
 
     // has many slots
-    public function slots() : HasMany
+    public function slots(): HasMany
     {
         return $this->hasMany(Slot::class);
     }
 
-
     // has many programs
-    public function programs() : HasMany
+    public function programs(): HasMany
     {
         return $this->hasMany(Program::class);
     }
 
-    public function institution() : BelongsTo
+    public function institution(): BelongsTo
     {
         return $this->belongsTo(Institution::class);
     }
-
 }

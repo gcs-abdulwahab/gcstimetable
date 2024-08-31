@@ -31,16 +31,15 @@ class Handler extends ExceptionHandler
     }
 
     public function render($request, Throwable $exception)
-{
-    if ($exception instanceof ModelNotFoundException) {
-        return response()->json(['message' => 'Resource not found'], 404);
+    {
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json(['message' => 'Resource not found'], 404);
+        }
+
+        if ($exception instanceof AuthorizationException) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        return parent::render($request, $exception);
     }
-
-    if ($exception instanceof AuthorizationException) {
-        return response()->json(['message' => 'Unauthorized'], 403);
-    }
-
-    return parent::render($request, $exception);
-}
-
 }

@@ -14,20 +14,18 @@ return new class extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-        
+
             $table->string('code');
-            
-            $table->integer ('capacity');
+
+            $table->integer('capacity');
             // create a column so it could be either Intermediate , BS or both   enum
-            $table->enum('type', ['intermediate', 'bs','both']);
+            $table->enum('type', ['intermediate', 'bs', 'both']);
             // isavailable
             $table->boolean('isavailable');
-            
 
             $institution_id = 1;
             // belongs to some institution
             $table->foreignId('institution_id')->default($institution_id)->constrained()->onDelete('cascade');
-
 
             $table->timestamps();
         });

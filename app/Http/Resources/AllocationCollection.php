@@ -25,7 +25,6 @@ class AllocationCollection extends ResourceCollection
                 'slot' => new SlotResource($allocation->slot),
             ];
         })->toArray();
-        
-        
+
     }
 }

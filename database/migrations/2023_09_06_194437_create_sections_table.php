@@ -16,10 +16,6 @@ return new class extends Migration
             $table->string('name');
             // Section belongs to  a Semester
             $table->foreignId('semester_id')->constrained();
-            
-            
-
-
 
             $table->timestamps();
         });

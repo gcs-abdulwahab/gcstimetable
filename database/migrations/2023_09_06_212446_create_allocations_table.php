@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('allocations', function (Blueprint $table) {
             $table->id();
-            
+
             // foreign key to course
             $table->foreignId('course_id')->nullable()->constrained()->onDelete('cascade');
             // foreign key to teacher
@@ -30,7 +30,6 @@ return new class extends Migration
             // Allocation Name
             $table->string('name')->nullable();
 
-          
             $table->timestamps();
         });
     }

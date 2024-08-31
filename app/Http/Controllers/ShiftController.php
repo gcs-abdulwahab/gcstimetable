@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Shift;
 use App\Http\Requests\StoreShiftRequest;
 use App\Http\Requests\UpdateShiftRequest;
+use App\Models\Shift;
 
 class ShiftController extends Controller
 {

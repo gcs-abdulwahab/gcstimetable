@@ -14,23 +14,19 @@ class SemesterSeeder extends Seeder
     public function run(): void
     {
 
-
         // Fetch all BS programs
         $bsPrograms = Program::where('code', 'like', 'BS-%')->get();
         // Fetch all Inter programs
         $interPrograms = Program::where('code', 'like', 'Inter-%')->get();
 
-
-
-
         // Iterate through each BS program
         foreach ($bsPrograms as $program) {
             for ($i = 1; $i <= 8; $i++) {
 
-                $semesterName = $i . ($i % 10 == 1 && $i != 11 ? 'st' : ($i % 10 == 2 && $i != 12 ? 'nd' : ($i % 10 == 3 && $i != 13 ? 'rd' : 'th'))) . ' Semester';
+                $semesterName = $i.($i % 10 == 1 && $i != 11 ? 'st' : ($i % 10 == 2 && $i != 12 ? 'nd' : ($i % 10 == 3 && $i != 13 ? 'rd' : 'th'))).' Semester';
 
                 Semester::create([
-                    'name' => $program->code    .'-'.$semesterName,
+                    'name' => $program->code.'-'.$semesterName,
                     'number' => $i,
                     'is_active' => true,
                     'program_id' => $program->id,
@@ -49,9 +45,6 @@ class SemesterSeeder extends Seeder
                 ]);
             }
         }
-
-
-
 
     }
 }

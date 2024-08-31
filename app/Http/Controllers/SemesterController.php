@@ -20,13 +20,11 @@ class SemesterController extends Controller
 
         $programId = request()->input('program_id');
 
-        
         try {
-            return response()->json(new SemesterCollection(Semester::all()->where('program_id',$programId)->sortByDesc('updated_at')), 200); // 200 OK
+            return response()->json(new SemesterCollection(Semester::all()->where('program_id', $programId)->sortByDesc('updated_at')), 200); // 200 OK
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
-
 
     }
 
@@ -43,13 +41,13 @@ class SemesterController extends Controller
      */
     public function store(StoreSemesterRequest $request)
     {
-         // write store method like Department store method
-         try{
+        // write store method like Department store method
+        try {
             $semester = Semester::create($request->all());
+
             return response()->json($semester, 201); // 201 Created
-        }
-        catch(QueryException $exception){
-            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()  ], 422);
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()], 422);
         }
     }
 
@@ -58,10 +56,11 @@ class SemesterController extends Controller
      */
     public function show(Semester $semester)
     {
-         // write show method like Day show method
-         if (!$semester) {
+        // write show method like Day show method
+        if (! $semester) {
             return response()->json(['message' => 'Semester not found'], 404);
         }
+
         return response()->json($semester);
     }
 
@@ -78,12 +77,13 @@ class SemesterController extends Controller
      */
     public function update(UpdateSemesterRequest $request, Semester $semester)
     {
-         // write update method like Day update method
-         try {            
+        // write update method like Day update method
+        try {
             $semester->update($request->all());
+
             return response()->json($semester, 200); // 200 OK
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 
@@ -94,9 +94,10 @@ class SemesterController extends Controller
     {
         try {
             $semester->delete();
-            return response()->json([ 'semester'=>$semester,  'message' => 'Resource successfully deleted'], 200);
+
+            return response()->json(['semester' => $semester,  'message' => 'Resource successfully deleted'], 200);
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 }

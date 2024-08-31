@@ -16,13 +16,13 @@ class TeacherController extends Controller
     public function index()
     {
         try {
-            
+
             $departmentid = request()->input('department_id');
 
-            return response()->json( new TeacherCollection(Teacher::all()->where('department_id',$departmentid)->sortByDesc('updated_at'))   , 200); // 200 OK
+            return response()->json(new TeacherCollection(Teacher::all()->where('department_id', $departmentid)->sortByDesc('updated_at')), 200); // 200 OK
 
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 
@@ -39,13 +39,13 @@ class TeacherController extends Controller
      */
     public function store(StoreTeacherRequest $request)
     {
-        try{
+        try {
             $teacher = Teacher::create($request->all());
+
             return response()->json($teacher, 201); // 201 Created
-           }
-           catch(QueryException $exception){
-            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()  ], 422);
-           }
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()], 422);
+        }
     }
 
     /**
@@ -53,9 +53,10 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        if (!$teacher) {
+        if (! $teacher) {
             return response()->json(['message' => 'Teacher not found'], 404);
         }
+
         return response()->json($teacher);
     }
 
@@ -74,9 +75,10 @@ class TeacherController extends Controller
     {
         try {
             $teacher->update($request->all());
+
             return response()->json($teacher, 200); // 200 OK
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 
@@ -87,9 +89,10 @@ class TeacherController extends Controller
     {
         try {
             $teacher->delete();
-            return response()->json([ 'teacher'=>$teacher,  'message' => 'Resource successfully deleted'], 200);
+
+            return response()->json(['teacher' => $teacher,  'message' => 'Resource successfully deleted'], 200);
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()  ], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 }

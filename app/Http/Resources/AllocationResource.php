@@ -14,8 +14,8 @@ class AllocationResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-       
-         return [
+
+        return [
             'id' => $this->id,
             'name' => $this->name,
             'course' => new CourseResource($this->course), // Assuming CourseResource exists

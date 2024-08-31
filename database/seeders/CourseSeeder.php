@@ -6,6 +6,7 @@ use App\Models\Section;
 use App\Models\Semester;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
+
 class CourseSeeder extends Seeder
 {
     /**
@@ -23,12 +24,12 @@ class CourseSeeder extends Seeder
 
             $courseData = [];
 
-           $departmentCode = $semester->program->department->code;
-            
+            $departmentCode = $semester->program->department->code;
+
             for ($i = 101; $i <= 105; $i++) {
-                $courseName = "Course Name " . $i; // Replace with your desired pattern
+                $courseName = 'Course Name '.$i; // Replace with your desired pattern
                 $courseData[] = [
-                    'code' => $departmentCode . '-' . $i . '-' . $semester->name,
+                    'code' => $departmentCode.'-'.$i.'-'.$semester->name,
                     'name' => $courseName,
                     'credit_hours' => 3,
                     'type' => 'CLASS', // which is by default
@@ -38,23 +39,15 @@ class CourseSeeder extends Seeder
                 ];
             }
 
-            
-
             try {
-            // save all courses
-                $semester->courses()->createMany($courseData);           
-            
+                // save all courses
+                $semester->courses()->createMany($courseData);
+
             } catch (\Throwable $th) {
                 //throw $th;
             }
 
-        
-            }
-
-
-
         }
 
-
     }
-
+}

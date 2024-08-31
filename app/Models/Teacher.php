@@ -2,27 +2,22 @@
 
 namespace App\Models;
 
-use App\Models\Institution;
 use App\Models\Scopes\DepartmentScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 class Teacher extends Model
 {
     use HasFactory;
 
-
     // blacklist
-    
-
 
     /**
      * The "booted" method of the model.
      */
     protected static function booted(): void
     {
-         static::addGlobalScope(new DepartmentScope);
+        static::addGlobalScope(new DepartmentScope);
     }
 
     // Teacher Belongs to Department
@@ -43,11 +38,10 @@ class Teacher extends Model
         return $this->belongsTo(Institution::class);
     }
 
-
     // Teacher model
     public function courses()
     {
-            // Can be done using Eager Loading
+        // Can be done using Eager Loading
         return $this->belongsToMany(Course::class, 'allocations')
             ->withPivot(['day_id', 'slot_id', 'room_id']);
     }

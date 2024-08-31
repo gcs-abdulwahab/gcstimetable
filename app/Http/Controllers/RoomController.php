@@ -24,7 +24,7 @@ class RoomController extends Controller
         try {
             return response()->json(new RoomCollection(Room::all()->where('institution_id', $institution_id)->sortByDesc('updated_at')), 200); // 200 OK
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 
@@ -44,9 +44,10 @@ class RoomController extends Controller
         // write store method like Department store method
         try {
             $room = Room::create($request->all());
+
             return response()->json($room, 201); // 201 Created
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Constraint violation or other database error' . $exception->getMessage()], 422);
+            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()], 422);
         }
     }
 
@@ -56,9 +57,10 @@ class RoomController extends Controller
     public function show(Room $room)
     {
         // write show method like Day show method
-        if (!$room) {
+        if (! $room) {
             return response()->json(['message' => 'Room not found'], 404);
         }
+
         return new RoomResource($room);
     }
 
@@ -78,9 +80,10 @@ class RoomController extends Controller
         //write update method like Day update method
         try {
             $room->update($request->all());
+
             return response()->json($room, 200); // 200 OK
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 
@@ -91,9 +94,10 @@ class RoomController extends Controller
     {
         try {
             $room->delete();
+
             return response()->json(['room' => $room,  'message' => 'Resource successfully deleted'], 200);
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 }

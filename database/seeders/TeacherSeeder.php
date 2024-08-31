@@ -7,7 +7,6 @@ use App\Models\Teacher;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
-
 class TeacherSeeder extends Seeder
 {
     /**
@@ -39,29 +38,29 @@ class TeacherSeeder extends Seeder
 
         */
 
-       // Assuming you have the Teacher and Department models defined and a database connection set up.
+        // Assuming you have the Teacher and Department models defined and a database connection set up.
 
-//        $faker = Faker::create();
-//
-//        $departments = Department::all();
-//
-//        foreach ($departments as $department) {
-//            $teacherCount = rand(3, 12);
-//
-//            for ($i = 0; $i < $teacherCount; $i++) {
-//                Teacher::create([
-//                    'name' => $faker->name,
-//                    'personnel_number' => $faker->unique()->randomNumber(6),
-//                    'email' => $faker->unique()->safeEmail,
-//                    'cnic' => $faker->unique()->numerify('#############'),
-//                    'phone_number' => $faker->unique()->phoneNumber,
-//                    'bank_iban' => $faker->unique()->numerify('#######################'),
-//                    'rank' => 'Assistant Professor', // You can change this as needed
-//                    'department_id' => $department->id,
-//                    'isvisiting' => false,
-//                ]);
-//            }
-//        }
+        //        $faker = Faker::create();
+        //
+        //        $departments = Department::all();
+        //
+        //        foreach ($departments as $department) {
+        //            $teacherCount = rand(3, 12);
+        //
+        //            for ($i = 0; $i < $teacherCount; $i++) {
+        //                Teacher::create([
+        //                    'name' => $faker->name,
+        //                    'personnel_number' => $faker->unique()->randomNumber(6),
+        //                    'email' => $faker->unique()->safeEmail,
+        //                    'cnic' => $faker->unique()->numerify('#############'),
+        //                    'phone_number' => $faker->unique()->phoneNumber,
+        //                    'bank_iban' => $faker->unique()->numerify('#######################'),
+        //                    'rank' => 'Assistant Professor', // You can change this as needed
+        //                    'department_id' => $department->id,
+        //                    'isvisiting' => false,
+        //                ]);
+        //            }
+        //        }
 
         Teacher::factory()->count(20)->create();
 

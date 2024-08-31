@@ -16,8 +16,5 @@ class SlotCollection extends ResourceCollection
     {
         return parent::toArray($request);
 
-
-
-
     }
 }

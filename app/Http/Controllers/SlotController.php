@@ -21,7 +21,7 @@ class SlotController extends Controller
         try {
             return response()->json(new SlotCollection(Slot::all()->where('institution_id', $institutionId)->sortByDesc('updated_at')), 200); // 200 OK
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 
@@ -40,9 +40,10 @@ class SlotController extends Controller
     {
         try {
             $semester = Slot::create($request->all());
+
             return response()->json($semester, 201); // 201 Created
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Constraint violation or other database error' . $exception->getMessage()], 422);
+            return response()->json(['error' => 'Constraint violation or other database error'.$exception->getMessage()], 422);
         }
     }
 
@@ -51,9 +52,10 @@ class SlotController extends Controller
      */
     public function show(Slot $slot)
     {
-        if (!$slot) {
+        if (! $slot) {
             return response()->json(['message' => 'Semester not found'], 404);
         }
+
         return response()->json($slot);
     }
 
@@ -72,9 +74,10 @@ class SlotController extends Controller
     {
         try {
             $slot->update($request->all());
+
             return response()->json($slot, 200); // 200 OK
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 
@@ -85,9 +88,10 @@ class SlotController extends Controller
     {
         try {
             $slot->delete();
+
             return response()->json(['slot' => $slot,  'message' => 'Resource successfully deleted'], 200);
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error' . $exception->getMessage()], 500);
+            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
     }
 }

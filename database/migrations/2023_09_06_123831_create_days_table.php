@@ -24,9 +24,6 @@ return new class extends Migration
             // belongs to some institution
             $table->foreignId('institution_id')->default($institution_id)->constrained()->onDelete('cascade');
 
-           
-
-
             $table->timestamps();
         });
     }

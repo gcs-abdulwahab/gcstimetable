@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Slot;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class SlotPolicy
 {

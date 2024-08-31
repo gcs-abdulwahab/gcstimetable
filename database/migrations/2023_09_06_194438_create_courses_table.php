@@ -11,33 +11,29 @@ return new class extends Migration
      */
     public function up(): void
     {
-        /* TODO: Course can be taught by different department  
-             so that only the relevant teachers are displayed against the course   and it will also help in getting the department related courses        
+        /* TODO: Course can be taught by different department
+             so that only the relevant teachers are displayed against the course   and it will also help in getting the department related courses
             It will be a many to many relation
         */
-        
-
 
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             // course name
             $table->string('name');
-            
+
             // isDefault
             $table->boolean('is_default')->default(false);
-            
+
             // course DisplayCode
             $table->string('display_code');
-            
+
             $table->string('code');
             // course credit hours
             $table->integer('credit_hours')->default(3);
             // course type
-            $table->enum('type', [ 'CLASS','LAB'])->default('CLASS');
-            
-            $table->foreignId('semester_id')->constrained('semesters');
-            
+            $table->enum('type', ['CLASS', 'LAB'])->default('CLASS');
 
+            $table->foreignId('semester_id')->constrained('semesters');
 
             $table->timestamps();
         });

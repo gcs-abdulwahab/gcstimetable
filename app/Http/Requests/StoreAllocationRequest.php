@@ -3,13 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 
 class StoreAllocationRequest extends FormRequest
 {
-
     // do not redirect anywhere in case of failure
-     public $redirect = "http://www.google.com";
+    public $redirect = 'http://www.google.com';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -25,13 +23,12 @@ class StoreAllocationRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
     public function rules()
-    {        
+    {
         return [
             'day_id' => 'required',
             'slot_id' => 'required',
             'name' => 'nullable',
-                        
+
         ];
     }
-    
 }

@@ -11,21 +11,17 @@ class Section extends Model
 {
     use HasFactory;
 
-  // guarded
-    
-
+    // guarded
 
     // Section Belongs to a Semester
-    public function semester() : BelongsTo
+    public function semester(): BelongsTo
     {
         return $this->belongsTo(Semester::class);
     }
 
     // Section has many Courses
-    public function courses() : HasMany
+    public function courses(): HasMany
     {
         return $this->hasMany(Course::class);
     }
-
-
 }

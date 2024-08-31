@@ -24,6 +24,7 @@ class ProgramScope implements Scope
                     ->pluck('id');
                 if ($program_ids) {
                     $builder->whereIn('program_id', $program_ids);
+
                     return;
                 }
             }
@@ -38,6 +39,7 @@ class ProgramScope implements Scope
                     ->pluck('id');
                 if ($program_ids) {
                     $builder->whereIn('program_id', $program_ids);
+
                     return;
                 }
             }
