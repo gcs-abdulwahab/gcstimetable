@@ -28,6 +28,7 @@ export default function Teachers({
                             <DataTable
                                 data={teachers}
                                 columns={columns}
+                                tableLayout="fixed"
                                 inputProps={{
                                     pagination: true,
                                     searchFilter: true,

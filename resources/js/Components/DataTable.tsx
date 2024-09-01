@@ -17,6 +17,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
+    TableCaption,
 } from "@/components/ui/table";
 
 import { DataTableProps, InputProps } from "@/types/data-table";
@@ -33,6 +34,8 @@ export function DataTable<TData, TValue>({
     columns,
     data,
     inputProps,
+    caption,
+    tableLayout = "auto",
 }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
@@ -42,12 +45,16 @@ export function DataTable<TData, TValue>({
     const reactTable: TableOptions<TData> = {
         data,
         columns,
+        defaultColumn: {
+            minSize: 60,
+            maxSize: 800,
+        },
         getCoreRowModel: getCoreRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
         state: {
             columnFilters,
-        }
+        },
     };
 
     if (finalProps.pagination) {
@@ -56,12 +63,26 @@ export function DataTable<TData, TValue>({
 
     const table = useReactTable(reactTable);
 
+    const columnSizeVars = React.useMemo(() => {
+        const headers = table.getFlatHeaders();
+        const colSizes: { [key: string]: number } = {};
+
+        for (let i = 0; i < headers.length; i++) {
+            const header = headers[i]!;
+            colSizes[`--header-${header.id}-size`] = header.getSize();
+            colSizes[`--col-${header.column.id}-size`] =
+                header.column.getSize();
+        }
+
+        return colSizes;
+    }, [table.getState().columnSizingInfo, table.getState().columnSizing]);
+
     return (
         <div>
             {finalProps.searchFilter && (
                 <div className="flex items-center py-4">
                     <InputField
-                        placeholder="Filters ..."
+                        placeholder={`Filter ${finalProps.filterColumn} ...`}
                         value={
                             (table
                                 .getColumn(finalProps.filterColumn)
@@ -76,14 +97,25 @@ export function DataTable<TData, TValue>({
                     />
                 </div>
             )}
-            <div className="rounded-md border text-gray-900 dark:text-gray-100 dark:border-700">
-                <Table>
+            <div className="rounded-md border text-gray-900 dark:text-gray-100 dark:border-gray-700">
+                <Table
+                    style={{
+                        ...(tableLayout === "fixed" && columnSizeVars),
+                        tableLayout: tableLayout,
+                    }}
+                >
+                    {caption && <TableCaption>{caption}</TableCaption>}
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id} className={`min-w-[${header.getSize()}px]`}>
+                                        <TableHead
+                                            key={header.id}
+                                            style={{
+                                                width: `calc(var(--header-${header?.id}-size) * 1px)`,
+                                            }}
+                                        >
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -107,7 +139,12 @@ export function DataTable<TData, TValue>({
                                     }
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className={`min-w-[${cell.column.getSize()}px]`}>
+                                        <TableCell
+                                            key={cell.id}
+                                            style={{
+                                                width: `calc(var(--col-${cell.column.id}-size) * 1px)`,
+                                            }}
+                                        >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()

@@ -36,6 +36,7 @@ const columns: ColumnDef<Teacher>[] = [
     {
         accessorKey: "id",
         header: "#",
+        size: 50,
     },
     {
         accessorKey: "name",
@@ -44,6 +45,7 @@ const columns: ColumnDef<Teacher>[] = [
     {
         accessorKey: "email",
         header: "Email",
+        size: 300,
     },
     {
         accessorKey: "isActive",
@@ -74,6 +76,7 @@ const columns: ColumnDef<Teacher>[] = [
     {
         accessorKey: "registrationDate",
         header: "Registration Date",
+        size: 180,
     },
     {
         accessorKey: "cnic",
@@ -135,6 +138,7 @@ const columns: ColumnDef<Teacher>[] = [
     {
         accessorKey: "rank",
         header: "Rank",
+        size: 200,
     },
     {
         accessorKey: "position",
@@ -143,6 +147,7 @@ const columns: ColumnDef<Teacher>[] = [
     {
         accessorKey: "department.name",
         header: "Department",
+        size: 300,
     },
     {
         accessorKey: "isvisiting",
