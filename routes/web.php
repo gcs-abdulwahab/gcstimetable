@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -19,7 +21,15 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Users
     Route::get('/users', [UserController::class, 'index'])->name('users');
+    
+    // Students
+    Route::get('/students', [StudentController::class, 'index'])->name('students');
+
+    // Teachers
+    Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers');
 });
 
 Route::middleware('auth')->group(function () {

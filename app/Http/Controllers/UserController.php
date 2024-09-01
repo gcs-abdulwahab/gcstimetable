@@ -11,13 +11,17 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all()->transform(function($user){
-            $user->verifiedAt = $user->email_verified_at ? $user->email_verified_at->format('d M Y h:i a') : null;
+        $dateFormat = config('providers.date.readable');
+        $users = User::select('id', 'name', 'email', 'email_verified_at', 'created_at')
+            ->get()
+            ->transform(function ($user) use ($dateFormat) {
+                $user->verifiedAt = $user->email_verified_at?->format($dateFormat);
+                $user->createdAt  = $user->created_at?->format($dateFormat);
 
-            return $user;
-        });
-        
-        return Inertia::render('Admin/Users',[
+                return $user;
+            });
+
+        return Inertia::render('Admin/Users', [
             'users' => $users
         ]);
     }

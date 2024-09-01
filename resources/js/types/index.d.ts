@@ -4,7 +4,14 @@ export interface User {
     id: number;
     name: string;
     email: string;
-    email_verified_at?: string;
+    email_verified_at: string;
+}
+
+export interface Student {
+    id: number;
+    name: string;
+    email: string;
+    mobile: string;
 }
 
 export interface Statistics {

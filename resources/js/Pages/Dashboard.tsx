@@ -5,8 +5,6 @@ import SimpleStats from '@/Components/SimpleStats';
 
 export default function Dashboard({ auth, statistics }: PageProps<{ statistics : Statistics }>) {
 
-    console.log("Dashboard -> statistics", statistics);
-
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -21,10 +19,10 @@ export default function Dashboard({ auth, statistics }: PageProps<{ statistics :
                             <SimpleStats title="Total Users" value={statistics.users} navigation={route('users')} />
                         </div>
                         <div className="flex-1">
-                            <SimpleStats title="Total Students" value={statistics.students} />
+                            <SimpleStats title="Total Students" value={statistics.students} navigation={route('students')} />
                         </div>
                         <div className="flex-1">
-                            <SimpleStats title="Total Teachers" value={statistics.teachers} />
+                            <SimpleStats title="Total Teachers" value={statistics.teachers} navigation={route('teachers')} />
                         </div>
                     </div>
                 </div>

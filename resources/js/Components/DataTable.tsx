@@ -7,6 +7,7 @@ import {
     useReactTable,
     getFilteredRowModel,
     getPaginationRowModel,
+    TableOptions,
 } from "@tanstack/react-table";
 
 import {
@@ -23,7 +24,7 @@ import { DataTableProps, InputProps } from "@/types/data-table";
 import InputField from "@/Components/TextInput";
 import Button from "@/Components/PrimaryButton";
 
-const DefaultInputProps : InputProps = {
+const DefaultInputProps: InputProps = {
     pagination: true,
     searchFilter: false,
 };
@@ -36,19 +37,24 @@ export function DataTable<TData, TValue>({
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
 
-    const finalProps = {...DefaultInputProps, ...inputProps};
+    const finalProps = { ...DefaultInputProps, ...inputProps };
 
-    const table = useReactTable({
+    const reactTable: TableOptions<TData> = {
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
         state: {
             columnFilters,
-        },
-    });
+        }
+    };
+
+    if (finalProps.pagination) {
+        reactTable.getPaginationRowModel = getPaginationRowModel();
+    }
+
+    const table = useReactTable(reactTable);
 
     return (
         <div>
@@ -77,7 +83,7 @@ export function DataTable<TData, TValue>({
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead key={header.id} className={`min-w-[${header.getSize()}px]`}>
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -101,7 +107,7 @@ export function DataTable<TData, TValue>({
                                     }
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className={`min-w-[${cell.column.getSize()}px]`}>
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
