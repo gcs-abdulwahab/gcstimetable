@@ -69,6 +69,28 @@
     }
 }
 
+/* Scrollbar styles */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #374151;
+    border-radius: 10px;
+    border: 3px solid rgb(255 255 255 / 0.8);
+}
+
+::-webkit-scrollbar-track {
+    background-color: rgb(255 255 255 / 0.8);
+    border-radius: 10px;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #374151 rgb(255 255 255 / 0.8);
+}
+
 @layer base {
     * {
         @apply border-border;
