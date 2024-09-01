@@ -82,5 +82,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AllocationSeeder::class);
 
         $this->call(StudentSeeder::class);
+
+        $this->call(UserSeeder::class);
     }
 }

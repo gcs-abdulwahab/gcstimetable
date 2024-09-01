@@ -5,7 +5,6 @@ import { DataTable } from "@/Components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 
 export default function Users({ auth, users }: PageProps<{ users: User[] }>) {
-
     console.log("Users -> users", users);
 
     const columns: ColumnDef<User>[] = [
@@ -42,7 +41,14 @@ export default function Users({ auth, users }: PageProps<{ users: User[] }>) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white text-gray-900 dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-6">
-                            <DataTable data={users} columns={columns} />
+                            <DataTable
+                                data={users}
+                                columns={columns}
+                                inputProps={{
+                                    searchFilter: true,
+                                    filterColumn: "email",
+                                }}
+                            />
                         </div>
                     </div>
                 </div>

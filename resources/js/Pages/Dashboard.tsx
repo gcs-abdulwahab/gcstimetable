@@ -16,7 +16,7 @@ export default function Dashboard({ auth, statistics }: PageProps<{ statistics :
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="flex justify-between gap-4">
+                    <div className="flex flex-col sm:flex-row justify-between gap-4">
                         <div className="flex-1">
                             <SimpleStats title="Total Users" value={statistics.users} navigation={route('users')} />
                         </div>
