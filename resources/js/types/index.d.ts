@@ -7,6 +7,12 @@ export interface User {
     email_verified_at?: string;
 }
 
+export interface Statistics {
+    users: number;
+    students : number;
+    teachers : number;
+}
+
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     auth: {
         user: User;

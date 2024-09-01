@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\RoleTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -16,6 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory;
     use HasRoles;
     use Notifiable;
+    use RoleTrait;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -44,32 +46,10 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo_url',
+        'profile_photo_url'
     ];
 
-    // create a method  isSuperadmin
-
-    public function isInstitutionAdmin(): bool
-    {
-        return $this->hasRole('iadmin');
-    }
-
-    // create a method isInstitutionAdmin
-
-    public function isDepartmentAdmin(): bool
-    {
-        return $this->hasRole('dadmin');
-    }
-
-    // create a method isDepartmentAdmin
-
-    public function isSuperadmin(): bool
-    {
-        return $this->hasRole('sadmin');
-    }
-
-    // Methods
-
+    
     /**
      * Get the URL to the user's profile photo.
      *

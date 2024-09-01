@@ -1,8 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import { PageProps } from '@/types';
+import { PageProps, Statistics } from '@/types';
+import SimpleStats from '@/Components/SimpleStats';
 
-export default function Dashboard({ auth }: PageProps) {
+export default function Dashboard({ auth, statistics }: PageProps<{ statistics : Statistics }>) {
+
+    console.log("Dashboard -> statistics", statistics);
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -12,8 +16,16 @@ export default function Dashboard({ auth }: PageProps) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900 dark:text-gray-100">You're logged in!</div>
+                    <div className="flex justify-between gap-4">
+                        <div className="flex-1">
+                            <SimpleStats title="Total Users" value={statistics.users} navigation={route('users')} />
+                        </div>
+                        <div className="flex-1">
+                            <SimpleStats title="Total Students" value={statistics.students} />
+                        </div>
+                        <div className="flex-1">
+                            <SimpleStats title="Total Teachers" value={statistics.teachers} />
+                        </div>
                     </div>
                 </div>
             </div>
