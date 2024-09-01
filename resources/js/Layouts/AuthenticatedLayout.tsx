@@ -6,6 +6,7 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import { User } from "@/types";
 import { ModeToggle } from "@/components/mode-toggle";
+import { CommandDialogDemo } from "@/components/command";
 
 export default function Authenticated({
     user,
@@ -46,6 +47,9 @@ export default function Authenticated({
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
                             <div>
+                                <CommandDialogDemo />
+                            </div>
+                            <div className="ms-3">
                                 <ModeToggle />
                             </div>
                             <div className="ms-3 relative">
