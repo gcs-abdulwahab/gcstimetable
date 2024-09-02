@@ -94,6 +94,7 @@ export function DataTable<TData, TValue>({
                                 ?.setFilterValue(event.target.value)
                         }
                         className="max-w-sm"
+                        autoFocus
                     />
                 </div>
             )}
