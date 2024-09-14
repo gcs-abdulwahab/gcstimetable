@@ -10,9 +10,9 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $superadmin_role = Role::create(['name' => 'sadmin']);
-        $institute_admin_role = Role::create(['name' => 'iadmin']);
-        $department_admin_role = Role::create(['name' => 'dadmin']);
+        $superadmin_role        = Role::create(['name' => 'sadmin']);
+        $institute_admin_role   = Role::create(['name' => 'iadmin']);
+        $department_admin_role  = Role::create(['name' => 'dadmin']);
 
         // Super Admin
         $superAdmin = User::factory()

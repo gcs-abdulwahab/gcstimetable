@@ -49,7 +49,17 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url'
     ];
 
-    
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::created(function ($user) {
+            $user->assignRole('user');
+        });
+    }
+
+
     /**
      * Get the URL to the user's profile photo.
      *
