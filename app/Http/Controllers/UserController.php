@@ -21,7 +21,7 @@ class UserController extends Controller
                 return $user;
             });
 
-        return Inertia::render('Admin/Users', [
+        return Inertia::render('Admin/Users/index', [
             'users' => $users
         ]);
     }

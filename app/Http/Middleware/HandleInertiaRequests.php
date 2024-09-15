@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\RoleEnum;
+use App\Models\User;
 use App\PermissionEnum;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -46,9 +47,14 @@ class HandleInertiaRequests extends Middleware
     private function currentUser(Request $request): array|null
     {
         return $request->user()
-            ? $request->user()->toArray()
-                + ['roles' => $request->user()->getRoleNames(),
-                   'permissions' => $request->user()->getPermissionsViaRoles()]
+            ? User::where('id', $request->user()->id)
+                ->with([
+                    'roles.permissions' => function ($query) {
+                        $query->select('id', 'name');
+                    }
+                ])
+                ->first()
+                ->toArray()
             : null;
     }
 }

@@ -2,54 +2,9 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps, User } from "@/types";
 import { DataTable } from "@/Components/DataTable";
-import { ColumnDef } from "@tanstack/react-table";
-import { Verified, BadgeInfo } from "lucide-react";
-import Tooltip from "@/components/ui/tooltip";
+import columns from "./columns";
 
 export default function Users({ auth, users }: PageProps<{ users: User[] }>) {
-
-    const columns: ColumnDef<User>[] = [
-        {
-            accessorKey: "id",
-            header: "#",
-        },
-        {
-            accessorKey: "name",
-            header: "Name",
-        },
-        {
-            accessorKey: "email",
-            header: "Email",
-        },
-        {
-            accessorKey: "email_verified_at",
-            header: "Email Verified",
-            cell: ({ row }) => {
-                const isVerified = row.original.email_verified_at;
-
-                return (
-                    <Tooltip
-                        title={
-                            "Email " +
-                            (isVerified ? "Verified!" : "Not-Verifed!")
-                        }
-                        
-                    >
-                        {isVerified ? (
-                            <Verified color="green" />
-                        ) : (
-                            <BadgeInfo color="red" />
-                        )}
-                    </Tooltip>
-                );
-            },
-        },
-        {
-            accessorKey: "createdAt",
-            header: "Registration Date",
-        },
-    ];
-
     return (
         <AuthenticatedLayout
             user={auth.user}

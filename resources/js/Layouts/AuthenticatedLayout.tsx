@@ -7,6 +7,23 @@ import { Link } from "@inertiajs/react";
 import { User } from "@/types";
 import { ModeToggle } from "@/components/mode-toggle";
 import { CommandDialogDemo } from "@/components/command";
+import { User as UserIcon, LogOut } from "lucide-react";
+
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuLink,
+    DropdownMenuPortal,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Authenticated({
     user,
@@ -53,8 +70,8 @@ export default function Authenticated({
                                 <ModeToggle />
                             </div>
                             <div className="ms-3 relative">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger className="outline-none focus:outline-none">
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
@@ -76,23 +93,28 @@ export default function Authenticated({
                                                 </svg>
                                             </button>
                                         </span>
-                                    </Dropdown.Trigger>
+                                    </DropdownMenuTrigger>
 
-                                    <Dropdown.Content>
-                                        <Dropdown.Link
+                                    <DropdownMenuContent className="w-52">
+                                        <DropdownMenuLink
                                             href={route("profile.edit")}
                                         >
+                                            <UserIcon className="mr-2 h-4 w-4" />
                                             Profile
-                                        </Dropdown.Link>
-                                        <Dropdown.Link
+                                            <DropdownMenuShortcut>
+                                                ⌘P
+                                            </DropdownMenuShortcut>
+                                        </DropdownMenuLink>
+                                        <DropdownMenuLink
                                             href={route("logout")}
                                             method="post"
                                             as="button"
                                         >
+                                            <LogOut className="mr-2 h-4 w-4" />
                                             Log Out
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
+                                        </DropdownMenuLink>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                             </div>
                         </div>
 
