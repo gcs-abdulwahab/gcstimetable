@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Http\Request;
+use App\RoleEnum;
+use App\PermissionEnum;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
+use Illuminate\Http\Request;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -33,12 +35,20 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $this->currentUser($request),
             ],
             'ziggy' => fn () => [
-                ...(new Ziggy)->toArray(),
+                ...(new Ziggy())->toArray(),
                 'location' => $request->url(),
-            ],
-        ];
+            ]      ];
+    }
+
+    private function currentUser(Request $request): array|null
+    {
+        return $request->user()
+            ? $request->user()->toArray()
+                + ['roles' => $request->user()->getRoleNames(),
+                   'permissions' => $request->user()->getPermissionsViaRoles()]
+            : null;
     }
 }

@@ -16,21 +16,23 @@ createInertiaApp({
             import.meta.glob("./Pages/**/*.tsx")
         ),
     setup({ el, App, props }) {
+
+        const AppContainer = () => (
+            <AppTheme>
+                <App {...props} />
+            </AppTheme>
+        );
         
         if (import.meta.env.DEV) {
             createRoot(el).render(
-                <AppTheme>
-                    <App {...props} />
-                </AppTheme>
+                <AppContainer />
             );
             return;
         }
 
         hydrateRoot(
             el,
-            <AppTheme>
-                <App {...props} />
-            </AppTheme>
+            <AppContainer />
         );
     },
     progress: {

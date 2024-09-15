@@ -52,4 +52,9 @@ class Teacher extends Model
         return $this->belongsToMany(Course::class, 'allocations')
             ->withPivot(['day_id', 'slot_id', 'room_id']);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

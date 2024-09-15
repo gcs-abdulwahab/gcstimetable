@@ -5,7 +5,6 @@ import SimpleStats from '@/Components/SimpleStats';
 
 export default function Dashboard({ auth, statistics }: PageProps<{ statistics : Statistics }>) {
 
-    console.log("Dashboard -> auth", auth);
     return (
         <AuthenticatedLayout
             user={auth.user}

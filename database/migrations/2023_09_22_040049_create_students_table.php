@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\User;
+use App\Models\Program;
+use App\Models\Semester;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -15,7 +18,10 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('email');
-            $table->string('mobile');
+            $table->string(column: 'mobile');
+            $table->foreignIdFor(Program::class);
+            $table->foreignIdFor(Semester::class)->nullable();
+            $table->foreignIdFor(User::class)->nullable();
             $table->timestamps();
         });
     }

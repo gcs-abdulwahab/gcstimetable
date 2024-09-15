@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\RoleEnum;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
@@ -10,16 +11,18 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $superadmin_role        = Role::create(['name' => 'sadmin']);
-        $institute_admin_role   = Role::create(['name' => 'iadmin']);
-        $department_admin_role  = Role::create(['name' => 'dadmin']);
+        $this->call(RoleAndPermissionSeeder::class);
+        
+        $superadmin_role        = Role::where('name', RoleEnum::SUPER_ADMIN)->first();
+        $institute_admin_role   = Role::where('name', RoleEnum::INSTITUTE_ADMIN)->first();
+        $department_admin_role  = Role::where('name', RoleEnum::DEPARTMENT_ADMIN)->first();
 
         // Super Admin
         $superAdmin = User::factory()
             ->create([
                 'name' => 'superadmin',
                 'email' => 'sadmin@gmail.com',
-                'password' => bcrypt('sadmin@gmail.com'),
+                'password' => bcrypt('asdf1234'),
             ]);
 
         $superAdmin->assignRole($superadmin_role);
@@ -31,7 +34,7 @@ class DatabaseSeeder extends Seeder
             ->create([
                 'name' => 'iadmin',
                 'email' => 'iadmin@gmail.com',
-                'password' => bcrypt('iadmin@gmail.com'),
+                'password' => bcrypt('asdf1234'),
                 'institution_id' => 1,
             ]);
 
@@ -42,7 +45,7 @@ class DatabaseSeeder extends Seeder
             ->create([
                 'name' => 'IAdmin',
                 'email' => 'iadmin2@gmail.com',
-                'password' => bcrypt('iadmin2@gmail.com'),
+                'password' => bcrypt('asdf1234'),
                 'institution_id' => 2,
             ]);
 

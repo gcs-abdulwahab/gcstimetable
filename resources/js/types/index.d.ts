@@ -1,10 +1,22 @@
-import { Config } from 'ziggy-js';
+import { Config } from "ziggy-js";
+
+interface Role {
+    id: number;
+    name: string;
+}
+
+interface Permission {
+    id: number;
+    name: string;
+}
 
 export interface User {
     id: number;
     name: string;
     email: string;
     email_verified_at: string;
+    roles: Role[];
+    permissions: Permission[];
 }
 
 export interface Student {
@@ -16,11 +28,13 @@ export interface Student {
 
 export interface Statistics {
     users: number;
-    students : number;
-    teachers : number;
+    students: number;
+    teachers: number;
 }
 
-export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+export type PageProps<
+    T extends Record<string, unknown> = Record<string, unknown>
+> = T & {
     auth: {
         user: User;
     };

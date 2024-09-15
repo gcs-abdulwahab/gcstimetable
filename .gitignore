@@ -20,12 +20,7 @@ yarn-error.log
 /.idea
 /.vscode
 composer.lock
-composer.lock
-<<<<<<< Updated upstream
-composer.lock
-=======
 /.env
->>>>>>> Stashed changes
 *.lock
 /composer.lock
 *.lock

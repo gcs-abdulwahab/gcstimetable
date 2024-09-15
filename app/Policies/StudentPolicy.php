@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Teacher;
+use App\Models\Student;
 use App\Models\User;
 use App\PermissionEnum;
 
-class TeacherPolicy
+class StudentPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,9 +19,9 @@ class TeacherPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Teacher $teacher): bool
+    public function view(User $user, Student $student): bool
     {
-        return $user->can(PermissionEnum::VIEW_TEACHER->value) || $user->id === $teacher->user_id;
+        return $user->can(PermissionEnum::VIEW_STUDENT->value) || $user->id === $student->user_id;
     }
 
     /**
@@ -29,29 +29,29 @@ class TeacherPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(PermissionEnum::CREATE_TEACHER->value);
+        return $user->can(PermissionEnum::CREATE_STUDENT->value);
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Teacher $teacher): bool
+    public function update(User $user, Student $student): bool
     {
-        return $user->can(PermissionEnum::EDIT_TEACHER->value);
+        return $user->can(PermissionEnum::EDIT_STUDENT->value);
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Teacher $teacher): bool
+    public function delete(User $user, Student $student): bool
     {
-        return $user->can(PermissionEnum::DELETE_TEACHER->value);
+        return $user->can(PermissionEnum::DELETE_STUDENT->value);
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Teacher $teacher): bool
+    public function restore(User $user, Student $student): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ class TeacherPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Teacher $teacher): bool
+    public function forceDelete(User $user, Student $student): bool
     {
         return false;
     }

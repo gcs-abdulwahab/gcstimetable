@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\RoleEnum;
 use App\RoleTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -46,7 +47,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo_url'
+        'profile_photo_url',
+        'label',
     ];
 
     /**
@@ -55,7 +57,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected static function booted(): void
     {
         static::created(function ($user) {
-            $user->assignRole('user');
+            if($user->roles->isEmpty()) {
+                $user->assignRole(RoleEnum::STUDENT);
+            }
         });
     }
 
@@ -72,6 +76,11 @@ class User extends Authenticatable implements MustVerifyEmail
             : 'default-profile-photo-url.png';
     }
 
+    public function getLabelAttribute() : string 
+    {
+        return RoleEnum::getLabel($this->roles->first()->name ?? '');
+    }
+
     // User belongs to one Institution
 
     public function institution(): BelongsTo
@@ -82,5 +91,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
+    }
+
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class);
+    }
+
+    public function student()
+    {
+        return $this->hasOne(Student::class);
     }
 }

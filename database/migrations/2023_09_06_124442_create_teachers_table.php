@@ -64,6 +64,8 @@ return new class extends Migration
             // isActive
             $table->boolean('isActive')->default(true);
 
+            $table->foreignIdFor(\App\Models\User::class)->nullable();
+
             $table->timestamps();
         });
     }

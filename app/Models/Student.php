@@ -11,4 +11,10 @@ class Student extends Model
 
     // guarded
 
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
