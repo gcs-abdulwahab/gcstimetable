@@ -15,6 +15,8 @@ export interface User {
     name: string;
     email: string;
     email_verified_at: string;
+    profile_photo_url: string;
+    label: string;
     roles: Role[];
     permissions: Permission[];
 }

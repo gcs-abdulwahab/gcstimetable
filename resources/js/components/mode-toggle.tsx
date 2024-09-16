@@ -23,7 +23,6 @@ export function ModeToggle() {
                     size="icon"
                     className="focus-visible:ring-transparent dark:focus-visible:ring-transparent relative flex items-center justify-center dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
                 >
-                    {/* Sun icon for light mode */}
                     <Sun
                         className={cn(
                             "absolute h-[1.2rem] w-[1.2rem] transition-transform duration-500",
@@ -32,7 +31,7 @@ export function ModeToggle() {
                                 : "rotate-90 scale-0 opacity-0"
                         )}
                     />
-                    {/* Moon icon for dark mode */}
+
                     <Moon
                         className={cn(
                             "absolute h-[1.2rem] w-[1.2rem] transition-transform duration-500",
@@ -41,7 +40,7 @@ export function ModeToggle() {
                                 : "-rotate-90 scale-0 opacity-0"
                         )}
                     />
-                    {/* Monitor icon for system mode */}
+
                     <Monitor
                         className={cn(
                             "absolute h-[1.2rem] w-[1.2rem] transition-transform duration-500",
