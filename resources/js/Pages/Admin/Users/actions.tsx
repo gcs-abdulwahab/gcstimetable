@@ -50,14 +50,11 @@ import { Badge } from "@/components/ui/badge";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link } from "@inertiajs/react";
+import { UserType } from "./columns";
 import SecondaryButton from "@/Components/SecondaryButton";
 import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
 
-type UserType = UserInterface & {
-    createdAt: string;
-    verifiedAt: string;
-};
 
 export function UserActions({ row }: { row: UserType }) {
     const [ShowView, setShowView] = useState(false);

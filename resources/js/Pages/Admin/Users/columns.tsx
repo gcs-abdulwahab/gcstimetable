@@ -4,7 +4,12 @@ import Tooltip from "@/components/ui/tooltip";
 import { User } from "@/types";
 import { UserActions } from "./actions";
 
-const columns: ColumnDef<User>[] = [
+export type UserType = User & {
+    createdAt: string;
+    verifiedAt: string;
+};
+
+const columns: ColumnDef<UserType>[] = [
     {
         accessorKey: "id",
         header: "#",
