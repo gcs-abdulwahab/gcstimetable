@@ -27,7 +27,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link, router } from "@inertiajs/react";
+import { Link, router, useForm } from "@inertiajs/react";
 import { UserType, Role } from "@/types";
 import { toast } from "@/hooks/use-toast";
 import SecondaryButton from "@/Components/SecondaryButton";
@@ -35,10 +35,18 @@ import PrimaryButton from "@/Components/PrimaryButton";
 
 export function UserActions({ row }: { row: UserType }) {
     const [ShowView, setShowView] = useState(false);
+    const { delete: destroy } = useForm();
 
-    // Actions Methods
     const handleDelete = (row: UserType) => {
-        router.delete(route("users.destroy", row.id), {
+        destroy(route("users.destroy", row.id), {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: () => {
+                toast({
+                    title: "Success!",
+                    description: "User deleted successfully.",
+                });
+            },
             onError: (error) => {
                 if (error.message) {
                     toast({
@@ -48,12 +56,6 @@ export function UserActions({ row }: { row: UserType }) {
                     });
                 }
             },
-            onSuccess: (response) => {
-                toast({
-                    title: "Success!",
-                    description: "User deleted successfully.",
-                });
-            }
         });
     };
 
@@ -107,7 +109,12 @@ export function ViewUser({
     handleClose: () => void;
 }) {
     return (
-        <Modal show={show} onClose={handleClose} maxWidth="md" className="!w-full">
+        <Modal
+            show={show}
+            onClose={handleClose}
+            maxWidth="md"
+            className="!w-full"
+        >
             <Card className="w-full max-w-md bg-white shadow-md rounded-lg dark:bg-gray-800">
                 <CardHeader className="flex items-center space-x-4">
                     <Avatar>
