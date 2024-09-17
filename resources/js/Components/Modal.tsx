@@ -5,6 +5,7 @@ import {
     Transition,
     TransitionChild,
 } from "@headlessui/react";
+import { cn } from "@/lib/utils";
 
 export default function Modal({
     children,
@@ -12,11 +13,13 @@ export default function Modal({
     maxWidth = "2xl",
     closeable = true,
     onClose = () => {},
+    className = "",
 }: PropsWithChildren<{
     show: boolean;
     maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl";
     closeable?: boolean;
     onClose: CallableFunction;
+    className?: string;
 }>) {
     const close = () => {
         if (closeable) {
@@ -60,7 +63,7 @@ export default function Modal({
                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                     <DialogPanel
-                        className={`mb-6 bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto ${maxWidthClass}`}
+                        className={cn(`mb-6 bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto `, maxWidthClass, className)}
                     >
                         {children}
                     </DialogPanel>

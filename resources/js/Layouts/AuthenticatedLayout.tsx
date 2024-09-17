@@ -8,6 +8,7 @@ import { User } from "@/types";
 import { ModeToggle } from "@/components/mode-toggle";
 import { CommandDialogDemo } from "@/components/command";
 import { User as UserIcon, LogOut } from "lucide-react";
+import { NavLinks } from "@/Layouts/nav/layoutLinks";
 
 import {
     DropdownMenu,
@@ -46,19 +47,15 @@ export default function Authenticated({
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route("dashboard")}
-                                    active={route().current("dashboard")}
-                                >
-                                    Dashboard
-                                </NavLink>
-
-                                <NavLink
-                                    href={route("users")}
-                                    active={route().current("users")}
-                                >
-                                    Users
-                                </NavLink>
+                                {NavLinks.map((link) => (
+                                    <NavLink
+                                        key={link.name}
+                                        href={link.route}
+                                        active={route().current(link.routeName)}
+                                    >
+                                        {link.name}
+                                    </NavLink>
+                                ))}
                             </div>
                         </div>
 
@@ -165,19 +162,15 @@ export default function Authenticated({
                     }
                 >
                     <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink
-                            href={route("dashboard")}
-                            active={route().current("dashboard")}
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-
-                        <ResponsiveNavLink
-                            href={route("users")}
-                            active={route().current("users")}
-                        >
-                            Users
-                        </ResponsiveNavLink>
+                        {NavLinks.map((link) => (
+                            <ResponsiveNavLink
+                                key={link.name}
+                                href={link.route}
+                                active={route().current(link.routeName)}
+                            >
+                                {link.name}
+                            </ResponsiveNavLink>
+                        ))}
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">

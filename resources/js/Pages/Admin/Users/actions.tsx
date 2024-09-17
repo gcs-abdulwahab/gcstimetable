@@ -107,7 +107,7 @@ export function ViewUser({
     handleClose: () => void;
 }) {
     return (
-        <Modal show={show} onClose={handleClose} maxWidth="md">
+        <Modal show={show} onClose={handleClose} maxWidth="md" className="!w-full">
             <Card className="w-full max-w-md bg-white shadow-md rounded-lg dark:bg-gray-800">
                 <CardHeader className="flex items-center space-x-4">
                     <Avatar>
