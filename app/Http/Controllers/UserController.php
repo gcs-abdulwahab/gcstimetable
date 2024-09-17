@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class UserController extends Controller
     public function index()
     {
         $dateFormat = config('providers.date.readable');
-        $users = User::select('id', 'name', 'email', 'email_verified_at', 'created_at')
+        $users      = User::select('id', 'name', 'email', 'email_verified_at', 'created_at')
             ->get()
             ->transform(function ($user) use ($dateFormat) {
                 $user->verifiedAt = $user->email_verified_at?->format($dateFormat);
@@ -24,5 +25,29 @@ class UserController extends Controller
         return Inertia::render('Admin/Users/index', [
             'users' => $users
         ]);
+    }
+
+    public function destroy($user_id)
+    {
+        $user = User::find($user_id);
+
+        if (!$user) {
+            return back()->withErrors(['message' => 'User not found.']);
+        }
+        
+        $response = Gate::inspect('delete', $user);
+        
+        if ($response->allowed()) {
+            
+            if(!$user->isStudent() && !$user->isTeacher()){
+                return back()->withErrors(['message' => "User, {$user->name} can't be deleted."]);
+            }
+
+            $user->delete();
+
+            return back()->with('success', 'User deleted successfully.');
+        }
+
+        return back()->withErrors(['message' => $response->message()]);
     }
 }

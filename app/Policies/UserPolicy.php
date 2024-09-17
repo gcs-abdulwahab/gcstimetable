@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\PermissionEnum;
+use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
@@ -12,7 +13,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -42,9 +43,11 @@ class UserPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, User $model): bool
+    public function delete(User $user, User $model): Response
     {
-        return $user->can(PermissionEnum::DELETE_USER->value) || $user->id === $model->id;
+        return ($user->can(PermissionEnum::DELETE_USER->value) || $user->id === $model->id)
+            ? Response::allow()
+            : Response::denyWithStatus(401, config('providers.permission_error_msg'));
     }
 
     /**

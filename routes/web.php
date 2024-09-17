@@ -24,6 +24,11 @@ Route::middleware(['auth', 'verified'])->group(function(){
     
     // Users
     Route::get('/users', [UserController::class, 'index'])->name('users');
+
+    Route::prefix('users')->group(function(){
+        Route::post('', [UserController::class, 'create'])->name('users.create');
+        Route::delete('/{user_id}', [UserController::class, 'destroy'])->name('users.destroy');
+    });
     
     // Students
     Route::get('/students', [StudentController::class, 'index'])->name('students');

@@ -1,10 +1,10 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import { PageProps, User } from "@/types";
+import { PageProps, UserType } from "@/types";
 import { DataTable } from "@/Components/DataTable";
 import columns from "./columns";
 
-export default function Users({ auth, users }: PageProps<{ users: User[] }>) {
+export default function Users({ auth, users }: PageProps<{ users: UserType[] }>) {
     return (
         <AuthenticatedLayout
             user={auth.user}

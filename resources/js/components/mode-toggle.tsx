@@ -21,7 +21,7 @@ export function ModeToggle() {
                 <Button
                     variant="outline"
                     size="icon"
-                    className="focus-visible:ring-transparent dark:focus-visible:ring-transparent relative flex items-center justify-center dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+                    className="relative flex items-center justify-center dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
                 >
                     <Sun
                         className={cn(

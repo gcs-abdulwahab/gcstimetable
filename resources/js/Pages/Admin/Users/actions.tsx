@@ -1,27 +1,5 @@
 import { useState } from "react";
-import {
-    Cloud,
-    CreditCard,
-    EllipsisVertical,
-    Eye,
-    Github,
-    Keyboard,
-    LifeBuoy,
-    LogOut,
-    Mail,
-    MessageSquare,
-    Plus,
-    PlusCircle,
-    Settings,
-    Trash,
-    User as UserIcon,
-    UserPlus,
-    Users,
-    View,
-} from "lucide-react";
-import { User as UserInterface } from "@/types";
-
-import { Button } from "@/components/ui/button";
+import { EllipsisVertical, Eye, Trash, User as UserIcon } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -49,20 +27,34 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link } from "@inertiajs/react";
-import { UserType } from "./columns";
+import { Link, router } from "@inertiajs/react";
+import { UserType, Role } from "@/types";
+import { toast } from "@/hooks/use-toast";
 import SecondaryButton from "@/Components/SecondaryButton";
-import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
-
 
 export function UserActions({ row }: { row: UserType }) {
     const [ShowView, setShowView] = useState(false);
 
+    // Actions Methods
     const handleDelete = (row: UserType) => {
-        confirm("Are you sure you want to delete this user?");
-
-        console.log("Delete user", row);
+        router.delete(route("users.destroy", row.id), {
+            onError: (error) => {
+                if (error.message) {
+                    toast({
+                        variant: "destructive",
+                        title: "Error!",
+                        description: error.message,
+                    });
+                }
+            },
+            onSuccess: (response) => {
+                toast({
+                    title: "Success!",
+                    description: "User deleted successfully.",
+                });
+            }
+        });
     };
 
     // Modals Methods
@@ -74,18 +66,24 @@ export function UserActions({ row }: { row: UserType }) {
     return (
         <Fragment>
             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+                <DropdownMenuTrigger asChild className="cursor-pointer">
                     <EllipsisVertical />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
                     <DropdownMenuLabel>Operations</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
-                        <DropdownMenuItem onClick={() => setShowView(true)}>
+                        <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={() => setShowView(true)}
+                        >
                             <Eye className="mr-2 h-4 w-4" />
                             <span>View</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete(row)}>
+                        <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={() => handleDelete(row)}
+                        >
                             <Trash className="mr-2 h-4 w-4" />
                             <span>Delete</span>
                         </DropdownMenuItem>
@@ -169,7 +167,7 @@ export function ViewUser({
                             Roles:
                         </h4>
                         <ul className="list-disc pl-5 space-y-1">
-                            {row.roles.map((role) => (
+                            {row.roles.map((role: Role) => (
                                 <li
                                     key={role.id}
                                     className="text-sm text-gray-800 dark:text-gray-200"

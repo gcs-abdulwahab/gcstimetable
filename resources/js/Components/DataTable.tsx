@@ -173,14 +173,14 @@ export function DataTable<TData, TValue>({
                     <Button
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
-                        className="px-2 py-1"
+                        // className="px-2 py-1"
                     >
                         Previous
                     </Button>
                     <Button
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
-                        className="px-2 py-1"
+                        // className="px-2 py-1"
                     >
                         Next
                     </Button>

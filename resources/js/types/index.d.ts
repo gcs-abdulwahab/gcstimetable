@@ -21,6 +21,11 @@ export interface User {
     permissions: Permission[];
 }
 
+export type UserType = User & {
+    createdAt: string;
+    verifiedAt: string;
+};
+
 export interface Student {
     id: number;
     name: string;

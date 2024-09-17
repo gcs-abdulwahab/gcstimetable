@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/command";
 import { router } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 export function CommandDialogDemo() {
     const [open, setOpen] = React.useState(false);

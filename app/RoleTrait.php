@@ -18,4 +18,14 @@ trait RoleTrait
     {
         return $this->hasRole(RoleEnum::SUPER_ADMIN->value);
     }
+
+    public function isTeacher(): bool
+    {
+        return $this->hasRole(RoleEnum::TEACHER->value);
+    }
+
+    public function isStudent(): bool
+    {
+        return $this->hasRole(RoleEnum::STUDENT->value);
+    }
 }

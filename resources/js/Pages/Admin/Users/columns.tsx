@@ -1,13 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Verified, BadgeInfo, EllipsisVertical } from "lucide-react";
 import Tooltip from "@/components/ui/tooltip";
-import { User } from "@/types";
+import { UserType } from "@/types";
 import { UserActions } from "./actions";
-
-export type UserType = User & {
-    createdAt: string;
-    verifiedAt: string;
-};
 
 const columns: ColumnDef<UserType>[] = [
     {

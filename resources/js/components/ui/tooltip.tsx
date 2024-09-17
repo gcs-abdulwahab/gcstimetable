@@ -27,11 +27,11 @@ TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };
 
-const TooltipComponent = ({ title, children } : React.PropsWithChildren<{ title: string }>) => {
+const TooltipComponent = ({ title, className, children } : React.PropsWithChildren<{ title: string, className?: string }>) => {
     return (
         <TooltipProvider>
             <Tooltip>
-                <TooltipTrigger>{children}</TooltipTrigger>
+                <TooltipTrigger className={className}>{children}</TooltipTrigger>
                 <TooltipContent>
                     <p>{title}</p>
                 </TooltipContent>

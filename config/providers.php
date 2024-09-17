@@ -8,5 +8,7 @@ return [
         'time'      => 'H:i:s',
         'timezone'  => 'UTC',
         'readable'  => 'd M Y h:i a',
-    ]
+    ],
+
+    'permission_error_msg' => "User does not have permission to perform this action.",
 ];
