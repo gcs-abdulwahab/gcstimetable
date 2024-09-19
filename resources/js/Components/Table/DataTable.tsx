@@ -24,6 +24,7 @@ import { DataTableProps, InputProps } from "@/types/data-table";
 
 import InputField from "@/Components/TextInput";
 import Button from "@/Components/PrimaryButton";
+import { TablePagination } from "./Pagination";
 
 const DefaultInputProps: InputProps = {
     pagination: true,
@@ -36,6 +37,8 @@ export function DataTable<TData, TValue>({
     inputProps,
     caption,
     tableLayout = "auto",
+    pageLinks,
+    totalCount,
 }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
@@ -96,8 +99,21 @@ export function DataTable<TData, TValue>({
                         className="max-w-sm"
                         autoFocus
                     />
+
+                    {totalCount && (
+                        <div className="ml-auto">
+                            Total<strong className="pl-1">{totalCount}</strong>
+                        </div>
+                    )}
                 </div>
             )}
+
+            {finalProps.searchFilter === false && totalCount && (
+                <div className="flex items-center justify-end py-4">
+                    Total<strong className="pl-1">{totalCount}</strong>
+                </div>
+            )}
+
             <div className="rounded-md border text-gray-900 dark:text-gray-100 dark:border-gray-700">
                 <Table
                     style={{
@@ -184,6 +200,12 @@ export function DataTable<TData, TValue>({
                     >
                         Next
                     </Button>
+                </div>
+            )}
+
+            {pageLinks && (
+                <div className="flex items-center justify-end space-x-2 py-4">
+                    <TablePagination links={pageLinks} />
                 </div>
             )}
         </div>

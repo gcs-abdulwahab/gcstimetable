@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps, Student } from "@/types";
-import { DataTable } from "@/Components/DataTable";
+import { DataTable } from "@/Components/Table/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 
 export default function Students({ auth, students }: PageProps<{ students: Student[] }>) {

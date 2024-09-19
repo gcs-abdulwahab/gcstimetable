@@ -1,10 +1,16 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps, UserType } from "@/types";
-import { DataTable } from "@/Components/DataTable";
+import { DataTable } from "@/Components/Table/DataTable";
 import columns from "./columns";
+import { LengthAwarePaginator } from "@/types/data-table";
 
-export default function Users({ auth, users }: PageProps<{ users: UserType[] }>) {
+export default function Users({
+    auth,
+    users,
+}: PageProps<{ users: LengthAwarePaginator<UserType> }>) {
+    console.log("Users -> users", users);
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -21,12 +27,15 @@ export default function Users({ auth, users }: PageProps<{ users: UserType[] }>)
                     <div className="bg-white text-gray-900 dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-6">
                             <DataTable
-                                data={users}
+                                data={users.data}
                                 columns={columns}
                                 inputProps={{
                                     searchFilter: true,
                                     filterColumn: "email",
+                                    pagination: false,
                                 }}
+                                pageLinks={users.links}
+                                totalCount={users.total}
                             />
                         </div>
                     </div>

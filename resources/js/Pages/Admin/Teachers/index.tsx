@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
-import { DataTable } from "@/Components/DataTable";
+import { DataTable } from "@/Components/Table/DataTable";
 import columns, { Teacher } from "./columns";
 
 export default function Teachers({
