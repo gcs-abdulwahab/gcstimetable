@@ -8,6 +8,7 @@ use App\PermissionEnum;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -44,9 +45,9 @@ class HandleInertiaRequests extends Middleware
             ]      ];
     }
 
-    private function currentUser(Request $request): array|null
+    private function currentUser(Request $request)
     {
-        return $request->user()
+        $user = $request->user()
             ? User::where('id', $request->user()->id)
                 ->with([
                     'roles.permissions' => function ($query) {
@@ -54,7 +55,12 @@ class HandleInertiaRequests extends Middleware
                     }
                 ])
                 ->first()
-                ->toArray()
             : null;
+
+        if ($user) {
+            return (new UserResource($user))->toArray($request);
+        }
+
+        return null;
     }
 }

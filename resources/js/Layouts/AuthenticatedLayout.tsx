@@ -9,6 +9,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { CommandDialogDemo } from "@/components/command";
 import { User as UserIcon, LogOut } from "lucide-react";
 import { NavLinks } from "@/Layouts/nav/layoutLinks";
+import { cn } from "@/lib/utils";
 
 import {
     DropdownMenu,
@@ -25,6 +26,7 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 
 export default function Authenticated({
     user,
@@ -71,7 +73,18 @@ export default function Authenticated({
                                     <DropdownMenuTrigger className="outline-none focus:outline-none">
                                         <div className="inline-flex rounded-md">
                                             <div className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                                                {user.name}
+                                                <Avatar>
+                                                    <AvatarImage
+                                                        src={
+                                                            user.profilePhotoUrl
+                                                        }
+                                                        alt={user.name}
+                                                        className={"h-10 w-10 rounded-full"}
+                                                    />
+                                                    <AvatarFallback className="dark:bg-gray-600">
+                                                        <UserIcon />
+                                                    </AvatarFallback>
+                                                </Avatar>
 
                                                 <svg
                                                     className="ms-2 -me-0.5 h-4 w-4"
