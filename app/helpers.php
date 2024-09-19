@@ -57,3 +57,22 @@ function isTimeSlotOverlapping(TimeSlot $timeSlot1, TimeSlot $timeSlot2)
 
     return $start1 < $end2 && $end1 > $start2;
 }
+
+
+if (!function_exists('generateAvatar')) {
+    function generateAvatar($name, $size = 100, $background = 'random', $color = 'fff')
+    {
+        $initials = collect(explode(' ', $name))
+            ->map(function ($word) {
+                return strtoupper(substr($word, 0, 1));
+            })->take(2)
+            ->implode('');
+
+        $avatarUrl = 'https://ui-avatars.com/api/?name=' . urlencode($initials) . 
+                     '&size=' . $size . 
+                     '&background=' . $background . 
+                     '&color=' . $color;
+
+        return $avatarUrl;
+    }
+}

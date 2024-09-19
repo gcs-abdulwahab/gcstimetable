@@ -14,14 +14,27 @@ const columns: ColumnDef<UserType>[] = [
         header: "Name",
     },
     {
+        accessorKey: "profilePhotoUrl",
+        header: "Profile",
+        cell: ({ row }) => {
+            return (
+                <img
+                    src={row.original.profilePhotoUrl}
+                    alt={row.original.name}
+                    className="w-10 h-10 rounded-full"
+                />
+            );
+        },
+    },
+    {
         accessorKey: "email",
         header: "Email",
     },
     {
-        accessorKey: "email_verified_at",
+        accessorKey: "verifiedAt",
         header: "Email Verified",
         cell: ({ row }) => {
-            const isVerified = row.original.email_verified_at;
+            const isVerified = row.original.verifiedAt;
 
             return (
                 <Tooltip

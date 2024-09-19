@@ -32,6 +32,7 @@ import { UserType, Role } from "@/types";
 import { toast } from "@/hooks/use-toast";
 import SecondaryButton from "@/Components/SecondaryButton";
 import PrimaryButton from "@/Components/PrimaryButton";
+import { cn } from "@/lib/utils";
 
 export function UserActions({ row }: { row: UserType }) {
     const [ShowView, setShowView] = useState(false);
@@ -119,9 +120,11 @@ export function ViewUser({
                 <CardHeader className="flex items-center space-x-4">
                     <Avatar>
                         <AvatarImage
-                            src={row.profile_photo_url}
+                            src={row.profilePhotoUrl}
                             alt={row.name}
-                            className="h-12 w-12 rounded-full"
+                            className={cn({
+                                "h-12 w-12 rounded-full": !row.profilePhotoUrl,
+                            })}
                         />
                         <AvatarFallback className="dark:bg-gray-600">
                             <UserIcon />

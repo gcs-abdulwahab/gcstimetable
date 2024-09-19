@@ -3,12 +3,12 @@ import { Head } from "@inertiajs/react";
 import { PageProps, UserType } from "@/types";
 import { DataTable } from "@/Components/Table/DataTable";
 import columns from "./columns";
-import { LengthAwarePaginator } from "@/types/data-table";
+import { ResourcePaginator } from "@/types/data-table";
 
 export default function Users({
     auth,
     users,
-}: PageProps<{ users: LengthAwarePaginator<UserType> }>) {
+}: PageProps<{ users: ResourcePaginator<UserType> }>) {
     console.log("Users -> users", users);
 
     return (
@@ -34,8 +34,10 @@ export default function Users({
                                     filterColumn: "email",
                                     pagination: false,
                                 }}
-                                pageLinks={users.links}
-                                totalCount={users.total}
+                                pageLinks={users.meta.links}
+                                totalCount={users.meta.total}
+                                from={users.meta.from}
+                                to={users.meta.to}
                             />
                         </div>
                     </div>

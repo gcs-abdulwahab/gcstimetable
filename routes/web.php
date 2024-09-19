@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\RoleEnum;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;

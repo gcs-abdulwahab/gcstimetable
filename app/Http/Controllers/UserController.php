@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -13,23 +14,22 @@ class UserController extends Controller
 {
     public function index()
     {
-        $dateFormat = config('providers.date.readable');
         $users      = User::select('id', 'name', 'email', 'email_verified_at', 'created_at')
             ->paginate(15);
 
-        if ($users instanceof LengthAwarePaginator) {
-            $users
-            ->getCollection()
-            ->transform(function ($user) use ($dateFormat) {
-                $user->verifiedAt = $user->email_verified_at?->format($dateFormat);
-                $user->createdAt  = $user->created_at?->format($dateFormat);
+        // if ($users instanceof LengthAwarePaginator) {
+        //     $users
+        //     ->getCollection()
+        //     ->transform(function ($user) use ($dateFormat) {
+        //         $user->verifiedAt = $user->email_verified_at?->format($dateFormat);
+        //         $user->createdAt  = $user->created_at?->format($dateFormat);
 
-                return $user;
-            });
-        }
+        //         return $user;
+        //     });
+        // }
 
         return Inertia::render('Admin/Users/index', [
-            'users' => $users
+            'users' => UserResource::collection($users)
         ]);
     }
 

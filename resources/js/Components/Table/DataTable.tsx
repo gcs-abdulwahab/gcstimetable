@@ -39,6 +39,8 @@ export function DataTable<TData, TValue>({
     tableLayout = "auto",
     pageLinks,
     totalCount,
+    from,
+    to,
 }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
@@ -101,16 +103,18 @@ export function DataTable<TData, TValue>({
                     />
 
                     {totalCount && (
-                        <div className="ml-auto">
-                            Total<strong className="pl-1">{totalCount}</strong>
+                        <div className="ml-auto self-end">
+                            Total<strong className="pl-1">{totalCount}</strong> <span className="text-xs">{from && to && `(${from} to ${to})`}</span>
                         </div>
                     )}
                 </div>
             )}
 
             {finalProps.searchFilter === false && totalCount && (
-                <div className="flex items-center justify-end py-4">
-                    Total<strong className="pl-1">{totalCount}</strong>
+                <div className="flex justify-end py-4">
+                    <div className="self-end">
+                        Total<strong className="pl-1">{totalCount}</strong> <span className="text-xs">{from && to && `(${from} to ${to})`}</span>
+                    </div>
                 </div>
             )}
 
