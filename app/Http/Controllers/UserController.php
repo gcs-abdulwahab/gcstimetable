@@ -12,21 +12,10 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users      = User::select('id', 'name', 'email', 'email_verified_at', 'created_at')
-            ->paginate(15);
-
-        // if ($users instanceof LengthAwarePaginator) {
-        //     $users
-        //     ->getCollection()
-        //     ->transform(function ($user) use ($dateFormat) {
-        //         $user->verifiedAt = $user->email_verified_at?->format($dateFormat);
-        //         $user->createdAt  = $user->created_at?->format($dateFormat);
-
-        //         return $user;
-        //     });
-        // }
+        $users  = User::select('id', 'name', 'email', 'email_verified_at', 'created_at')
+            ->paginate($request->input('per_page', config('providers.per_page')));
 
         return Inertia::render('Admin/Users/index', [
             'users' => UserResource::collection($users)

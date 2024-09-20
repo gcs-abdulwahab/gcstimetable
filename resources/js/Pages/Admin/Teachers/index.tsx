@@ -3,11 +3,12 @@ import { Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { DataTable } from "@/Components/Table/DataTable";
 import columns, { Teacher } from "./columns";
+import { ResourcePaginator } from "@/types/data-table";
 
 export default function Teachers({
     auth,
     teachers,
-}: PageProps<{ teachers: Teacher[] }>) {
+}: PageProps<{ teachers: ResourcePaginator<Teacher> }>) {
     console.log("Teachers -> teachers", teachers);
 
     return (
@@ -26,14 +27,18 @@ export default function Teachers({
                     <div className="bg-white text-gray-900 dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-6">
                             <DataTable
-                                data={teachers}
+                                data={teachers.data}
                                 columns={columns}
                                 tableLayout="fixed"
                                 inputProps={{
-                                    pagination: true,
+                                    pagination: false,
                                     searchFilter: true,
                                     filterColumn: "email",
                                 }}
+                                pageLinks={teachers.meta.links}
+                                totalCount={teachers.meta.total}
+                                from={teachers.meta.from}
+                                to={teachers.meta.to}
                             />
                         </div>
                     </div>

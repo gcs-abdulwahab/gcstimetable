@@ -45,6 +45,17 @@ export function DataTable<TData, TValue>({
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
 
+    const TotalRecords = () => {
+        return (
+            <>
+                Total<strong className="pl-1">{totalCount}</strong>{" "}
+                <span className="text-xs">
+                    {from && to && `(${from} to ${to})`}
+                </span>
+            </>
+        );
+    };
+
     const finalProps = { ...DefaultInputProps, ...inputProps };
 
     const reactTable: TableOptions<TData> = {
@@ -103,17 +114,17 @@ export function DataTable<TData, TValue>({
                     />
 
                     {totalCount && (
-                        <div className="ml-auto self-end">
-                            Total<strong className="pl-1">{totalCount}</strong> <span className="text-xs">{from && to && `(${from} to ${to})`}</span>
+                        <div className="ml-auto self-end dark:text-gray-100">
+                            <TotalRecords />
                         </div>
                     )}
                 </div>
             )}
 
             {finalProps.searchFilter === false && totalCount && (
-                <div className="flex justify-end py-4">
+                <div className="flex justify-end py-4 dark:text-gray-100">
                     <div className="self-end">
-                        Total<strong className="pl-1">{totalCount}</strong> <span className="text-xs">{from && to && `(${from} to ${to})`}</span>
+                        <TotalRecords />
                     </div>
                 </div>
             )}

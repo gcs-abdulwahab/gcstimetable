@@ -11,4 +11,6 @@ return [
     ],
 
     'permission_error_msg' => "User does not have permission to perform this action.",
+    
+    'per_page' => 15,
 ];

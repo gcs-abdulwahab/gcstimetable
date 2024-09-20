@@ -74,7 +74,7 @@ const columns: ColumnDef<Teacher>[] = [
         header: "Phone",
     },
     {
-        accessorKey: "registrationDate",
+        accessorKey: "created_at",
         header: "Registration Date",
         size: 180,
     },
@@ -92,19 +92,19 @@ const columns: ColumnDef<Teacher>[] = [
         cell: ({ row }) => (row.original.isMale ? "Male" : "Female"), // Formatting cell data
     },
     {
-        accessorKey: "dob",
+        accessorKey: "date_of_birth",
         header: "Date of Birth",
     },
     {
-        accessorKey: "collegeJoiningDate",
+        accessorKey: "date_of_joining_in_this_college",
         header: "Joining Date (College)",
     },
     {
-        accessorKey: "govtServiceJoiningDate",
+        accessorKey: "date_of_joining_govt_service",
         header: "Joining Date (Govt. Service)",
     },
     {
-        accessorKey: "currentRankJoiningDate",
+        accessorKey: "date_of_joining_current_rank",
         header: "Joining Date (Current Rank)",
     },
     {

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Teacher;
+use Illuminate\Http\Request;
+use App\Http\Resources\TeacherResource;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
@@ -13,21 +15,14 @@ class TeacherController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $teachers = Teacher::with('department.institution')
-            ->get()
-            ->transform(function ($teacher) {
-                $teacher->dob                     = $teacher->date_of_birth?->format(config('providers.date.format'));
-                $teacher->collegeJoiningDate      = $teacher->date_of_joining_in_this_college?->format(config('providers.date.format'));
-                $teacher->govtServiceJoiningDate  = $teacher->date_of_joining_govt_service?->format(config('providers.date.format'));
-                $teacher->currentRankJoiningDate  = $teacher->date_of_joining_current_rank?->format(config('providers.date.format'));
-                $teacher->registrationDate        = $teacher->created_at?->format(config('providers.date.readable'));
+            ->paginate($request->input('per_page', config('providers.per_page')));
 
-                return $teacher;
-            });
-
-        return Inertia::render('Admin/Teachers/index', ['teachers' => $teachers]);
+        return Inertia::render('Admin/Teachers/index', [
+            'teachers' => TeacherResource::collection($teachers)
+        ]);
     }
 
     /**

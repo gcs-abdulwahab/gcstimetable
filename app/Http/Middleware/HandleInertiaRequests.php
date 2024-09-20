@@ -58,6 +58,7 @@ class HandleInertiaRequests extends Middleware
             : null;
 
         if ($user) {
+            // dd($user->roles);
             return (new UserResource($user))->toArray($request);
         }
 

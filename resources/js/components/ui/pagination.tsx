@@ -50,12 +50,12 @@ const PaginationLink = ({
     className={cn(
       'dark:text-gray-100 hover:dark:bg-gray-700 hover:dark:aria-disabled:bg-transparent dark:bg-transparent',
       buttonVariants({
-        variant: isActive ? "outline" : "ghost",
+        variant: isActive ? "secondary" : "ghost",
         size,
       }),
       className,
       {
-        'dark:border-gray-600' : isActive
+        'dark:bg-gray-700' : isActive
       }
     )}
     {...props}

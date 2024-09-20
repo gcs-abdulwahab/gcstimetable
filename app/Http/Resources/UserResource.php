@@ -23,6 +23,18 @@ class UserResource extends JsonResource
             'profilePhotoUrl'   => $this->profile_photo_url,
             'label'             => $this->label,
             'roles'             => RoleResource::collection($this->roles),
+            'permissions'       => PermissionResource::collection($this->getAllPermissions()),
         ];
+    }
+
+    public function getAllPermissions()
+    {
+        $permissions = [];
+        foreach ($this->roles as $role) {
+            foreach ($role->permissions as $permission) {
+                $permissions[] = $permission;
+            }
+        }
+        return collect($permissions)->unique('id')->values();
     }
 }
