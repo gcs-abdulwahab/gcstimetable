@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Allocation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,5 +22,7 @@ class AppServiceProvider extends ServiceProvider
         Model::unguard();
 
         Allocation::observe(\App\Observers\AllocationObserver::class);
+
+        JsonResource::withoutWrapping();
     }
 }

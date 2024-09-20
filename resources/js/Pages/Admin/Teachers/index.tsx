@@ -9,7 +9,7 @@ export default function Teachers({
     auth,
     teachers,
 }: PageProps<{ teachers: ResourcePaginator<Teacher> }>) {
-    console.log("Teachers -> teachers", teachers);
+    console.log("Teachers -> auth", auth);
 
     return (
         <AuthenticatedLayout

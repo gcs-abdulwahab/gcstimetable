@@ -47,19 +47,9 @@ class HandleInertiaRequests extends Middleware
 
     private function currentUser(Request $request)
     {
-        $user = $request->user()
-            ? User::where('id', $request->user()->id)
-                ->with([
-                    'roles.permissions' => function ($query) {
-                        $query->select('id', 'name');
-                    }
-                ])
-                ->first()
-            : null;
-
+        $user = $request->user();
         if ($user) {
-            // dd($user->roles);
-            return (new UserResource($user))->toArray($request);
+            return new UserResource($user);
         }
 
         return null;
