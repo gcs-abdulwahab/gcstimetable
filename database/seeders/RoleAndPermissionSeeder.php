@@ -53,6 +53,12 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => PermissionEnum::DELETE_DEPARTMENT->value]);
         Permission::create(['name' => PermissionEnum::VIEW_DEPARTMENT->value]);
 
+        // TimeTable Module
+        Permission::create(['name' => PermissionEnum::CREATE_TIMETABLE->value]);
+        Permission::create(['name' => PermissionEnum::EDIT_TIMETABLE->value]);
+        Permission::create(['name' => PermissionEnum::DELETE_TIMETABLE->value]);
+        Permission::create(['name' => PermissionEnum::VIEW_TIMETABLE->value]);
+
 
         // Assign Permissions to Roles
 

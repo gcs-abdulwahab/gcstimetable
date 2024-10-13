@@ -47,7 +47,7 @@ class UserPolicy
     {
         return ($user->can(PermissionEnum::DELETE_USER->value) || $user->id === $model->id)
             ? Response::allow()
-            : Response::denyWithStatus(401, config('providers.permission_error_msg'));
+            : Response::deny(config('providers.permission_error_msg'));
     }
 
     /**

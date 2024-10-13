@@ -19,5 +19,10 @@ export const NavLinks : NavLink[] = [
         name: 'Teachers',
         route: route('teachers'),
         routeName: 'teachers'
+    },
+    {
+        name: 'Time Tables',
+        route: route('timetables.index'),
+        routeName: 'timetables.index'
     }
 ]; 

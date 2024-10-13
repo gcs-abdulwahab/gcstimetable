@@ -12,7 +12,7 @@ export default function LandingPage({ auth, appVersion, phpVersion }: PageProps<
                 <meta name="keywords" content="Timetable Generator, schedule, productivity, time management, app" />
             </Head>
 
-            <div className="bg-gray-50 dark:bg-black text-black dark:text-white">
+            <div className="bg-gray-50 dark:bg-gray-900 text-black dark:text-gray-100">
                 <div className="min-h-screen flex flex-col items-center justify-center text-center p-8">
                     
                     {/* Hero Section */}
@@ -46,7 +46,7 @@ export default function LandingPage({ auth, appVersion, phpVersion }: PageProps<
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
                             {/* Feature 1 */}
-                            <div className="flex flex-col items-center p-6 rounded-lg bg-white shadow-lg dark:bg-zinc-900">
+                            <div className="flex flex-col items-center p-6 rounded-lg bg-white shadow-lg dark:bg-gray-800">
                                 <Calendar className="h-12 w-12 text-blue-600 mb-4" />
                                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Easy Timetable Creation</h3>
                                 <p className="text-gray-600 dark:text-gray-300 text-center">
@@ -55,7 +55,7 @@ export default function LandingPage({ auth, appVersion, phpVersion }: PageProps<
                             </div>
 
                             {/* Feature 2 */}
-                            <div className="flex flex-col items-center p-6 rounded-lg bg-white shadow-lg dark:bg-zinc-900">
+                            <div className="flex flex-col items-center p-6 rounded-lg bg-white shadow-lg dark:bg-gray-800">
                                 <Clock className="h-12 w-12 text-blue-600 mb-4" />
                                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Real-Time Updates</h3>
                                 <p className="text-gray-600 dark:text-gray-300 text-center">
@@ -64,7 +64,7 @@ export default function LandingPage({ auth, appVersion, phpVersion }: PageProps<
                             </div>
 
                             {/* Feature 3 */}
-                            <div className="flex flex-col items-center p-6 rounded-lg bg-white shadow-lg dark:bg-zinc-900">
+                            <div className="flex flex-col items-center p-6 rounded-lg bg-white shadow-lg dark:bg-gray-800">
                                 <CheckCircle className="h-12 w-12 text-blue-600 mb-4" />
                                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Highly Customizable</h3>
                                 <p className="text-gray-600 dark:text-gray-300 text-center">

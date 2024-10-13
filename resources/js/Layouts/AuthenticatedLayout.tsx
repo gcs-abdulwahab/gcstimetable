@@ -49,15 +49,20 @@ export default function Authenticated({
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                {NavLinks.map((link) => (
-                                    <NavLink
-                                        key={link.name}
-                                        href={link.route}
-                                        active={route().current(link.routeName)}
-                                    >
-                                        {link.name}
-                                    </NavLink>
-                                ))}
+                                {NavLinks.map((link) => {
+                                    console.log("Authenticated -> link", link);
+                                    return (
+                                        <NavLink
+                                            key={link.name}
+                                            href={link.route}
+                                            active={route().current(
+                                                link.routeName
+                                            )}
+                                        >
+                                            {link.name}
+                                        </NavLink>
+                                    );
+                                })}
                             </div>
                         </div>
 
@@ -79,7 +84,9 @@ export default function Authenticated({
                                                             user.profilePhotoUrl
                                                         }
                                                         alt={user.name}
-                                                        className={"h-10 w-10 rounded-full"}
+                                                        className={
+                                                            "h-10 w-10 rounded-full"
+                                                        }
                                                     />
                                                     <AvatarFallback className="dark:bg-gray-600">
                                                         <UserIcon />

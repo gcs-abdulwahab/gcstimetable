@@ -26,6 +26,7 @@ class AllocationSeeder extends Seeder
             $allocation->day_id = 1;
             $allocation->slot_id = 1;
             $allocation->section_id = 1;
+            $allocation->time_table_id = 1;
             $allocation->save();
         } catch (Exception $e) {
             Log::info('Error creating allocation: '.$e->getMessage().' '.$e->getLine());
@@ -40,22 +41,10 @@ class AllocationSeeder extends Seeder
             $allocation->day_id = 2;
             $allocation->slot_id = 1;
             $allocation->section_id = 1;
+            $allocation->time_table_id = 1;
             $allocation->save();
         } catch (Exception $e) {
             Log::info('Error creating allocation: '.$e->getMessage().' '.$e->getLine());
-        }
-
-        // Specify the number of allocations you want to create
-        $totalAllocations = 0;
-
-        for ($i = 1; $i <= $totalAllocations; $i++) {
-            try {
-                // Attempt to create an allocation using the factory
-                Allocation::factory()->create();
-            } catch (\Exception $e) {
-                // For example, log the error message:
-                Log::error('Error creating allocation: '.$e->getMessage());
-            }
         }
     }
 }

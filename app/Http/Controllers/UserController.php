@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\PermissionEnum;
+use App\Policies\UserPolicy;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Gate;
@@ -30,7 +32,7 @@ class UserController extends Controller
             return back()->withErrors(['message' => 'User not found.']);
         }
 
-        $response = Gate::inspect('delete', $user);
+        $response = Gate::inspect('delete', [User::class, $user]);
 
         if ($response->allowed()) {
 

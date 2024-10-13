@@ -39,6 +39,25 @@ export interface Statistics {
     teachers: number;
 }
 
+export type TimeStamp = {
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type Shift = {
+    id: number;
+    name: string;
+    comments: string;
+}
+
+export type TimeTable = {
+    id: number;
+    title: string;
+    description: string;
+    shift_id: number;
+    shift?: Shift;
+}
+
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
 > = T & {

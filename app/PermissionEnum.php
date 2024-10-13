@@ -29,6 +29,11 @@ enum PermissionEnum : string
     case DELETE_DEPARTMENT  = 'delete department';
     case VIEW_DEPARTMENT    = 'view department';
 
+    case CREATE_TIMETABLE   = 'create timetable';
+    case EDIT_TIMETABLE     = 'edit timetable';
+    case DELETE_TIMETABLE   = 'delete timetable';
+    case VIEW_TIMETABLE     = 'view timetable';
+
     public static function toArray(): array
     {
         return [

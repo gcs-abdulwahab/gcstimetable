@@ -49,6 +49,7 @@ export function UserActions({ row }: { row: UserType }) {
                 });
             },
             onError: (error) => {
+                console.log("Error in deleting user -> error", error);
                 if (error.message) {
                     toast({
                         variant: "destructive",

@@ -51,18 +51,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'label',
     ];
 
-    /**
-     * The "booted" method of the model.
-     */
-    protected static function booted(): void
-    {
-        static::created(function ($user) {
-            if($user->roles->isEmpty()) {
-                $user->assignRole(RoleEnum::STUDENT);
-            }
-        });
-    }
-
 
     /**
      * Get the URL to the user's profile photo.
