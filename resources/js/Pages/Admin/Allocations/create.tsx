@@ -1,7 +1,7 @@
 import { FormEventHandler } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import { PageProps, Shift, TimeStamp } from "@/types";
+import { PageProps, Shift, TimeStamp, TimeTable } from "@/types";
 import { router, useForm, Link } from "@inertiajs/react";
 import {
     Card,
@@ -24,34 +24,48 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Day, Instituion, Slot } from "@/types/database";
 
 interface FormProps {
-    title: string;
-    description: string;
-    shift_id: number | null;
+    time_table_id: number;
+    slot_id: number;
+    day_id: number | null;
 }
 
-export default function CreateTimeTable({
+interface CreateAllocationProps {
+    props: {
+        timetable: TimeTable & {
+            shift: Shift & {
+                institution: Instituion & {
+                    days: Day[];
+                };
+            };
+        };
+        slot: Slot;
+    };
+}
+
+export default function CreateAllocation({
     auth,
-    shifts,
-}: PageProps<{ shifts: Shift[] }>) {
-    console.log("Create Time Table -> shifts", shifts);
+    props,
+}: PageProps & CreateAllocationProps) {
+    console.log("CreateAllocation -> Props", props);
+
     const { data, setData, post, errors, processing, reset } =
         useForm<FormProps>({
-            title: "",
-            description: "",
-            shift_id: null,
+            time_table_id: props?.timetable?.id,
+            slot_id: props?.slot?.id,
+            day_id: null,
         });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route("timetables.store"), {
+        post(route("allocations.store"), {
             onSuccess: (response) => {
-                reset("title", "description");
                 toast({
-                    title: "Time Table Created",
-                    description: "Time Table has been created successfully!",
+                    title: "Allocation Created",
+                    description: "Allocation is created successfully!",
                 });
                 handleClose();
             },
@@ -76,11 +90,11 @@ export default function CreateTimeTable({
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    Create Time Table
+                    Create Allocation
                 </h2>
             }
         >
-            <Head title="Create | Time Table" />
+            <Head title="Create Allocation" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -88,82 +102,56 @@ export default function CreateTimeTable({
                         <div className="p-6 flex justify-end">
                             <Card className="w-full bg-white shadow-md rounded-lg dark:bg-gray-800">
                                 <CardHeader className="flex items-center space-x-4">
-                                    <CardTitle>Create Time Table</CardTitle>
+                                    <CardTitle>Create Allocation</CardTitle>
                                 </CardHeader>
 
                                 <CardContent className="mt-4">
-                                    <div className="mb-4">
-                                        <InputLabel
-                                            htmlFor="title"
-                                            value="Title"
-                                            aria-required
-                                        />
-                                        <TextInput
-                                            autoFocus
-                                            className={"w-full"}
-                                            id="title"
-                                            value={data.title}
-                                            onChange={(e) =>
-                                                setData("title", e.target.value)
-                                            }
-                                            required
-                                        />
-                                        <InputError message={errors.title} />
+                                    <div className="mb-4 flex">
+                                        <span className="font-bold w-2/12">
+                                            TimeTable:{" "}
+                                        </span>
+                                        <span className="flex-1">
+                                            {props?.timetable?.title}
+                                        </span>
                                     </div>
-                                    <div className="mb-4">
-                                        <InputLabel
-                                            htmlFor="description"
-                                            value="Description"
-                                            aria-required
-                                        />
-                                        <TextInput
-                                            className={"w-full"}
-                                            id="description"
-                                            value={data.description}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "description",
-                                                    e.target.value
-                                                )
-                                            }
-                                            required
-                                        />
-                                        <InputError
-                                            message={errors.description}
-                                        />
+                                    <div className="mb-4 flex">
+                                        <span className="font-bold w-2/12">
+                                            Time Slot:{" "}
+                                        </span>
+                                        <span className="flex-1">
+                                            {props?.slot?.name}
+                                        </span>
                                     </div>
 
                                     <div className="mb-4">
                                         <InputLabel
                                             htmlFor="shift"
-                                            value="Shift"
+                                            value="Day"
                                             aria-required
                                         />
-                                        <Select
-                                            name="shift"
-                                            onValueChange={(value) =>
-                                                setData(
-                                                    "shift_id",
-                                                    Number(value)
-                                                )
-                                            }
-                                        >
+                                        <Select name="shift">
                                             <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
-                                                <SelectValue placeholder="Select a shift" />
+                                                <SelectValue placeholder="Select a Day" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {shifts?.length > 0 &&
-                                                    shifts.map((shift) => (
+                                                {props?.timetable?.shift?.institution?.days?.map(
+                                                    (day) => (
                                                         <SelectItem
-                                                            key={shift.id}
-                                                            value={shift.id.toString()}
+                                                            key={day.id}
+                                                            value={day.id.toString()}
+                                                            onClick={() =>
+                                                                setData(
+                                                                    "day_id",
+                                                                    day.id
+                                                                )
+                                                            }
                                                         >
-                                                            {shift.name}
+                                                            {day.name}
                                                         </SelectItem>
-                                                    ))}
+                                                    )
+                                                )}
                                             </SelectContent>
                                         </Select>
-                                        <InputError message={errors.shift_id} />
                                     </div>
                                 </CardContent>
 

@@ -58,7 +58,7 @@ class Allocation extends Model
     // and check if the allocation is unique or not
     // the parameter list is dynamic and where query should be updated accordingly
 
-    public function doesExist($fields): bool
+    public function doesExist(array $fields): bool
     {
         $query = self::query();
         foreach ($fields as $key => $value) {
@@ -66,13 +66,6 @@ class Allocation extends Model
         }
 
         return $query->exists();
-    }
-
-    // create a model event creating to check if the allocation is valid or not
-    protected static function booted(): void
-    {
-        // static::creating(static function (Allocation $allocation) {
-        // });
     }
 
     // create dynamic queryscope complete  on passing the boolean true  it returns the complete allocations and vice verca

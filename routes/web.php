@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AllocationController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -53,6 +54,11 @@ Route::middleware(['auth', 'verified'])->group(function(){
     
     // Time Table Resource
     Route::resource('timetables', TimeTableController::class);
+    Route::get('/timetables/{timetable}/add/allocations', [TimeTableController::class, 'addAllocations'])->name('timetables.add.allocations');
+    Route::get('/timetables/{timetable}/edit/{allocation}', [TimeTableController::class, 'editAllocation'])->name('timetables.edit.allocation');
+
+    // Allocations
+    Route::get('/allocations/create', [AllocationController::class, 'create'])->name('allocations.create');
 });
 
 Route::middleware('auth')->group(function () {

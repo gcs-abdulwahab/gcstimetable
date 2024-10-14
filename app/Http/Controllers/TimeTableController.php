@@ -71,4 +71,13 @@ class TimeTableController extends Controller
 
         return back()->withErrors(['message' => $response->message()]);
     }
+
+    public function addAllocations(TimeTable $timetable)
+    {
+        $timetable->load('shift.slots');
+
+        return Inertia::render('Admin/TimeTables/addAllocations', [
+            'timetable' => $timetable
+        ]);
+    }
 }
