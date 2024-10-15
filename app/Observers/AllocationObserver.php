@@ -13,11 +13,12 @@ class AllocationObserver
      */
     public function creating(Allocation $allocation)
     {
+        // dd($allocation);
         Log::info('in the creating function of allocation model    '.$allocation->course);
 
-        $dayid = $allocation->day->id;
-        $slotid = $allocation->slot->id;
-        $teacherid = $allocation->teacher->id;
+        $dayid = $allocation->day_id;
+        $slotid = $allocation->slot_id;
+        $teacherid = $allocation->teacher_id;
 
         $roomid = $allocation->room_id;
         $courseid = $allocation->course_id;
@@ -42,23 +43,27 @@ class AllocationObserver
         if ($allocation->hasCourse() && ! $allocation->hasSection()) {
             throw new Exception('Course allocation must have a section');
         }
-        // if a record is there with the same day_id and slot_id and teacher_id with some course id   then even the courseid is changed it should not pass
-        $fields = ['day_id' => $dayid, 'slot_id' => $slotid, 'teacher_id' => $teacherid, 'course_id' => $courseid];
 
-        if ($allocation->doesExist(['day_id' => $dayid, 'slot_id' => $slotid, 'teacher_id' => $teacherid, 'course_id' => $courseid])) {
+        // Validate only when all fields are not null
+        if ($dayid !== null && $slotid !== null && $teacherid !== null && $courseid !== null) {
+            // if a record is there with the same day_id and slot_id and teacher_id with some course id then even the courseid is changed it should not pass
+            $fields = ['day_id' => $dayid, 'slot_id' => $slotid, 'teacher_id' => $teacherid, 'course_id' => $courseid];
 
-            Log::info('Merger :: Allocation Does Exist '.$allocation->course);
+            if ($allocation->doesExist(['day_id' => $dayid, 'slot_id' => $slotid, 'teacher_id' => $teacherid, 'course_id' => $courseid])) {
 
-            $existingAllocation = $allocation->getExistingAllocation(['day_id' => $dayid, 'slot_id' => $slotid, 'teacher_id' => $teacherid]);
+                Log::info('Merger :: Allocation Does Exist '.$allocation->course);
 
-            if ($existingAllocation->course->display_code != $allocation->course->display_code) {
-                throw new Exception('Allocation does exist with different code  ;  Merge was only allowed when course code is same'.json_encode($fields));
+                $existingAllocation = $allocation->getExistingAllocation(['day_id' => $dayid, 'slot_id' => $slotid, 'teacher_id' => $teacherid]);
+
+                if ($existingAllocation->course->display_code != $allocation->course->display_code) {
+                    throw new Exception('Allocation does exist with different code  ;  Merge was only allowed when course code is same'.json_encode($fields));
+                }
+                if ($existingAllocation->course->id === $allocation->course->id) {
+                    throw new Exception('Allocation does exist: duplicate'.json_encode($fields));
+                }
+            } else {
+                Log::info('Merger :: Allocation Does not Exist     '.$allocation->course);
             }
-            if ($existingAllocation->course->id === $allocation->course->id) {
-                throw new Exception('Allocation does exist: duplicate'.json_encode($fields));
-            }
-        } else {
-            Log::info('Merger :: Allocation Does not Exist     '.$allocation->course);
         }
     }
 

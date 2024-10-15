@@ -1,5 +1,5 @@
 import { Config } from "ziggy-js";
-import { Slot } from "./database";
+import { Allocation, Slot } from "./database";
 
 interface Role {
     id: number;
@@ -58,6 +58,7 @@ export type TimeTable = {
     description: string;
     shift_id: number;
     shift?: Shift;
+    allocations?: Allocation[]
 }
 
 export type PageProps<

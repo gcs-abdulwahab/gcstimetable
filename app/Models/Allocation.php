@@ -10,6 +10,24 @@ class Allocation extends Model
 {
     use HasFactory;
 
+    protected $with = [
+        'course', 
+        'teacher',
+        'room', 
+        'slot', 
+        'day', 
+        'section.semester'
+    ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('teacher', function ($builder) {
+            $builder->with(['teacher' => function ($query) {
+                $query->select('id', 'name', 'email');
+            }]);
+        });
+    }
+
     // create a function hasTeacher if teacher id is not null then return true else false
     public function hasTeacher(): bool
     {
@@ -117,5 +135,11 @@ class Allocation extends Model
     public function day(): BelongsTo
     {
         return $this->belongsTo(Day::class, 'day_id');
+    }
+
+    // sections
+    public function section(): BelongsTo
+    {
+        return $this->belongsTo(Section::class, 'section_id');
     }
 }

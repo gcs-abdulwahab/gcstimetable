@@ -50,7 +50,6 @@ export default function Authenticated({
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 {NavLinks.map((link) => {
-                                    console.log("Authenticated -> link", link);
                                     return (
                                         <NavLink
                                             key={link.name}

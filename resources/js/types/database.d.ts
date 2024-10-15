@@ -1,4 +1,4 @@
-export interface Teacher {
+export type Teacher = {
     id: number;
     name: string;
     personnel_number: string;
@@ -27,7 +27,7 @@ export interface Teacher {
     updated_at: string;
 }
 
-export interface Department {
+export type Department = {
     id: number;
     name: string;
     code: string;
@@ -35,7 +35,7 @@ export interface Department {
     updated_at: string;
 }
 
-export interface Instituion {
+export type Instituion = {
     id: number;
     name: string;
     email: string;
@@ -63,4 +63,66 @@ export type Day = {
     name: string;
     code: string;
     institution?: Instituion
+}
+
+export type Allocation = {
+    id: number;
+    name: string | null;
+    day_id: number;
+    slot_id: number;
+    teacher_id: number;
+    course_id: number;
+    room_id: number;
+    section_id: number;
+    time_table_id: number;
+
+    // Relations
+    day?: Day;
+    slot?: Slot;
+    teacher?: Teacher;
+    course?: Course;
+    room?: Room;
+    section?: Section;
+}
+
+export type Course = {
+    id: number;
+    code: string;
+    name: string;
+    credit_hours: number;
+    display_code: string;
+    semester_id: number;
+    type: string;
+    is_default: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export type Room = {
+    id: number;
+    code: string;
+    name: string;
+    type: string;
+    capacity: number;
+    isavailable: number;
+    institution_id: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export type Section = {
+    id: number;
+    name: string;
+    semester_id: number;
+    semester?: Semester;
+    created_at: string;
+    updated_at: string;
+}
+
+export type Semester = {
+    id: number;
+    name: string;
+    is_active: number;
+    created_at: string;
+    updated_at: string;
 }

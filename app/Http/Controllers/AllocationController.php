@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Section;
-use App\Models\Slot;
-use App\Models\TimeTable;
 use Exception;
+use App\Models\Slot;
 use Inertia\Inertia;
+use App\Models\Section;
+use App\Models\TimeTable;
 use App\Models\Allocation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
+use App\Http\Repositories\SectionRepository;
 use App\Http\Resources\AllocationCollection;
-use App\Http\Requests\StoreAllocationRequest;
 use App\Http\Requests\UpdateAllocationRequest;
+use App\Http\Requests\Allocation\StoreAllocationRequest;
 
 class AllocationController extends Controller
 {
+    public function __construct(
+        protected SectionRepository $sectionRepository
+    ) {
+    }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -49,11 +56,10 @@ class AllocationController extends Controller
             'time_table_id'     => 'required'
         ]);
 
-        $timetable = TimeTable::whereKey($request->time_table_id)->with('shift.institution.days')->first();
+        $timetable = TimeTable::with(['shift.institution.days', 'shift.institution.rooms'])
+            ->find($request->time_table_id);
         $slot      = Slot::find($request->slot_id);
-        $sections  = Section::whereHas('semester.program.shift', function ($query) use ($timetable) {
-            $query->where('shift_id', $timetable->shift_id);
-        })->get();
+        $sections  = $this->sectionRepository->getAllByShiftId($timetable?->shift_id);
 
         return Inertia::render('Admin/Allocations/create', [
             'props' => [
@@ -67,15 +73,16 @@ class AllocationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAllocationRequest $request)
     {
-        Log::channel('allocations')->info('CreateAllocation_Request', $request->all());
+        $attributes = $request->validated();
+        Log::channel('allocations')->info('CreateAllocation_Request', $attributes);
 
         $message    = '';
         $allocation = null;
         try {
 
-            $allocation = Allocation::create($request->all());
+            $allocation = Allocation::create($attributes);
 
             return back()->with('allocation', $allocation);
 

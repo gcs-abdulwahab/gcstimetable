@@ -24,24 +24,37 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Day, Instituion, Slot } from "@/types/database";
+import { Day, Instituion, Room, Slot } from "@/types/database";
+import { ComboboxDemo } from "@/components/combobox";
+import { getNumberWithOrdinal } from "@/utils/helper";
 
 interface FormProps {
     time_table_id: number;
     slot_id: number;
     day_id: number | null;
+    section_id: number | null;
+    room_id: number | null;
 }
+
+type ModifiedSection = {
+    SemesterName: string;
+    SemesterNo: number;
+    id: number;
+    name: string;
+};
 
 interface CreateAllocationProps {
     props: {
         timetable: TimeTable & {
             shift: Shift & {
                 institution: Instituion & {
-                    days: Day[];
+                    days?: Day[];
+                    rooms?: Room[];
                 };
             };
         };
         slot: Slot;
+        sections: ModifiedSection[];
     };
 }
 
@@ -56,19 +69,14 @@ export default function CreateAllocation({
             time_table_id: props?.timetable?.id,
             slot_id: props?.slot?.id,
             day_id: null,
+            section_id: null,
+            room_id: null,
         });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
         post(route("allocations.store"), {
-            onSuccess: (response) => {
-                toast({
-                    title: "Allocation Created",
-                    description: "Allocation is created successfully!",
-                });
-                handleClose();
-            },
             onError: (error) => {
                 if (error.message) {
                     toast({
@@ -78,11 +86,19 @@ export default function CreateAllocation({
                     });
                 }
             },
+            onSuccess: (response) => {
+                toast({
+                    title: "Allocation Created",
+                    description: "Allocation is created successfully!",
+                });
+                // handleClose();
+            },
         });
     };
 
     function handleClose() {
-        router.get(route("timetables.index"));
+        // router.get(route("timetables.add.allocations", props?.timetable?.id));
+        history.back();
     }
 
     return (
@@ -125,11 +141,17 @@ export default function CreateAllocation({
 
                                     <div className="mb-4">
                                         <InputLabel
-                                            htmlFor="shift"
+                                            htmlFor="day"
                                             value="Day"
                                             aria-required
                                         />
-                                        <Select name="shift">
+                                        <Select
+                                            name="day"
+                                            defaultValue={data.day_id?.toString()}
+                                            onValueChange={(value) =>
+                                                setData("day_id", Number(value))
+                                            }
+                                        >
                                             <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
                                                 <SelectValue placeholder="Select a Day" />
                                             </SelectTrigger>
@@ -139,12 +161,6 @@ export default function CreateAllocation({
                                                         <SelectItem
                                                             key={day.id}
                                                             value={day.id.toString()}
-                                                            onClick={() =>
-                                                                setData(
-                                                                    "day_id",
-                                                                    day.id
-                                                                )
-                                                            }
                                                         >
                                                             {day.name}
                                                         </SelectItem>
@@ -152,7 +168,102 @@ export default function CreateAllocation({
                                                 )}
                                             </SelectContent>
                                         </Select>
+                                        <InputError message={errors.day_id} />
                                     </div>
+
+                                    <div className="grid grid-cols-12 gap-4">
+                                        <div className="mb-4 col-span-12 md:col-span-6">
+                                            <InputLabel
+                                                htmlFor="section"
+                                                value="Section"
+                                            />
+                                            <Select
+                                                name="section"
+                                                defaultValue={data.section_id?.toString()}
+                                                onValueChange={(value) =>
+                                                    setData(
+                                                        "section_id",
+                                                        Number(value)
+                                                    )
+                                                }
+                                            >
+                                                <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
+                                                    <SelectValue placeholder="Select Section" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {props?.sections.map(
+                                                        (section) => (
+                                                            <SelectItem
+                                                                key={section.id}
+                                                                value={section.id.toString()}
+                                                            >
+                                                                {getNumberWithOrdinal(
+                                                                    section.SemesterNo
+                                                                )}{" "}
+                                                                - {section.name}{" "}
+                                                                -{" "}
+                                                                {
+                                                                    section.SemesterName
+                                                                }
+                                                            </SelectItem>
+                                                        )
+                                                    )}
+                                                </SelectContent>
+                                            </Select>
+                                            <InputError message={errors.section_id} />
+                                        </div>
+
+                                        {/* Rooms */}
+                                        <div className="mb-4 col-span-12 md:col-span-6">
+                                            <InputLabel
+                                                htmlFor="room"
+                                                value="Room"
+                                            />
+                                            <Select
+                                                name="room"
+                                                defaultValue={data.room_id?.toString()}
+                                                onValueChange={(value) =>
+                                                    setData(
+                                                        "room_id",
+                                                        Number(value)
+                                                    )
+                                                }
+                                            >
+                                                <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
+                                                    <SelectValue placeholder="Select Room" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {props?.timetable?.shift?.institution?.rooms?.map(
+                                                        (room) => (
+                                                            <SelectItem
+                                                                key={room.id}
+                                                                value={room.id.toString()}
+                                                            >
+                                                                {room.name}
+                                                            </SelectItem>
+                                                        )
+                                                    )}
+                                                </SelectContent>
+                                            </Select>
+                                            <InputError message={errors.room_id} />
+                                        </div>
+                                    </div>
+
+                                    {/* <div>
+                                        <ComboboxDemo
+                                            label="Select Section..."
+                                            value={data.section_id}
+                                            setValue={(value: any) =>
+                                                setData("section_id", value)
+                                            }
+                                            values={(props?.sections || []).map(
+                                                (section) => ({
+                                                    value: section.id,
+                                                    label: `${section.SemesterNo} - ${section.name} - ${section.SemesterName}`,
+                                                })
+                                            )}
+                                        />
+                                    </div> */}
                                 </CardContent>
 
                                 <CardFooter className="mt-4 flex justify-end gap-3">

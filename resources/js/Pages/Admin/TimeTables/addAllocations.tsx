@@ -1,4 +1,4 @@
-import { FormEventHandler } from "react";
+import { FormEventHandler, useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps, Shift, TimeStamp, TimeTable } from "@/types";
@@ -16,7 +16,8 @@ import { toast } from "@/hooks/use-toast";
 import { MoveUpRight, ArrowUpRight, Plus } from "lucide-react";
 import Tooltip from "@/components/ui/tooltip";
 import { getRomanNumber } from "@/utils/helper";
-import { Slot } from "@/types/database";
+import { Allocation, Section, Slot } from "@/types/database";
+import { AllocationCell } from "./Partials/AllocationCell";
 
 interface FormProps {
     title: string;
@@ -27,40 +28,35 @@ interface FormProps {
 export default function AddAllocationsTimeTable({
     auth,
     timetable,
-}: PageProps<{ timetable: TimeTable }>) {
-    const { data, setData, put, errors, processing, reset } =
-        useForm<FormProps>({
-            title: timetable?.title,
-            description: timetable?.description,
-            shift_id: timetable?.shift?.id ?? null,
-        });
+    sections,
+}: PageProps<{ timetable: TimeTable; sections: Section[] }>) {
+    console.log(
+        "AddAllocationsTimeTable => allocations",
+        timetable.allocations
+    );
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
+    // state
+    const [allocations, setAllocations] = useState<Allocation[]>([]);
 
-        put(route("timetables.update", timetable.id), {
-            onSuccess: (response) => {
-                reset("title", "description");
-                toast({
-                    title: "Time Table Updated",
-                    description: "Time Table has been updated successfully!",
-                });
-                handleClose();
-            },
-            onError: (error) => {
-                if (error.message) {
-                    toast({
-                        variant: "destructive",
-                        title: "Error!",
-                        description: error.message,
-                    });
-                }
-            },
-        });
-    };
+    useEffect(() => {
+        if (timetable?.allocations?.length) {
+            setAllocations(timetable.allocations);
+        }
+    }, [timetable]);
 
     function handleClose() {
         router.get(route("timetables.index"));
+    }
+
+    function getAllocation(slotId: number, sectionId: number) {
+        return (
+            allocations &&
+            allocations.find(
+                (allocation) =>
+                    allocation.slot_id === slotId &&
+                    allocation.section_id === sectionId
+            )
+        );
     }
 
     function handleCreateAllocation(slot: Slot) {
@@ -119,7 +115,7 @@ export default function AddAllocationsTimeTable({
                             <hr className="my-10" />
 
                             {/* Shift Slots */}
-                            <table>
+                            <table className="min-w-7xl max-w-7xl overflow-auto">
                                 <thead>
                                     <tr>
                                         <th>Period</th>
@@ -139,10 +135,68 @@ export default function AddAllocationsTimeTable({
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {/* Allocations With Sections */}
+                                    {sections.length > 0 &&
+                                        sections.map((section) => (
+                                            <tr className="text-center">
+                                                {/* Section Name */}
+                                                <td className="py-10 text-wrap">
+                                                    {section?.semester?.name}(
+                                                    {section.name})
+                                                </td>
+
+                                                {timetable.shift?.slots?.map(
+                                                    (slot) => {
+                                                        let alloc =
+                                                            getAllocation(
+                                                                slot.id,
+                                                                section.id
+                                                            );
+
+                                                        if (alloc) {
+                                                            return (
+                                                                <td>
+                                                                    <AllocationCell
+                                                                        allocation={
+                                                                            alloc
+                                                                        }
+                                                                    />
+                                                                </td>
+                                                            );
+                                                        } else {
+                                                            return (
+                                                                <td
+                                                                    key={
+                                                                        slot.id
+                                                                    }
+                                                                    className="py-10"
+                                                                >
+                                                                    <SecondaryButton
+                                                                        onClick={() =>
+                                                                            handleCreateAllocation(
+                                                                                slot
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        <Plus
+                                                                            size={
+                                                                                16
+                                                                            }
+                                                                        />
+                                                                    </SecondaryButton>
+                                                                </td>
+                                                            );
+                                                        }
+                                                    }
+                                                )}
+                                            </tr>
+                                        ))}
+
+                                    {/* Empty Section */}
                                     <tr className="text-center">
-                                        <td></td>
+                                        <td className="py-10"></td>
                                         {timetable.shift?.slots?.map((slot) => (
-                                            <td key={slot.id}>
+                                            <td key={slot.id} className="py-10">
                                                 <SecondaryButton
                                                     onClick={() =>
                                                         handleCreateAllocation(

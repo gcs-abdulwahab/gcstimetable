@@ -35,6 +35,7 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
@@ -59,6 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     // Allocations
     Route::get('/allocations/create', [AllocationController::class, 'create'])->name('allocations.create');
+    Route::post('/allocations', [AllocationController::class, 'store'])->name('allocations.store');
 });
 
 Route::middleware('auth')->group(function () {

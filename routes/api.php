@@ -14,34 +14,34 @@ use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 //write API Route for Institution
-Route::apiResource('institutions', InstitutionController::class);
+// Route::apiResource('institutions', InstitutionController::class);
 
-// write API Route for Day
-Route::apiResource('days', DayController::class);
+// // write API Route for Day
+// Route::apiResource('days', DayController::class);
 
-// write API Route for Department
-Route::apiResource('departments', DepartmentController::class);
+// // write API Route for Department
+// Route::apiResource('departments', DepartmentController::class);
 
-//write API for Program
-Route::resource('programs', ProgramController::class);
+// //write API for Program
+// Route::resource('programs', ProgramController::class);
 
-//write API for Section
-Route::resource('sections', SectionController::class);
+// //write API for Section
+// Route::resource('sections', SectionController::class);
 
-//write API for Semester
-Route::resource('semesters', SemesterController::class);
+// //write API for Semester
+// Route::resource('semesters', SemesterController::class);
 
-//write Api for Room\
-Route::resource('rooms', RoomController::class);
+// //write Api for Room\
+// Route::resource('rooms', RoomController::class);
 
-//write Api for Teachers
-Route::resource('teachers', TeacherController::class);
+// //write Api for Teachers
+// Route::resource('teachers', TeacherController::class);
 
-// write Api for Slots
-Route::resource('slots', SlotController::class);
+// // write Api for Slots
+// Route::resource('slots', SlotController::class);
 
-// write Api for Courses
-Route::resource('courses', CourseController::class);
+// // write Api for Courses
+// Route::resource('courses', CourseController::class);
 
-// write api for Allocations
-Route::resource('allocations', AllocationController::class);
+// // write api for Allocations
+// Route::resource('allocations', AllocationController::class);

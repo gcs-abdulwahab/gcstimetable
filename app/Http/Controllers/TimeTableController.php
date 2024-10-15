@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Shift;
+use App\Models\Section;
 use App\Models\TimeTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -74,10 +75,24 @@ class TimeTableController extends Controller
 
     public function addAllocations(TimeTable $timetable)
     {
-        $timetable->load('shift.slots');
+        $timetable->load(['shift.slots', 'allocations']);
+        $sections    = [];
+
+        if ($timetable->allocations) {
+            $sectionIds = $timetable->allocations?->groupby('section_id')->keys();
+
+            if ($sectionIds && count($sectionIds) > 0) {
+                // Getting Table Sections
+                $sections = Section::whereIn('id', $sectionIds)->with(['semester' => function ($query) {
+                    $query->select('id', 'name', 'number');
+                }])->get();
+
+            }
+        }
 
         return Inertia::render('Admin/TimeTables/addAllocations', [
-            'timetable' => $timetable
+            'timetable' => $timetable,
+            'sections' => $sections
         ]);
     }
 }
