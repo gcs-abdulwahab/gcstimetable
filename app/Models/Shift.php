@@ -38,4 +38,9 @@ class Shift extends Model
     {
         return $this->belongsTo(Institution::class);
     }
+
+    public function semesters() 
+    {
+        return $this->hasManyThrough(Semester::class, Program::class);
+    }
 }

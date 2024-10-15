@@ -1,4 +1,4 @@
-import { FormEventHandler } from "react";
+import { FormEventHandler, useMemo, useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps, Shift, TimeStamp, TimeTable } from "@/types";
@@ -24,7 +24,16 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Day, Instituion, Room, Slot } from "@/types/database";
+import {
+    Day,
+    Instituion,
+    Room,
+    Slot,
+    Teacher,
+    Semester,
+    Course,
+    Section,
+} from "@/types/database";
 import { ComboboxDemo } from "@/components/combobox";
 import { getNumberWithOrdinal } from "@/utils/helper";
 
@@ -34,11 +43,14 @@ interface FormProps {
     day_id: number | null;
     section_id: number | null;
     room_id: number | null;
+    teacher_id: number | null;
+    course_id: number | null;
 }
 
 type ModifiedSection = {
     SemesterName: string;
     SemesterNo: number;
+    SemesterId: number;
     id: number;
     name: string;
 };
@@ -50,11 +62,14 @@ interface CreateAllocationProps {
                 institution: Instituion & {
                     days?: Day[];
                     rooms?: Room[];
+                    teachers?: Teacher[];
+                    semesters?: Semester[];
                 };
             };
         };
         slot: Slot;
         sections: ModifiedSection[];
+        courses: Course[];
     };
 }
 
@@ -71,6 +86,8 @@ export default function CreateAllocation({
             day_id: null,
             section_id: null,
             room_id: null,
+            teacher_id: null,
+            course_id: null,
         });
 
     const submit: FormEventHandler = (e) => {
@@ -100,6 +117,17 @@ export default function CreateAllocation({
         // router.get(route("timetables.add.allocations", props?.timetable?.id));
         history.back();
     }
+
+    const filteredCourse : Course[] | []  = useMemo(() => {
+        console.log("UserMemo Triggerd");
+
+        if(data.section_id !== null){
+            let semester = props?.sections?.find((section : ModifiedSection) => section.id === data.section_id);
+            return props?.courses?.filter((course) => course.semester_id === semester?.SemesterId);
+        }
+
+        return [];
+    }, [data.section_id]);
 
     return (
         <AuthenticatedLayout
@@ -210,7 +238,9 @@ export default function CreateAllocation({
                                                     )}
                                                 </SelectContent>
                                             </Select>
-                                            <InputError message={errors.section_id} />
+                                            <InputError
+                                                message={errors.section_id}
+                                            />
                                         </div>
 
                                         {/* Rooms */}
@@ -245,7 +275,98 @@ export default function CreateAllocation({
                                                     )}
                                                 </SelectContent>
                                             </Select>
-                                            <InputError message={errors.room_id} />
+                                            <InputError
+                                                message={errors.room_id}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-12 gap-4">
+                                        {/* Teacher Id */}
+                                        <div className="mb-4 col-span-12 md:col-span-6">
+                                            <InputLabel
+                                                htmlFor="teacher"
+                                                value="Teacher"
+                                            />
+                                            <Select
+                                                name="teacher"
+                                                defaultValue={data.teacher_id?.toString()}
+                                                onValueChange={(value) =>
+                                                    setData(
+                                                        "teacher_id",
+                                                        Number(value)
+                                                    )
+                                                }
+                                            >
+                                                <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
+                                                    <SelectValue placeholder="Select Teacher" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {props?.timetable?.shift?.institution?.teachers?.map(
+                                                        (teacher) => (
+                                                            <SelectItem
+                                                                key={teacher.id}
+                                                                value={teacher.id.toString()}
+                                                            >
+                                                                {teacher.name}
+                                                            </SelectItem>
+                                                        )
+                                                    )}
+                                                </SelectContent>
+                                            </Select>
+                                            <InputError
+                                                message={errors.teacher_id}
+                                            />
+                                        </div>
+
+                                        {/* Course Id */}
+
+                                        <div className="mb-4 col-span-12 md:col-span-6">
+                                            <InputLabel
+                                                htmlFor="course"
+                                                value="Course"
+                                            />
+                                            <Select
+                                                name="course"
+                                                disabled={filteredCourse?.length === 0}
+                                                defaultValue={data.course_id?.toString()}
+                                                onValueChange={(value) =>
+                                                    setData(
+                                                        "course_id",
+                                                        Number(value)
+                                                    )
+                                                }
+                                            >
+                                                <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
+                                                    <SelectValue placeholder="Select Course" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {filteredCourse?.map(
+                                                        (course) => (
+                                                            <SelectItem
+                                                                key={course.id}
+                                                                value={course.id.toString()}
+                                                            >
+                                                                <span>
+                                                                    {
+                                                                        course.code
+                                                                    }{" "}
+                                                                </span>
+                                                                <span className="ml-auto">
+                                                                    Credit{" "}
+                                                                    {
+                                                                        course.credit_hours
+                                                                    }{" "}
+                                                                    hrs
+                                                                </span>
+                                                            </SelectItem>
+                                                        )
+                                                    )}
+                                                </SelectContent>
+                                            </Select>
+                                            <InputError
+                                                message={errors.course_id}
+                                            />
                                         </div>
                                     </div>
 

@@ -56,16 +56,29 @@ class AllocationController extends Controller
             'time_table_id'     => 'required'
         ]);
 
-        $timetable = TimeTable::with(['shift.institution.days', 'shift.institution.rooms'])
-            ->find($request->time_table_id);
+        $timetable = TimeTable::with([
+            'shift.institution.days',
+            'shift.institution.rooms',
+            'shift.institution.teachers'  => function ($query) {
+                $query->select('teachers.id', 'teachers.name', 'teachers.email', 'teachers.department_id');
+            },
+            'shift.semesters.courses'
+        ])->find($request->time_table_id);
+
         $slot      = Slot::find($request->slot_id);
-        $sections  = $this->sectionRepository->getAllByShiftId($timetable?->shift_id);
+        $sections  = $this->sectionRepository->getAllByShiftId($timetable?->shift_id, $request->input('section_id'));
+        $courses     = $timetable?->shift?->semesters?->pluck('courses')->flatten();
+
+        // Remove the semesters relationship from the timetable object
+        $timetable?->shift?->setRelation('semesters', collect());
+        
 
         return Inertia::render('Admin/Allocations/create', [
             'props' => [
                 'timetable' => $timetable,
                 'slot' => $slot,
                 'sections' => $sections,
+                'courses' => $courses
             ],
         ]);
     }
@@ -84,7 +97,7 @@ class AllocationController extends Controller
 
             $allocation = Allocation::create($attributes);
 
-            return back()->with('allocation', $allocation);
+            return redirect()->route('timetables.add.allocations', ['timetable' => $allocation->time_table_id])->with('success', 'Allocation created successfully');
 
         } catch (QueryException $exception) {
             $message = 'Constraint violation or other database error '.$exception->getMessage();

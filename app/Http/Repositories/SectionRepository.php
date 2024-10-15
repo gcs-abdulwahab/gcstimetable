@@ -13,22 +13,22 @@ class SectionRepository
         $this->model = $section;
     }
 
-    public function getAllSections()
+    public function getAll()
     {
         return $this->model->all();
     }
 
-    public function getSectionById($id)
+    public function getById($id)
     {
-        return $this->model->find($id);
+        return $this->model->whereKey($id)->get();
     }
 
-    public function createSection(array $data)
+    public function create(array $data)
     {
         return $this->model->create($data);
     }
 
-    public function updateSection($id, array $data)
+    public function update($id, array $data)
     {
         $section = $this->model->find($id);
         if ($section) {
@@ -38,7 +38,7 @@ class SectionRepository
         return null;
     }
 
-    public function deleteSection($id)
+    public function delete($id)
     {
         $section = $this->model->find($id);
         if ($section) {
@@ -48,12 +48,15 @@ class SectionRepository
         return false;
     }
 
-    public function getAllByShiftId($shiftId)
+    public function getAllByShiftId($shiftId, $sectionid = null)
     {
         return $this->model->join('semesters', 'sections.semester_id', '=', 'semesters.id')
             ->join('programs', 'semesters.program_id', '=', 'programs.id')
             ->join('shifts', 'programs.shift_id', '=', 'shifts.id')
             ->where('shifts.id', $shiftId)
-            ->get(['sections.id', 'sections.name', 'semesters.name as SemesterName', 'semesters.number as SemesterNo']);
+            ->when($sectionid, function ($query, $sectionid) {
+                return $query->where('sections.id', $sectionid);
+            })
+            ->get(['sections.id', 'sections.name','semesters.id as SemesterId', 'semesters.name as SemesterName', 'semesters.number as SemesterNo']);
     }
 }

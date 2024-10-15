@@ -1,29 +1,14 @@
-import { FormEventHandler, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps, Shift, TimeStamp, TimeTable } from "@/types";
 import { router, useForm, Link } from "@inertiajs/react";
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-    CardFooter,
-} from "@/components/ui/card";
 import SecondaryButton from "@/Components/SecondaryButton";
-import { toast } from "@/hooks/use-toast";
-import { MoveUpRight, ArrowUpRight, Plus } from "lucide-react";
+import { ArrowUpRight, Plus } from "lucide-react";
 import Tooltip from "@/components/ui/tooltip";
 import { getRomanNumber } from "@/utils/helper";
 import { Allocation, Section, Slot } from "@/types/database";
 import { AllocationCell } from "./Partials/AllocationCell";
-
-interface FormProps {
-    title: string;
-    description: string;
-    shift_id: number | null;
-}
 
 export default function AddAllocationsTimeTable({
     auth,
@@ -59,12 +44,18 @@ export default function AddAllocationsTimeTable({
         );
     }
 
-    function handleCreateAllocation(slot: Slot) {
+    function handleCreateAllocation(slot: Slot, section_id = null as any) {
+        let params : any = {
+            time_table_id: timetable.id,
+            slot_id: slot.id,
+        };
+
+        if (section_id) {
+            params["section_id"] = section_id;
+        }
+
         router.get(
-            route("allocations.create", {
-                time_table_id: timetable.id,
-                slot_id: slot.id,
-            })
+            route("allocations.create", params)
         );
     }
 
@@ -83,6 +74,7 @@ export default function AddAllocationsTimeTable({
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 sm:rounded-lg">
                         <div className="p-6 flex flex-col">
+                            
                             {/* Time Table Infor */}
                             <div className="w-full text-center relative">
                                 <div className="flex gap-4 justify-center">
@@ -114,103 +106,120 @@ export default function AddAllocationsTimeTable({
 
                             <hr className="my-10" />
 
-                            {/* Shift Slots */}
-                            <table className="min-w-7xl max-w-7xl overflow-auto">
-                                <thead>
-                                    <tr>
-                                        <th>Period</th>
-                                        {timetable.shift?.slots?.map(
-                                            (slot, index) => (
-                                                <th key={`period-${index}`}>
-                                                    {getRomanNumber(index + 1)}
-                                                </th>
-                                            )
-                                        )}
-                                    </tr>
-                                    <tr>
-                                        <th>Time</th>
-                                        {timetable.shift?.slots?.map((slot) => (
-                                            <th key={slot.id}>{slot.name}</th>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {/* Allocations With Sections */}
-                                    {sections.length > 0 &&
-                                        sections.map((section) => (
-                                            <tr className="text-center">
-                                                {/* Section Name */}
-                                                <td className="py-10 text-wrap">
-                                                    {section?.semester?.name}(
-                                                    {section.name})
-                                                </td>
+                            <div className="grid grid-cols-12 gap-2 overflow-auto">
+                                {/* Shift Slots Header */}
+                                <div className="col-span-12 flex">
+                                    <p className="flex-1 font-bold text-gray-800 dark:text-gray-100 text-center h-[50px] w-[200px] flex items-center justify-center overflow-hidden">
+                                        Period
+                                    </p>
+                                    {timetable.shift?.slots?.map(
+                                        (slot, index) => (
+                                            <p
+                                                key={`period-${index}`}
+                                                className="flex-1 font-bold text-gray-800 dark:text-gray-100 text-center h-[50px] w-[200px] flex items-center justify-center overflow-hidden"
+                                            >
+                                                {getRomanNumber(index + 1)}
+                                            </p>
+                                        )
+                                    )}
+                                </div>
 
-                                                {timetable.shift?.slots?.map(
-                                                    (slot) => {
-                                                        let alloc =
-                                                            getAllocation(
-                                                                slot.id,
-                                                                section.id
-                                                            );
+                                {/* Time Header */}
+                                <div className="col-span-12 flex">
+                                    <p className="flex-1 font-bold text-gray-800 dark:text-gray-100 text-center h-[50px] w-[200px] flex items-center justify-center overflow-hidden">
+                                        Time
+                                    </p>
+                                    {timetable.shift?.slots?.map((slot) => (
+                                        <p
+                                            key={slot.id}
+                                            className="flex-1 font-bold text-gray-800 dark:text-gray-100 text-center h-[50px] w-[200px] flex items-center justify-center overflow-hidden"
+                                        >
+                                            {slot.name}
+                                        </p>
+                                    ))}
+                                </div>
 
-                                                        if (alloc) {
-                                                            return (
-                                                                <td>
-                                                                    <AllocationCell
-                                                                        allocation={
-                                                                            alloc
+                                {/* Allocations With Sections */}
+                                {sections.length > 0 &&
+                                    sections.map((section) => (
+                                        <div
+                                            key={section.id}
+                                            className="col-span-12 flex text-center"
+                                        >
+                                            {/* Section Name */}
+                                            <p className="text-sm flex-1 text-center h-[100px] w-[200px] flex justify-center items-center overflow-hidden">
+                                                {section?.semester?.name} (
+                                                {section.name})
+                                            </p>
+
+                                            {timetable.shift?.slots?.map(
+                                                (slot) => {
+                                                    let alloc = getAllocation(
+                                                        slot.id,
+                                                        section.id
+                                                    );
+
+                                                    if (alloc) {
+                                                        return (
+                                                            <p
+                                                                key={slot.id}
+                                                                className="flex-1 text-center h-[100px] w-[200px] flex items-center justify-center overflow-hidden"
+                                                            >
+                                                                <AllocationCell
+                                                                    allocation={
+                                                                        alloc
+                                                                    }
+                                                                />
+                                                            </p>
+                                                        );
+                                                    } else {
+                                                        return (
+                                                            <p
+                                                                key={slot.id}
+                                                                className="flex-1 text-center h-[100px] w-[200px] flex items-center justify-center overflow-hidden"
+                                                            >
+                                                                <SecondaryButton
+                                                                    onClick={() =>
+                                                                        handleCreateAllocation(
+                                                                            slot,
+                                                                            section.id
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <Plus
+                                                                        size={
+                                                                            16
                                                                         }
                                                                     />
-                                                                </td>
-                                                            );
-                                                        } else {
-                                                            return (
-                                                                <td
-                                                                    key={
-                                                                        slot.id
-                                                                    }
-                                                                    className="py-10"
-                                                                >
-                                                                    <SecondaryButton
-                                                                        onClick={() =>
-                                                                            handleCreateAllocation(
-                                                                                slot
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        <Plus
-                                                                            size={
-                                                                                16
-                                                                            }
-                                                                        />
-                                                                    </SecondaryButton>
-                                                                </td>
-                                                            );
-                                                        }
+                                                                </SecondaryButton>
+                                                            </p>
+                                                        );
                                                     }
-                                                )}
-                                            </tr>
-                                        ))}
+                                                }
+                                            )}
+                                        </div>
+                                    ))}
 
-                                    {/* Empty Section */}
-                                    <tr className="text-center">
-                                        <td className="py-10"></td>
-                                        {timetable.shift?.slots?.map((slot) => (
-                                            <td key={slot.id} className="py-10">
-                                                <SecondaryButton
-                                                    onClick={() =>
-                                                        handleCreateAllocation(
-                                                            slot
-                                                        )
-                                                    }
-                                                >
-                                                    <Plus size={16} />
-                                                </SecondaryButton>
-                                            </td>
-                                        ))}
-                                    </tr>
-                                </tbody>
-                            </table>
+                                {/* Empty Section */}
+                                <div className="col-span-12 flex text-center">
+                                    <p className="flex-1 text-center h-[100px] w-[200px]"></p>
+                                    {timetable.shift?.slots?.map((slot) => (
+                                        <p
+                                            key={slot.id}
+                                            className="flex-1 text-center h-[100px] w-[200px] flex items-center justify-center overflow-hidden"
+                                        >
+                                            <SecondaryButton
+                                                onClick={() =>
+                                                    handleCreateAllocation(slot)
+                                                }
+                                            >
+                                                <Plus size={16} />
+                                            </SecondaryButton>
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
