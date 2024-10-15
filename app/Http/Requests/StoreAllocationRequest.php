@@ -25,10 +25,9 @@ class StoreAllocationRequest extends FormRequest
     public function rules()
     {
         return [
-            'day_id' => 'required',
-            'slot_id' => 'required',
-            'name' => 'nullable',
-
+            'day_id'    => 'required',
+            'slot_id'   => 'required',
+            'name'      => 'nullable',
         ];
     }
 }

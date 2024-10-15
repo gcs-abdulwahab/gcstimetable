@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateAllocationRequest;
-use App\Http\Resources\AllocationCollection;
-use App\Models\Allocation;
+use App\Models\Section;
+use App\Models\Slot;
+use App\Models\TimeTable;
 use Exception;
-use Illuminate\Database\QueryException;
+use Inertia\Inertia;
+use App\Models\Allocation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Inertia\Inertia;
+use Illuminate\Database\QueryException;
+use App\Http\Resources\AllocationCollection;
+use App\Http\Requests\StoreAllocationRequest;
+use App\Http\Requests\UpdateAllocationRequest;
 
 class AllocationController extends Controller
 {
@@ -38,9 +42,26 @@ class AllocationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $request->validate([
+            'slot_id'          => 'required',
+            'time_table_id'     => 'required'
+        ]);
+
+        $timetable = TimeTable::whereKey($request->time_table_id)->with('shift.institution.days')->first();
+        $slot      = Slot::find($request->slot_id);
+        $sections  = Section::whereHas('semester.program.shift', function ($query) use ($timetable) {
+            $query->where('shift_id', $timetable->shift_id);
+        })->get();
+
+        return Inertia::render('Admin/Allocations/create', [
+            'props' => [
+                'timetable' => $timetable,
+                'slot' => $slot,
+                'sections' => $sections,
+            ],
+        ]);
     }
 
     /**
@@ -48,42 +69,25 @@ class AllocationController extends Controller
      */
     public function store(Request $request)
     {
-        //        $constraints = new Constraint();
         Log::channel('allocations')->info('CreateAllocation_Request', $request->all());
 
-        $message = '';
-        $status_code = 201;
+        $message    = '';
         $allocation = null;
         try {
 
             $allocation = Allocation::create($request->all());
-            $message = 'Resource successfully created';
+
+            return back()->with('allocation', $allocation);
+
         } catch (QueryException $exception) {
-            $status_code = 422;
             $message = 'Constraint violation or other database error '.$exception->getMessage();
         } catch (Exception $exception) {
-            $status_code = 400;
             $message = 'Constraint violation or other database error '.$exception->getMessage();
         }
 
         Log::channel('allocations')->info($message);
-        $data = [
-            'allocation' => $allocation,
-            'message' => $message,
-            'status' => $status_code,
-        ];
 
-        if ($request->wantsJson()) {
-            return response()->json($data, $status_code);
-        }
-
-        return Inertia::render('AllocationForm/Create',
-            [
-                'allocation' => $allocation,
-                'message' => $message,
-                'status' => $status_code,
-            ]
-        );
+        return back()->withErrors(['message' => $message]);
     }
 
     /**

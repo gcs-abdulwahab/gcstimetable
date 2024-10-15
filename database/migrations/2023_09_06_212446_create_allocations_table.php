@@ -21,7 +21,7 @@ return new class extends Migration
             // foreign key to room 🏢
             $table->foreignId('room_id')->nullable()->constrained()->cascadeOnDelete();
             // foreign key to day 📅
-            $table->foreignId('day_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('day_id')->constrained()->cascadeOnDelete();
             // foreign key to slot ⏰
             $table->foreignId('slot_id')->constrained()->cascadeOnDelete();
             // foreign key to section 🧑‍🎓

@@ -34,8 +34,8 @@ interface FormProps {
 export default function EditTimeTable({
     auth,
     timetable,
-    shifts
-}: PageProps<{ timetable: TimeTable, shifts: Shift[] }>) {
+    shifts,
+}: PageProps<{ timetable: TimeTable; shifts: Shift[] }>) {
     const { data, setData, put, errors, processing, reset } =
         useForm<FormProps>({
             title: timetable?.title,
@@ -153,14 +153,15 @@ export default function EditTimeTable({
                                                 <SelectValue placeholder="Select a shift" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {shifts.map((shift) => (
-                                                    <SelectItem
-                                                        key={shift.id}
-                                                        value={shift.id.toString()}
-                                                    >
-                                                        {shift.name}
-                                                    </SelectItem>
-                                                ))}
+                                                {shifts?.length > 0 &&
+                                                    shifts.map((shift) => (
+                                                        <SelectItem
+                                                            key={shift.id}
+                                                            value={shift.id.toString()}
+                                                        >
+                                                            {shift.name}
+                                                        </SelectItem>
+                                                    ))}
                                             </SelectContent>
                                         </Select>
                                         <InputError message={errors.shift_id} />
