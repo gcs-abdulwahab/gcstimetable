@@ -1,9 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router, Link } from "@inertiajs/react";
 import { PageProps, TimeStamp } from "@/types";
-import { ArrowUpRight, CirclePlus, Plus } from "lucide-react";
+import { CirclePlus, Plus } from "lucide-react";
 import SecondaryButton from "@/Components/SecondaryButton";
-import Tooltip from "@/components/ui/tooltip";
 
 type TimeTable = {
     id: number;
@@ -42,45 +41,26 @@ export default function TimeTables({
                             </Link>
                         </div>
                         {timeTables.length > 0 ? (
-                            timeTables.map((timetable) => (
-                                <div key={timetable.id} className="px-6 py-3">
-                                    <div className="relative flex items-center border border-gray-800 dark:border-gray-100 p-4 rounded-md">
+                            timeTables.map((timeTable) => (
+                                <div
+                                    key={timeTable.id}
+                                    className="px-6 py-3 cursor-pointer"
+                                    onClick={() =>
+                                        router.get(route("timetables.edit", timeTable.id))
+                                    }
+                                >
+                                    <div className="flex items-center border border-gray-800 dark:border-gray-100 p-4 rounded-md">
                                         <div>
-                                            <div className="flex items-center">
-                                                <h2
-                                                    onClick={() =>
-                                                        router.get(
-                                                            route(
-                                                                "timetables.edit",
-                                                                timetable.id
-                                                            )
-                                                        )
-                                                    }
-                                                    className="text-lg font-semibold text-gray-800 dark:text-gray-200 cursor-pointer hover:underline"
-                                                >
-                                                    {timetable.title}
-                                                </h2>
-                                                <p className="ml-2 text-sm text-gray-600 dark:text-gray-400">
-                                                    {timetable.time_ago}
-                                                </p>
-                                            </div>
+                                            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                                                {timeTable.title}
+                                            </h2>
                                             <p className="text-sm text-gray-600 dark:text-gray-400">
-                                                {timetable.description}
+                                                {timeTable.description}
                                             </p>
                                         </div>
-                                        <Link
-                                            href={route(
-                                                "timetables.add.allocations",
-                                                timetable.id
-                                            )}
-                                            className="p-2 ml-auto"
-                                        >
-                                            <Tooltip title="Add Allocations">
-                                                <SecondaryButton>
-                                                    Allocations
-                                                </SecondaryButton>
-                                            </Tooltip>
-                                        </Link>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400 ml-auto">
+                                            {timeTable.time_ago}
+                                        </p>
                                     </div>
                                 </div>
                             ))

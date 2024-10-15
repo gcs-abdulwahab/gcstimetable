@@ -1,5 +1,4 @@
 import { Config } from "ziggy-js";
-import { Slot } from "./database";
 
 interface Role {
     id: number;
@@ -49,7 +48,6 @@ export type Shift = {
     id: number;
     name: string;
     comments: string;
-    slots?: Slot[];
 }
 
 export type TimeTable = {

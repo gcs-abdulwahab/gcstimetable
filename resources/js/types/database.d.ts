@@ -44,23 +44,3 @@ export interface Instituion {
     created_at: string;
     updated_at: string;
 }
-
-export type Slot = {
-    id: number;
-    code: string;
-    name: string;
-    is_practical: number;
-    shift_id: number;
-    start_time: string;
-    end_time: string;
-    created_at: string;
-    updated_at: string;
-}
-
-export type Day = {
-    id : number;
-    number: number;
-    name: string;
-    code: string;
-    institution?: Instituion
-}

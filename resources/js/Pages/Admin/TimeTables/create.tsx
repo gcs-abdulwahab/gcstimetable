@@ -152,15 +152,14 @@ export default function CreateTimeTable({
                                                 <SelectValue placeholder="Select a shift" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {shifts?.length > 0 &&
-                                                    shifts.map((shift) => (
-                                                        <SelectItem
-                                                            key={shift.id}
-                                                            value={shift.id.toString()}
-                                                        >
-                                                            {shift.name}
-                                                        </SelectItem>
-                                                    ))}
+                                                {shifts.map((shift) => (
+                                                    <SelectItem
+                                                        key={shift.id}
+                                                        value={shift.id.toString()}
+                                                    >
+                                                        {shift.name}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                         <InputError message={errors.shift_id} />
