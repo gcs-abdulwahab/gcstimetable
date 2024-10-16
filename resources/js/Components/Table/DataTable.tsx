@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -44,13 +44,22 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
+    const [pagination, setPagination] = useState({
+            pageIndex: 0, //initial page index
+            pageSize: 10, //default page size
+          });
 
-    const TotalRecords = () => {
+
+    const TotalRecords: React.FC<{
+        paramTotalCount: number | null;
+        paramFrom: number | undefined;
+        paramTo: number | undefined;
+    }> = ({ paramTotalCount, paramFrom, paramTo }) => {
         return (
             <>
-                Total<strong className="pl-1">{totalCount}</strong>{" "}
+                Total<strong className="pl-1">{paramTotalCount}</strong>{" "}
                 <span className="text-xs">
-                    {from && to && `(${from} to ${to})`}
+                    {paramFrom && paramTo && `(${paramFrom} to ${paramTo})`}
                 </span>
             </>
         );
@@ -68,6 +77,7 @@ export function DataTable<TData, TValue>({
         getCoreRowModel: getCoreRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
+        onPaginationChange: setPagination,
         state: {
             columnFilters,
         },
@@ -75,6 +85,11 @@ export function DataTable<TData, TValue>({
 
     if (finalProps.pagination) {
         reactTable.getPaginationRowModel = getPaginationRowModel();
+
+        reactTable.state = {
+            ...reactTable.state,
+            pagination,
+        };
     }
 
     const table = useReactTable(reactTable);
@@ -113,9 +128,18 @@ export function DataTable<TData, TValue>({
                         autoFocus
                     />
 
-                    {totalCount && (
+                    {table.getTotalSize() > 0 && (
                         <div className="ml-auto self-end dark:text-gray-100">
-                            <TotalRecords />
+                            <TotalRecords
+                                paramTotalCount={table.getTotalSize()}
+                                paramFrom={pagination.pageIndex * pagination.pageSize + 1}
+                                paramTo={
+                                    Math.min(
+                                        (pagination.pageIndex + 1) * pagination.pageSize,
+                                        table.getTotalSize()
+                                    )
+                                }
+                            />
                         </div>
                     )}
                 </div>
@@ -124,7 +148,11 @@ export function DataTable<TData, TValue>({
             {finalProps.searchFilter === false && totalCount && (
                 <div className="flex justify-end py-4 dark:text-gray-100">
                     <div className="self-end">
-                        <TotalRecords />
+                        <TotalRecords
+                            paramTotalCount={totalCount}
+                            paramFrom={from}
+                            paramTo={to}
+                        />
                     </div>
                 </div>
             )}

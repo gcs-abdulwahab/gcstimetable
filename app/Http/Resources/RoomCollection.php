@@ -16,13 +16,14 @@ class RoomCollection extends ResourceCollection
     {
         return $this->map(function ($room) {
             return [
-                'id' => $room->id,
-                'name' => $room->name,
-                'code' => $room->code,
-                'capacity' => $room->capacity,
+                'id'        => $room->id,
+                'name'      => $room->name,
+                'code'      => $room->code,
+                'capacity'  => $room->capacity,
                 'institution_id' => $room->institution_id,
                 'type' => $room->type,
-                'is_available' => $room->isavailable,
+                'isavailable' => $room->isavailable,
+                'createdAt' => $room->created_at?->format(config('providers.date.readable')),
             ];
         })->all();
     }

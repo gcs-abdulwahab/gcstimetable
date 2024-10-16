@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AllocationController;
+use App\Http\Controllers\RoomController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -61,6 +62,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
     // Allocations
     Route::get('/allocations/create', [AllocationController::class, 'create'])->name('allocations.create');
     Route::post('/allocations', [AllocationController::class, 'store'])->name('allocations.store');
+
+    // Rooms
+    Route::resource('rooms', RoomController::class);
 });
 
 Route::middleware('auth')->group(function () {

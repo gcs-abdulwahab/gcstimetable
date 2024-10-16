@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import Tooltip from "@/components/ui/tooltip";
 import { ColumnDef } from "@tanstack/react-table";
 import { ShieldCheck, ShieldX } from "lucide-react";
@@ -152,7 +153,15 @@ const columns: ColumnDef<Teacher>[] = [
     {
         accessorKey: "isvisiting",
         header: "Visiting",
-        cell: ({ row }) => (row.original.isvisiting ? "Yes" : "No"), // Formatting cell data
+        cell: ({ row }) => {
+            const isVisiting = Boolean(row.original.isvisiting);
+
+            return (
+                <Badge variant={"outline"} className={isVisiting ? 'text-green-500' : 'text-red-500'}>
+                    {isVisiting ? "Yes" : "No"}
+                </Badge>
+            )
+        },
     },
 ];
 

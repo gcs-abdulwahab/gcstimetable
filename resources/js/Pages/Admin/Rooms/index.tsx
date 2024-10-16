@@ -1,55 +1,38 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import { PageProps, Student } from "@/types";
+import { PageProps, UserType } from "@/types";
 import { DataTable } from "@/Components/Table/DataTable";
-import { ColumnDef } from "@tanstack/react-table";
+import columns from "./columns";
+import { ResourcePaginator } from "@/types/data-table";
+import { Room } from "@/types/database";
 
-export default function Students({ auth, students }: PageProps<{ students: Student[] }>) {
-
-    const columns: ColumnDef<Student>[] = [
-        {
-            accessorKey: "id",
-            header: "#",
-        },
-        {
-            accessorKey: "name",
-            header: "Name",
-        },
-        {
-            accessorKey: "email",
-            header: "Email",
-        },
-        {
-            accessorKey: "mobile",
-            header: "Phone"
-        },
-        {
-            accessorKey: "createdAt",
-            header: "Registration Date",
-        },
-    ];
+export default function Rooms({
+    auth,
+    rooms,
+}: PageProps<{ rooms: Room[] }>) {
+    console.log("Rooms -> Rooms", rooms);
 
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    Students
+                    Rooms
                 </h2>
             }
         >
-            <Head title="Students" />
+            <Head title="Rooms" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white text-gray-900 dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-6">
                             <DataTable
-                                data={students}
+                                data={rooms}
                                 columns={columns}
                                 inputProps={{
                                     searchFilter: true,
-                                    filterColumn: "email",
+                                    filterColumn: "code",
                                     pagination: true,
                                 }}
                             />

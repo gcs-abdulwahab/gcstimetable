@@ -34,6 +34,11 @@ enum PermissionEnum : string
     case DELETE_TIMETABLE   = 'delete timetable';
     case VIEW_TIMETABLE     = 'view timetable';
 
+    case CREATE_ALLOCATION  = 'create allocation';
+    case EDIT_ALLOCATION    = 'edit allocation';
+    case DELETE_ALLOCATION  = 'delete allocation';
+    case VIEW_ALLOCATION    = 'view allocation';
+
     public static function toArray(): array
     {
         return [
@@ -61,6 +66,11 @@ enum PermissionEnum : string
             'EDIT_DEPARTMENT'   => self::EDIT_DEPARTMENT,
             'DELETE_DEPARTMENT' => self::DELETE_DEPARTMENT,
             'VIEW_DEPARTMENT'   => self::VIEW_DEPARTMENT,
+
+            'CREATE_TIMETABLE'  => self::CREATE_TIMETABLE,
+            'EDIT_TIMETABLE'    => self::EDIT_TIMETABLE,
+            'DELETE_TIMETABLE'  => self::DELETE_TIMETABLE,
+            'VIEW_TIMETABLE'    => self::VIEW_TIMETABLE,
         ];
     }
 }

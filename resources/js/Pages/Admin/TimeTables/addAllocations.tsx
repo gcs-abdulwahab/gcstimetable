@@ -81,7 +81,7 @@ export default function AddAllocationsTimeTable({
                                     <h2 className="text-lg font-bold">
                                         {timetable.title}
                                     </h2>
-                                    <Tooltip title="Shift">
+                                    <Tooltip title="Shift" className="cursor-default">
                                         <span className="text-sm self-end">
                                             {timetable.shift?.name}
                                         </span>
@@ -106,7 +106,8 @@ export default function AddAllocationsTimeTable({
 
                             <hr className="my-10" />
 
-                            <div className="grid grid-cols-12 gap-2 overflow-auto">
+                            <div className="grid grid-cols-12 gap-2">
+                                
                                 {/* Shift Slots Header */}
                                 <div className="col-span-12 flex">
                                     <p className="flex-1 font-bold text-gray-800 dark:text-gray-100 text-center h-[50px] w-[200px] flex items-center justify-center overflow-hidden">

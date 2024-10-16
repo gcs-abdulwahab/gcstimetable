@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRoomRequest;
-use App\Http\Requests\UpdateRoomRequest;
-use App\Http\Resources\RoomCollection;
-use App\Http\Resources\RoomResource;
 use App\Models\Room;
+use Inertia\Inertia;
+use App\Http\Resources\RoomResource;
+use App\Http\Resources\RoomCollection;
+use App\Http\Requests\StoreRoomRequest;
 use Illuminate\Database\QueryException;
+use App\Http\Requests\UpdateRoomRequest;
 
 class RoomController extends Controller
 {
@@ -18,11 +19,16 @@ class RoomController extends Controller
     {
         // get the Institution id from the request
 
-        $institution_id = request()->input('institution_id');
+        $institution_id = request()->input('institution_id', auth()->user()->institution_id);
+        // dd($institution_id);
+        $rooms = new RoomCollection(Room::where('institution_id', $institution_id)->get());
+        
 
         // return all rooms with proper exception handling just like DepartmentController
         try {
-            return response()->json(new RoomCollection(Room::all()->where('institution_id', $institution_id)->sortByDesc('updated_at')), 200); // 200 OK
+            return Inertia::render('Admin/Rooms/index', [
+                'rooms' => $rooms,
+            ]);
         } catch (QueryException $exception) {
             return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
         }
