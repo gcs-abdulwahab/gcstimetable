@@ -4,7 +4,9 @@ import {
     GraduationCap,
     User,
     ChartNoAxesCombined,
-    Users
+    Users,
+    CalendarDays,
+    Building
 } from "lucide-react";
 
 import {
@@ -100,6 +102,14 @@ export function CommandDialogDemo() {
                         <CommandItem onSelect={() => handlePageSelect('/teachers')}>
                             <User className="mr-2 h-4 w-4" />
                             <span>Teachers</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => handlePageSelect('/timetables')}>
+                            <CalendarDays className="mr-2 h-4 w-4" />
+                            <span>Time Tables</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => handlePageSelect('/rooms')}>
+                            <Building className="mr-2 h-4 w-4" />
+                            <span>Rooms</span>
                         </CommandItem>
                     </CommandGroup>
                     <CommandSeparator />

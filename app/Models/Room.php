@@ -12,6 +12,21 @@ class Room extends Model
 {
     use HasFactory;
 
+    public function isBsRoom(): bool
+    {
+        return strtoupper($this->type) === 'BS';
+    }
+
+    public function isInterRoom(): bool
+    {
+        return strtoupper($this->type) === 'INTERMEDIATE';
+    }
+
+    public function isBothInterAndBsRoom(): bool
+    {
+        return strtoupper($this->type) === 'BOTH';
+    }
+
     /**
      * The "booted" method of the model.
      */

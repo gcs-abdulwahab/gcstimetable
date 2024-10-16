@@ -44,7 +44,7 @@ export default function TimeTables({
                         {timeTables.length > 0 ? (
                             timeTables.map((timetable) => (
                                 <div key={timetable.id} className="px-6 py-3">
-                                    <div className="relative flex items-center border border-gray-800 dark:border-gray-100 p-4 rounded-md">
+                                    <div className="relative flex flex-col md:flex-row items-center border border-gray-800 dark:border-gray-100 p-4 rounded-md">
                                         <div>
                                             <div className="flex items-center">
                                                 <h2

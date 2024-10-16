@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use Inertia\Inertia;
+use App\Models\Shift;
 use App\Http\Resources\RoomResource;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\RoomCollection;
 use App\Http\Requests\StoreRoomRequest;
 use Illuminate\Database\QueryException;
@@ -22,9 +24,7 @@ class RoomController extends Controller
         $institution_id = request()->input('institution_id', auth()->user()->institution_id);
         // dd($institution_id);
         $rooms = new RoomCollection(Room::where('institution_id', $institution_id)->get());
-        
 
-        // return all rooms with proper exception handling just like DepartmentController
         try {
             return Inertia::render('Admin/Rooms/index', [
                 'rooms' => $rooms,
@@ -62,12 +62,19 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-        // write show method like Day show method
-        if (! $room) {
-            return response()->json(['message' => 'Room not found'], 404);
-        }
+        $room->load('allocations');
+        $shifts = Shift::query()
+                ->when($room->isBsRoom(), fn ($query) => $query->bsRoom())
+                ->when($room->isInterRoom(), fn ($query) => $query->interRoom())
+                ->when($room->isBothInterAndBsRoom(), fn ($query) => $query->bothInterAndBsRoom())
+                ->where('institution_id', $room->institution_id)
+                ->with('slots')
+                ->get();
 
-        return new RoomResource($room);
+        return Inertia::render('Admin/Rooms/show', [
+            'room' => $room,
+            'shifts' => $shifts,
+        ]);
     }
 
     /**
@@ -98,12 +105,19 @@ class RoomController extends Controller
      */
     public function destroy(Room $room)
     {
-        try {
-            $room->delete();
+        $response = Gate::inspect('delete', [Room::class, $room]);
 
-            return response()->json(['room' => $room,  'message' => 'Resource successfully deleted'], 200);
-        } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
+        if ($response->allowed()) {
+
+            try {
+                $room->delete();
+            } catch (QueryException $exception) {
+                return back()->withErrors(['message' => 'Database error '.$exception->getMessage()]);
+            }
+
+            return back()->with('success', 'User deleted successfully.');
         }
+
+        return back()->withErrors(['message' => $response->message()]);
     }
 }

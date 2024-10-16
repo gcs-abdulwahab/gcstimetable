@@ -22,6 +22,26 @@ class Shift extends Model
         static::addGlobalScope(new InstitutionScope);
     }
 
+    // Scopes
+
+    public function scopeBsRoom($query)
+    {
+        return $query->where('name', 'LIKE', '%BS%');
+    }
+
+    public function scopeInterRoom($query)
+    {
+        return $query->whereRaw('UPPER(name) LIKE ?', ['%INTER%']);
+    }
+
+    public function scopeBothInterAndBsRoom($query)
+    {
+        return $query->where('name', 'LIKE', '%BS%')
+                     ->orWhereRaw('UPPER(name) LIKE ?', ['%INTER%']);
+    }
+
+    
+
     // has many slots
     public function slots(): HasMany
     {

@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Exceptions\AllocationException;
 use App\Models\Allocation;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -13,9 +14,6 @@ class AllocationObserver
      */
     public function creating(Allocation $allocation)
     {
-        // dd($allocation);
-        Log::info('in the creating function of allocation model    '.$allocation->course);
-
         $dayid = $allocation->day_id;
         $slotid = $allocation->slot_id;
         $teacherid = $allocation->teacher_id;
@@ -26,22 +24,22 @@ class AllocationObserver
 
         // day and slot must be there
         if (! $allocation->hasDay() || ! $allocation->hasSlot()) {
-            throw new Exception('Allocation must have a day and a slot');
+            throw new AllocationException('Allocation must have a day and a slot.');
         }
         //TODO: do we really have to allocate the teacher    please revise
         // if hasRoom and doesnot have a teacher or course then it should throw Exception
         if ($allocation->hasRoom() && (! $allocation->hasTeacher() || ! $allocation->hasCourse())) {
-            throw new Exception('Room allocation must have a teacher and a course');
+            throw new AllocationException('Room allocation must have a teacher and a course.');
         }
 
         // if a Teacher is there then there must be a course
         if ($allocation->hasTeacher() && ! $allocation->hasCourse()) {
-            throw new Exception('Teacher allocation must have a course');
+            throw new AllocationException('Teacher allocation must have a course.');
         }
 
         // if allocation has a course then section must be there
         if ($allocation->hasCourse() && ! $allocation->hasSection()) {
-            throw new Exception('Course allocation must have a section');
+            throw new AllocationException('Course allocation must have a section.');
         }
 
         // Validate only when all fields are not null
@@ -56,10 +54,10 @@ class AllocationObserver
                 $existingAllocation = $allocation->getExistingAllocation(['day_id' => $dayid, 'slot_id' => $slotid, 'teacher_id' => $teacherid]);
 
                 if ($existingAllocation->course->display_code != $allocation->course->display_code) {
-                    throw new Exception('Allocation does exist with different code  ;  Merge was only allowed when course code is same'.json_encode($fields));
+                    throw new AllocationException('Allocation does exist with different code  ;  Merge was only allowed when course code is same'.json_encode($fields));
                 }
                 if ($existingAllocation->course->id === $allocation->course->id) {
-                    throw new Exception('Allocation does exist: duplicate'.json_encode($fields));
+                    throw new AllocationException('Allocation does exist: duplicate'.json_encode($fields));
                 }
             } else {
                 Log::info('Merger :: Allocation Does not Exist     '.$allocation->course);

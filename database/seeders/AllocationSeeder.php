@@ -16,35 +16,10 @@ class AllocationSeeder extends Seeder
     {
         Allocation::truncate();
 
-        // create allocation for course_id = 1
-        try {
-            $allocation = new Allocation;
-            $allocation->id = 1;
-            $allocation->course_id = 1;
-            $allocation->teacher_id = 1;
-            $allocation->room_id = 1;
-            $allocation->day_id = 1;
-            $allocation->slot_id = 1;
-            $allocation->section_id = 1;
-            $allocation->time_table_id = 1;
-            $allocation->save();
-        } catch (Exception $e) {
-            Log::info('Error creating allocation: '.$e->getMessage().' '.$e->getLine());
-        }
+        $allocations = json_decode(file_get_contents(__DIR__.'/allocations.json'), true);
 
-        try {
-            $allocation = new Allocation;
-            $allocation->id = 2;
-            $allocation->course_id = 1;
-            $allocation->teacher_id = 1;
-            $allocation->room_id = 1;
-            $allocation->day_id = 2;
-            $allocation->slot_id = 1;
-            $allocation->section_id = 1;
-            $allocation->time_table_id = 1;
-            $allocation->save();
-        } catch (Exception $e) {
-            Log::info('Error creating allocation: '.$e->getMessage().' '.$e->getLine());
+        foreach($allocations as $key => $allocation){
+            Allocation::create($allocation);
         }
     }
 }

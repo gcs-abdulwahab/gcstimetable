@@ -3,6 +3,7 @@ import Tooltip from "@/components/ui/tooltip";
 import { Room } from "@/types/database";
 import { Check, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge"
+import { Actions } from "./actions";
 
 const columns: ColumnDef<Room>[] = [
     {
@@ -59,6 +60,17 @@ const columns: ColumnDef<Room>[] = [
                 </Badge>
             );
         }
+    },
+    {
+        accessorKey: "",
+        header: "Actions",
+        cell: ({ row }) => {
+            return (
+                <div className="flex items-center justify-center">
+                    <Actions row={row.original}/>
+                </div>
+            );
+        },
     },
     {
         accessorKey: "createdAt",

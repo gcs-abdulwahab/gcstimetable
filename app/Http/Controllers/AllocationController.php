@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\AllocationException;
 use Exception;
 use App\Models\Slot;
 use Inertia\Inertia;
@@ -99,10 +100,12 @@ class AllocationController extends Controller
 
             return redirect()->route('timetables.add.allocations', ['timetable' => $allocation->time_table_id])->with('success', 'Allocation created successfully');
 
+        } catch (AllocationException $exception) {
+            $message = 'Constraint violation 👉 '.$exception->getMessage();
         } catch (QueryException $exception) {
-            $message = 'Constraint violation or other database error '.$exception->getMessage();
+            $message = 'Database error 👉 '.$exception->getMessage();
         } catch (Exception $exception) {
-            $message = 'Constraint violation or other database error '.$exception->getMessage();
+            $message = 'Something went wrong! Please contact Support.';
         }
 
         Log::channel('allocations')->info($message);

@@ -10,7 +10,6 @@ export default function Rooms({
     auth,
     rooms,
 }: PageProps<{ rooms: Room[] }>) {
-    console.log("Rooms -> Rooms", rooms);
 
     return (
         <AuthenticatedLayout

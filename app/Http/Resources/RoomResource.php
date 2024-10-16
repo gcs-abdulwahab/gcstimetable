@@ -16,17 +16,14 @@ class RoomResource extends JsonResource
     public function toArray(Request $request): array
     {
 
-        Log::info('RoomResource:toArray');
-
         return [
             'id' => $this->id,
             'name' => $this->name,
             'code' => $this->code,
             'capacity' => $this->capacity,
             'type' => $this->type,
-            'is_available' => $this->isavailable,
+            'isavailable' => $this->isavailable,
             'institution_id' => $this->institution_id,
-
         ];
     }
 }

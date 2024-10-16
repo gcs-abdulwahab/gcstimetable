@@ -45,10 +45,9 @@ export function DataTable<TData, TValue>({
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
     const [pagination, setPagination] = useState({
-            pageIndex: 0, //initial page index
-            pageSize: 10, //default page size
-          });
-
+        pageIndex: 0, //initial page index
+        pageSize: 10, //default page size
+    });
 
     const TotalRecords: React.FC<{
         paramTotalCount: number | null;
@@ -110,8 +109,8 @@ export function DataTable<TData, TValue>({
 
     return (
         <div>
-            {finalProps.searchFilter && (
-                <div className="flex items-center py-4">
+            <div className="flex items-center py-4">
+                {finalProps.searchFilter && (
                     <InputField
                         placeholder={`Filter ${finalProps.filterColumn} ...`}
                         value={
@@ -127,35 +126,31 @@ export function DataTable<TData, TValue>({
                         className="max-w-sm"
                         autoFocus
                     />
-
-                    {table.getTotalSize() > 0 && (
-                        <div className="ml-auto self-end dark:text-gray-100">
-                            <TotalRecords
-                                paramTotalCount={table.getTotalSize()}
-                                paramFrom={pagination.pageIndex * pagination.pageSize + 1}
-                                paramTo={
-                                    Math.min(
-                                        (pagination.pageIndex + 1) * pagination.pageSize,
-                                        table.getTotalSize()
-                                    )
-                                }
-                            />
-                        </div>
-                    )}
+                )}
+                <div className="ml-auto self-end dark:text-gray-100">
+                    <TotalRecords
+                        paramTotalCount={
+                            finalProps.pagination
+                                ? table.getRowCount()
+                                : totalCount ?? 0
+                        }
+                        paramFrom={
+                            finalProps.pagination
+                                ? pagination.pageIndex * pagination.pageSize + 1
+                                : from
+                        }
+                        paramTo={
+                            finalProps.pagination
+                                ? Math.min(
+                                      (pagination.pageIndex + 1) *
+                                          pagination.pageSize,
+                                      table.getRowCount()
+                                  )
+                                : to
+                        }
+                    />
                 </div>
-            )}
-
-            {finalProps.searchFilter === false && totalCount && (
-                <div className="flex justify-end py-4 dark:text-gray-100">
-                    <div className="self-end">
-                        <TotalRecords
-                            paramTotalCount={totalCount}
-                            paramFrom={from}
-                            paramTo={to}
-                        />
-                    </div>
-                </div>
-            )}
+            </div>
 
             <div className="rounded-md border text-gray-900 dark:text-gray-100 dark:border-gray-700">
                 <Table

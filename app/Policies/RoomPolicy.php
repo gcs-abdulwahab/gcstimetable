@@ -4,6 +4,8 @@ namespace App\Policies;
 
 use App\Models\Room;
 use App\Models\User;
+use App\PermissionEnum;
+use Illuminate\Auth\Access\Response;
 
 class RoomPolicy
 {
@@ -26,27 +28,33 @@ class RoomPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        //
+        return $user->can(PermissionEnum::CREATE_ROOM->value)
+            ? Response::allow()
+            : Response::deny(config('providers.permission_error_msg'));
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Room $room): bool
+    public function update(User $user, Room $room): Response
     {
-        //
+        return $user->can(PermissionEnum::EDIT_ROOM->value)
+            ? Response::allow()
+            : Response::deny(config('providers.permission_error_msg'));
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Room $room): bool
+    public function delete(User $user, Room $room): Response
     {
-        //
+        return $user->can(PermissionEnum::DELETE_ROOM->value)
+            ? Response::allow()
+            : Response::deny(config('providers.permission_error_msg'));
     }
-
+    
     /**
      * Determine whether the user can restore the model.
      */
