@@ -41,6 +41,7 @@ export default function ShowRoom({
 }: PageProps<ShowRoomProps>) {
     // Helper function to check if a room is available for a given slot and day
     const isRoomAvailableForSlot = (slotId: number, dayId: number): boolean => {
+        // console.log('slotId', slotId, dayId);
         return !room.allocations?.some(
             (allocation) =>
                 allocation.slot_id === slotId && allocation.day_id === dayId

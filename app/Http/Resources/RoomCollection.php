@@ -21,7 +21,7 @@ class RoomCollection extends ResourceCollection
                 'code'      => $room->code,
                 'capacity'  => $room->capacity,
                 'institution_id' => $room->institution_id,
-                'type' => $room->type,
+                'type'          => $room->type,
                 'isavailable' => $room->isavailable,
                 'createdAt' => $room->created_at?->format(config('providers.date.readable')),
             ];

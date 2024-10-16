@@ -51,6 +51,7 @@ type ModifiedSection = {
     SemesterName: string;
     SemesterNo: number;
     SemesterId: number;
+    ProgramType: string;
     id: number;
     name: string;
 };
@@ -119,8 +120,6 @@ export default function CreateAllocation({
     }
 
     const filteredCourse : Course[] | []  = useMemo(() => {
-        console.log("UserMemo Triggerd");
-
         if(data.section_id !== null){
             let semester = props?.sections?.find((section : ModifiedSection) => section.id === data.section_id);
             return props?.courses?.filter((course) => course.semester_id === semester?.SemesterId);

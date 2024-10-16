@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->integer('capacity');
             // create a column so it could be either Intermediate , BS or both   enum
-            $table->enum('type', ['intermediate', 'bs', 'both']);
+            $table->enum('type', ['INTER', 'BS', 'BOTH']);
             // isavailable
             $table->boolean('isavailable');
 

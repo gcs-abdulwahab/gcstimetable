@@ -14,17 +14,17 @@ class Room extends Model
 
     public function isBsRoom(): bool
     {
-        return strtoupper($this->type) === 'BS';
+        return $this->type === 'BS';
     }
 
     public function isInterRoom(): bool
     {
-        return strtoupper($this->type) === 'INTERMEDIATE';
+        return $this->type === 'INTER';
     }
 
     public function isBothInterAndBsRoom(): bool
     {
-        return strtoupper($this->type) === 'BOTH';
+        return $this->type === 'BOTH';
     }
 
     /**

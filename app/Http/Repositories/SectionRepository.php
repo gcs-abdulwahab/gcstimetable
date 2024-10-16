@@ -57,6 +57,6 @@ class SectionRepository
             ->when($sectionid, function ($query, $sectionid) {
                 return $query->where('sections.id', $sectionid);
             })
-            ->get(['sections.id', 'sections.name','semesters.id as SemesterId', 'semesters.name as SemesterName', 'semesters.number as SemesterNo']);
+            ->get(['sections.id', 'sections.name','semesters.id as SemesterId', 'semesters.name as SemesterName', 'semesters.number as SemesterNo', 'programs.type as ProgramType']);
     }
 }

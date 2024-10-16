@@ -60,21 +60,25 @@ class ProgramSeeder extends Seeder
             ['name' => 'Msc Mathematics', 'pcode' => 'Msc-MATH', 'dcode' => 'MATH',   'type' => 'ADP', 'shift_id' => 2],
             ['name' => 'Msc Physics', 'pcode' => 'Msc-PHY', 'dcode' => 'PHY',   'type' => 'ADP', 'shift_id' => 2],
             ['name' => 'Msc Chemistry', 'pcode' => 'Msc-CHEM', 'dcode' => 'Chem',   'type' => 'ADP', 'shift_id' => 2],
-
         ];
 
         // Create records for programs using the array
         foreach ($programs as $programData) {
-            // Check if isMorning is true and add "M" suffix to pcode if true
+            
             $pcode = $programData['pcode'];
             $pname = $programData['name'];
+            $pType = $programData['type'] ?? 'BS';
+
+            if(str_contains($pcode, 'Inter')) {
+                $pType  = 'INTER';
+            }
 
             // Create a program of type 'BS'
             Program::create([
                 'name' => $pname,
                 'code' => $pcode,
                 'department_id' => Department::where('code', $programData['dcode'])->first()->id,
-
+                'type' => $pType,
                 'shift_id' => $programData['shift_id'],
             ]);
 
