@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Slot;
 use Inertia\Inertia;
 use App\Models\Shift;
 use App\Models\Section;
 use App\Models\TimeTable;
+use App\Models\Allocation;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\TimeTable\StoreTimeTableRequest;
 use App\Http\Requests\TimeTable\UpdateTimeTableRequest;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TimeTableController extends Controller
 {

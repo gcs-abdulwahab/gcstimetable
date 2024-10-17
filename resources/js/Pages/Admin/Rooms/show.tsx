@@ -87,7 +87,7 @@ export default function ShowRoom({
                                     </thead>
                                     <tbody>
                                         {Array.from(
-                                            { length: 7 },
+                                            { length: 6 },
                                             (_, i) => i + 1
                                         ).map((dayNumber) => (
                                             <tr

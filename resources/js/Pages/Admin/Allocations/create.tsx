@@ -1,4 +1,4 @@
-import { FormEventHandler, useMemo, useState } from "react";
+import { FormEventHandler, useEffect, useMemo, useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps, Shift, TimeStamp, TimeTable } from "@/types";
@@ -33,9 +33,12 @@ import {
     Semester,
     Course,
     Section,
+    Allocation,
 } from "@/types/database";
 import { ComboboxDemo } from "@/components/combobox";
 import { getNumberWithOrdinal } from "@/utils/helper";
+import { AllocationCell } from "../TimeTables/Partials/AllocationCell";
+import { cn } from "@/lib/utils";
 
 interface FormProps {
     time_table_id: number;
@@ -71,26 +74,97 @@ interface CreateAllocationProps {
         slot: Slot;
         sections: ModifiedSection[];
         courses: Course[];
+        allocations: Allocation[];
     };
 }
+
+const EmptyAllocation: Allocation = {
+    id: 0,
+    day_id: 0,
+    room_id: 0,
+    teacher_id: 0,
+    course_id: 0,
+    section_id: 0,
+    slot_id: 0,
+    time_table_id: 0,
+    name: "",
+};
 
 export default function CreateAllocation({
     auth,
     props,
 }: PageProps & CreateAllocationProps) {
-    console.log("CreateAllocation -> Props", props);
+    // State
+    const [selectedAllocation, setSelectedAllocation] = useState<Allocation>(
+        props.allocations[0] ?? EmptyAllocation
+    );
 
     const { data, setData, post, errors, processing, reset } =
         useForm<FormProps>({
             time_table_id: props?.timetable?.id,
             slot_id: props?.slot?.id,
             day_id: null,
-            section_id: null,
+            section_id:
+                props?.sections.length > 1 ? null : props?.sections[0]?.id,
             room_id: null,
             teacher_id: null,
             course_id: null,
         });
 
+    // Life Cycle Hooks
+    useEffect(() => {
+        if (selectedAllocation) {
+            console.log("Selected Allocation", selectedAllocation);
+            setData((data) => ({
+                ...data,
+                day_id: mapZeroToNull(selectedAllocation.day_id),
+                room_id: mapZeroToNull(selectedAllocation.room_id),
+                teacher_id: mapZeroToNull(selectedAllocation.teacher_id),
+                course_id: mapZeroToNull(selectedAllocation.course_id),
+            }));
+        }
+    }, [selectedAllocation]);
+
+    function mapZeroToNull(value: number) {
+        return value === 0 ? null : value;
+    }
+
+    useEffect(() => {
+        if (data) {
+            console.log("create allocations -> Data", data);
+        }
+    }, [data]);
+
+    const filteredCourse: Course[] | [] = useMemo(() => {
+        if (data.section_id) {
+            let semester = props?.sections?.find(
+                (section: ModifiedSection) => section.id === data.section_id
+            );
+            return props?.courses?.filter(
+                (course) => course.semester_id === semester?.SemesterId
+            );
+        }
+
+        return [];
+    }, [data.section_id]);
+
+    const filteredRooms: Room[] | [] = useMemo(() => {
+        if (data.section_id) {
+            let semester = props?.sections?.find(
+                (section: ModifiedSection) => section.id === data.section_id
+            );
+
+            return (props?.timetable?.shift?.institution?.rooms || []).filter(
+                (room) =>
+                    semester?.ProgramType === room?.type ||
+                    room?.type === "BOTH"
+            );
+        }
+
+        return [];
+    }, [data.section_id]);
+
+    // Submit Form
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
@@ -109,24 +183,13 @@ export default function CreateAllocation({
                     title: "Allocation Created",
                     description: "Allocation is created successfully!",
                 });
-                // handleClose();
             },
         });
     };
 
     function handleClose() {
-        // router.get(route("timetables.add.allocations", props?.timetable?.id));
         history.back();
     }
-
-    const filteredCourse : Course[] | []  = useMemo(() => {
-        if(data.section_id !== null){
-            let semester = props?.sections?.find((section : ModifiedSection) => section.id === data.section_id);
-            return props?.courses?.filter((course) => course.semester_id === semester?.SemesterId);
-        }
-
-        return [];
-    }, [data.section_id]);
 
     return (
         <AuthenticatedLayout
@@ -142,8 +205,65 @@ export default function CreateAllocation({
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 sm:rounded-lg">
-                        <div className="p-6 flex justify-end">
-                            <Card className="w-full bg-white shadow-md rounded-lg dark:bg-gray-800">
+                        <div className="p-6 space-y-4">
+                            {/* Show Allocations */}
+
+                            {props.allocations.length > 0 ? (
+                                <ol className="w-full bg-white shadow-md  rounded-lg dark:bg-gray-800 px-6 py-4 border border-gray-700">
+                                    {props.allocations?.map(
+                                        (allocation: Allocation, index) => (
+                                            <li
+                                                key={allocation.id}
+                                                className=""
+                                            >
+                                                <span className="mr-4">
+                                                    {index + 1} -{" "}
+                                                </span>
+                                                <span
+                                                    onClick={() =>
+                                                        setSelectedAllocation(
+                                                            allocation
+                                                        )
+                                                    }
+                                                >
+                                                    <AllocationCell
+                                                        className={cn(
+                                                            "cursor-pointer",
+                                                            {
+                                                                underline:
+                                                                    selectedAllocation?.id ===
+                                                                    allocation.id,
+                                                            }
+                                                        )}
+                                                        allocation={allocation}
+                                                    />
+                                                </span>
+                                            </li>
+                                        )
+                                    )}
+                                    <li>
+                                        <span className="mr-4">
+                                            {props.allocations.length + 1} -{" "}
+                                        </span>
+                                        <span
+                                            className={cn("cursor-pointer", {
+                                                underline:
+                                                    selectedAllocation?.id === 0,
+                                            })}
+                                            onClick={() =>
+                                                setSelectedAllocation(
+                                                    EmptyAllocation
+                                                )
+                                            }
+                                        >
+                                            Create New Allocation
+                                        </span>
+                                    </li>
+                                </ol>
+                            ) : null}
+
+                            {/* Create Allocation */}
+                            <Card className="w-full bg-white shadow-md rounded-lg dark:bg-gray-800 border border-gray-700">
                                 <CardHeader className="flex items-center space-x-4">
                                     <CardTitle>Create Allocation</CardTitle>
                                 </CardHeader>
@@ -166,40 +286,8 @@ export default function CreateAllocation({
                                         </span>
                                     </div>
 
-                                    <div className="mb-4">
-                                        <InputLabel
-                                            htmlFor="day"
-                                            value="Day"
-                                            aria-required
-                                        />
-                                        <Select
-                                            name="day"
-                                            defaultValue={data.day_id?.toString()}
-                                            onValueChange={(value) =>
-                                                setData("day_id", Number(value))
-                                            }
-                                        >
-                                            <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
-                                                <SelectValue placeholder="Select a Day" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {props?.timetable?.shift?.institution?.days?.map(
-                                                    (day) => (
-                                                        <SelectItem
-                                                            key={day.id}
-                                                            value={day.id.toString()}
-                                                        >
-                                                            {day.name}
-                                                        </SelectItem>
-                                                    )
-                                                )}
-                                            </SelectContent>
-                                        </Select>
-                                        <InputError message={errors.day_id} />
-                                    </div>
-
-                                    <div className="grid grid-cols-12 gap-4">
-                                        <div className="mb-4 col-span-12 md:col-span-6">
+                                    {props.sections?.length > 1 ? (
+                                        <div className="mb-4">
                                             <InputLabel
                                                 htmlFor="section"
                                                 value="Section"
@@ -241,6 +329,58 @@ export default function CreateAllocation({
                                                 message={errors.section_id}
                                             />
                                         </div>
+                                    ) : (
+                                        <div className="mb-4 flex">
+                                            <span className="font-bold w-2/12">
+                                                Section:{" "}
+                                            </span>
+                                            <span className="flex-1">
+                                                {getNumberWithOrdinal(
+                                                    props.sections[0].SemesterNo
+                                                )}{" "}
+                                                - {props.sections[0].name} -{" "}
+                                                {props.sections[0].SemesterName}
+                                            </span>
+                                        </div>
+                                    )}
+
+                                    <div className="grid grid-cols-12 gap-4">
+                                        <div className="mb-4 col-span-12 md:col-span-6">
+                                            <InputLabel
+                                                htmlFor="day"
+                                                value="Day"
+                                                aria-required
+                                            />
+                                            <Select
+                                                name="day"
+                                                defaultValue={data.day_id?.toString()}
+                                                onValueChange={(value) =>
+                                                    setData(
+                                                        "day_id",
+                                                        Number(value)
+                                                    )
+                                                }
+                                            >
+                                                <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
+                                                    <SelectValue placeholder="Select a Day" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {props?.timetable?.shift?.institution?.days?.map(
+                                                        (day) => (
+                                                            <SelectItem
+                                                                key={day.id}
+                                                                value={day.id.toString()}
+                                                            >
+                                                                {day.name}
+                                                            </SelectItem>
+                                                        )
+                                                    )}
+                                                </SelectContent>
+                                            </Select>
+                                            <InputError
+                                                message={errors.day_id}
+                                            />
+                                        </div>
 
                                         {/* Rooms */}
                                         <div className="mb-4 col-span-12 md:col-span-6">
@@ -250,6 +390,9 @@ export default function CreateAllocation({
                                             />
                                             <Select
                                                 name="room"
+                                                disabled={
+                                                    filteredRooms.length === 0
+                                                }
                                                 defaultValue={data.room_id?.toString()}
                                                 onValueChange={(value) =>
                                                     setData(
@@ -262,7 +405,7 @@ export default function CreateAllocation({
                                                     <SelectValue placeholder="Select Room" />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    {props?.timetable?.shift?.institution?.rooms?.map(
+                                                    {filteredRooms?.map(
                                                         (room) => (
                                                             <SelectItem
                                                                 key={room.id}
@@ -327,7 +470,9 @@ export default function CreateAllocation({
                                             />
                                             <Select
                                                 name="course"
-                                                disabled={filteredCourse?.length === 0}
+                                                disabled={
+                                                    filteredCourse?.length === 0
+                                                }
                                                 defaultValue={data.course_id?.toString()}
                                                 onValueChange={(value) =>
                                                     setData(

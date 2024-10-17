@@ -70,16 +70,22 @@ class AllocationController extends Controller
         $sections  = $this->sectionRepository->getAllByShiftId($timetable?->shift_id, $request->input('section_id'));
         $courses     = $timetable?->shift?->semesters?->pluck('courses')->flatten();
 
+        $allocations = [];
+        if ($request->has('section_id')) {
+            $allocations = Allocation::where(['time_table_id' => $timetable->id, 'slot_id' => $request->slot_id, 'section_id' => $request->section_id])->get();
+        }
+
         // Remove the semesters relationship from the timetable object
         $timetable?->shift?->setRelation('semesters', collect());
-        
+
 
         return Inertia::render('Admin/Allocations/create', [
             'props' => [
                 'timetable' => $timetable,
                 'slot' => $slot,
                 'sections' => $sections,
-                'courses' => $courses
+                'courses' => $courses,
+                'allocations' => $allocations,
             ],
         ]);
     }

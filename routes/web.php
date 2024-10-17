@@ -57,7 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     // Time Table Resource
     Route::resource('timetables', TimeTableController::class);
     Route::get('/timetables/{timetable}/add/allocations', [TimeTableController::class, 'addAllocations'])->name('timetables.add.allocations');
-    Route::get('/timetables/{timetable}/edit/{allocation}', [TimeTableController::class, 'editAllocation'])->name('timetables.edit.allocation');
+    // Route::get('/timetables/{timetable}/edit/cell', [TimeTableController::class, 'editTimeTableCell'])->name('timetables.edit.cell');
 
     // Allocations
     Route::get('/allocations/create', [AllocationController::class, 'create'])->name('allocations.create');

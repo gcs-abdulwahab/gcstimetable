@@ -1,8 +1,15 @@
+import { cn } from "@/lib/utils";
 import { Allocation } from "@/types/database";
 
-export function AllocationCell({ allocation }: { allocation: Allocation }) {
+export function AllocationCell({
+    allocation,
+    className,
+}: {
+    allocation: Allocation;
+    className?: string;
+}) {
     return (
-        <span className="text-sm">
+        <span className={cn("text-sm", className)}>
             {allocation?.course?.code && (
                 <span>{allocation?.course?.display_code}</span>
             )}

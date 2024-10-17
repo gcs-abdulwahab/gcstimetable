@@ -44,10 +44,10 @@ export default function AddAllocationsTimeTable({
         );
     }
 
-    function handleCreateAllocation(slot: Slot, section_id = null as any) {
+    function handleCreateAllocation(slot_id: number, section_id = null as any) {
         let params: any = {
             time_table_id: timetable.id,
-            slot_id: slot.id,
+            slot_id: slot_id
         };
 
         if (section_id) {
@@ -55,6 +55,16 @@ export default function AddAllocationsTimeTable({
         }
 
         router.get(route("allocations.create", params));
+    }
+
+    function editTimeTableCell(slot_id: number, section_id: number) {
+        router.get(
+            route("allocations.create", {
+                time_table_id: timetable.id,
+                slot_id,
+                section_id,
+            })
+        );
     }
 
     return (
@@ -167,7 +177,13 @@ export default function AddAllocationsTimeTable({
                                                         return alloc ? (
                                                             <p
                                                                 key={slot.id}
-                                                                className="flex-1 text-center h-auto min-h-[100px] w-[150px] min-w-[200px] flex items-center justify-center border-l px-2"
+                                                                className="flex-1 text-center h-auto min-h-[100px] w-[150px] min-w-[200px] flex items-center justify-center border-l px-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+                                                                onClick={() =>
+                                                                    editTimeTableCell(
+                                                                        slot.id,
+                                                                        section.id
+                                                                    )
+                                                                }
                                                             >
                                                                 <AllocationCell
                                                                     allocation={
@@ -183,7 +199,7 @@ export default function AddAllocationsTimeTable({
                                                                 <SecondaryButton
                                                                     onClick={() =>
                                                                         handleCreateAllocation(
-                                                                            slot,
+                                                                            slot.id,
                                                                             section.id
                                                                         )
                                                                     }
@@ -212,7 +228,7 @@ export default function AddAllocationsTimeTable({
                                                 <SecondaryButton
                                                     onClick={() =>
                                                         handleCreateAllocation(
-                                                            slot
+                                                            slot.id
                                                         )
                                                     }
                                                 >
