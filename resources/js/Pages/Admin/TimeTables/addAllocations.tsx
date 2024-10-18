@@ -29,25 +29,18 @@ export default function AddAllocationsTimeTable({
         }
     }, [timetable]);
 
-    function handleClose() {
-        router.get(route("timetables.index"));
-    }
-
-    function getAllocation(slotId: number, sectionId: number) {
-        return (
-            allocations &&
-            allocations.find(
-                (allocation) =>
-                    allocation.slot_id === slotId &&
-                    allocation.section_id === sectionId
-            )
+    function getAllocations(slotId: number, sectionId: number) {
+        return allocations.filter(
+            (allocation) =>
+                allocation.slot_id === slotId &&
+                allocation.section_id === sectionId
         );
     }
 
     function handleCreateAllocation(slot_id: number, section_id = null as any) {
         let params: any = {
             time_table_id: timetable.id,
-            slot_id: slot_id
+            slot_id: slot_id,
         };
 
         if (section_id) {
@@ -168,16 +161,17 @@ export default function AddAllocationsTimeTable({
 
                                                 {timetable.shift?.slots?.map(
                                                     (slot) => {
-                                                        let alloc =
-                                                            getAllocation(
+                                                        let allocs =
+                                                            getAllocations(
                                                                 slot.id,
                                                                 section.id
                                                             );
 
-                                                        return alloc ? (
+                                                        return allocs.length >
+                                                            0 ? (
                                                             <p
                                                                 key={slot.id}
-                                                                className="flex-1 text-center h-auto min-h-[100px] w-[150px] min-w-[200px] flex items-center justify-center border-l px-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+                                                                className="flex-1 text-center h-auto min-h-[100px] w-[150px] min-w-[200px] flex flex-col items-center justify-center border-l px-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
                                                                 onClick={() =>
                                                                     editTimeTableCell(
                                                                         slot.id,
@@ -185,11 +179,18 @@ export default function AddAllocationsTimeTable({
                                                                     )
                                                                 }
                                                             >
-                                                                <AllocationCell
-                                                                    allocation={
-                                                                        alloc
-                                                                    }
-                                                                />
+                                                                {allocs.map(
+                                                                    (alloc) => (
+                                                                        <AllocationCell
+                                                                            key={
+                                                                                alloc.id
+                                                                            }
+                                                                            allocation={
+                                                                                alloc
+                                                                            }
+                                                                        />
+                                                                    )
+                                                                )}
                                                             </p>
                                                         ) : (
                                                             <p

@@ -60,8 +60,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
     // Route::get('/timetables/{timetable}/edit/cell', [TimeTableController::class, 'editTimeTableCell'])->name('timetables.edit.cell');
 
     // Allocations
-    Route::get('/allocations/create', [AllocationController::class, 'create'])->name('allocations.create');
-    Route::post('/allocations', [AllocationController::class, 'store'])->name('allocations.store');
+    Route::resource('allocations', AllocationController::class);
+    // Route::get('/allocations/create', [AllocationController::class, 'create'])->name('allocations.create');
+    // Route::post('/allocations', [AllocationController::class, 'store'])->name('allocations.store');
 
     // Rooms
     Route::resource('rooms', RoomController::class);

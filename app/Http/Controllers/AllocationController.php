@@ -86,6 +86,7 @@ class AllocationController extends Controller
                 'sections' => $sections,
                 'courses' => $courses,
                 'allocations' => $allocations,
+                'haveSection' => $request->has('section_id')
             ],
         ]);
     }
@@ -99,12 +100,11 @@ class AllocationController extends Controller
         Log::channel('allocations')->info('CreateAllocation_Request', $attributes);
 
         $message    = '';
-        $allocation = null;
         try {
 
             $allocation = Allocation::create($attributes);
 
-            return redirect()->route('timetables.add.allocations', ['timetable' => $allocation->time_table_id])->with('success', 'Allocation created successfully');
+            return back()->with('success', 'Resource successfully created');
 
         } catch (AllocationException $exception) {
             $message = 'Constraint violation 👉 '.$exception->getMessage();
@@ -147,10 +147,15 @@ class AllocationController extends Controller
         try {
             $allocation->update($request->all());
 
-            return response()->json($allocation, 200); // 200 OK
+            return back()->with('success', 'Resource successfully updated');
+
+        } catch (AllocationException $exception) {
+            $message = 'Constraint violation 👉 '.$exception->getMessage();
         } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
+            $message = 'Database error 👉 '.$exception->getMessage();
         }
+
+        return back()->withErrors(['message' => $message]);
     }
 
     /**

@@ -84,7 +84,7 @@ class TimeTableController extends Controller
 
         if ($timetable->allocations) {
             $sectionIds = $timetable->allocations?->groupby('section_id')->keys();
-
+            
             if ($sectionIds && count($sectionIds) > 0) {
                 // Getting Table Sections
                 $sections = Section::whereIn('id', $sectionIds)->with(['semester' => function ($query) {

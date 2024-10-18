@@ -13,7 +13,7 @@ class TimeTable extends Model
 
     public function getTimeAgoAttribute()
     {
-        return $this->created_at->diffForHumans();
+        return $this->created_at?->diffForHumans();
     }
 
     public function shift()

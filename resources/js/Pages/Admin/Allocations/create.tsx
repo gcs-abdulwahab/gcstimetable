@@ -35,7 +35,7 @@ import {
     Section,
     Allocation,
 } from "@/types/database";
-import { ComboboxDemo } from "@/components/combobox";
+import { AutoCompleteSelect } from "@/components/combobox";
 import { getNumberWithOrdinal } from "@/utils/helper";
 import { AllocationCell } from "../TimeTables/Partials/AllocationCell";
 import { cn } from "@/lib/utils";
@@ -75,6 +75,7 @@ interface CreateAllocationProps {
         sections: ModifiedSection[];
         courses: Course[];
         allocations: Allocation[];
+        haveSection: boolean;
     };
 }
 
@@ -94,12 +95,13 @@ export default function CreateAllocation({
     auth,
     props,
 }: PageProps & CreateAllocationProps) {
+
     // State
     const [selectedAllocation, setSelectedAllocation] = useState<Allocation>(
         props.allocations[0] ?? EmptyAllocation
     );
 
-    const { data, setData, post, errors, processing, reset } =
+    const { data, setData, post, put, errors, processing, reset } =
         useForm<FormProps>({
             time_table_id: props?.timetable?.id,
             slot_id: props?.slot?.id,
@@ -114,7 +116,6 @@ export default function CreateAllocation({
     // Life Cycle Hooks
     useEffect(() => {
         if (selectedAllocation) {
-            console.log("Selected Allocation", selectedAllocation);
             setData((data) => ({
                 ...data,
                 day_id: mapZeroToNull(selectedAllocation.day_id),
@@ -128,12 +129,6 @@ export default function CreateAllocation({
     function mapZeroToNull(value: number) {
         return value === 0 ? null : value;
     }
-
-    useEffect(() => {
-        if (data) {
-            console.log("create allocations -> Data", data);
-        }
-    }, [data]);
 
     const filteredCourse: Course[] | [] = useMemo(() => {
         if (data.section_id) {
@@ -168,27 +163,49 @@ export default function CreateAllocation({
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route("allocations.store"), {
-            onError: (error) => {
-                if (error.message) {
+        if (selectedAllocation.id === 0) {
+            // Create New Allocation
+            post(route("allocations.store"), {
+                onError: (error) => {
+                    if (error.message) {
+                        toast({
+                            variant: "destructive",
+                            title: "Error!",
+                            description: error.message,
+                        });
+                    }
+                },
+                onSuccess: (response) => {
                     toast({
-                        variant: "destructive",
-                        title: "Error!",
-                        description: error.message,
+                        title: "Allocation Created",
+                        description: "Allocation is created successfully!",
                     });
-                }
-            },
-            onSuccess: (response) => {
-                toast({
-                    title: "Allocation Created",
-                    description: "Allocation is created successfully!",
-                });
-            },
-        });
+                },
+            });
+        } else {
+            // Update Existing Allocation
+            put(route("allocations.update", selectedAllocation.id), {
+                onError: (error) => {
+                    if (error.message) {
+                        toast({
+                            variant: "destructive",
+                            title: "Error!",
+                            description: error.message,
+                        });
+                    }
+                },
+                onSuccess: (response) => {
+                    toast({
+                        title: "Allocation Updated",
+                        description: "Allocation is updated successfully!",
+                    });
+                },
+            });
+        }
     };
 
     function handleClose() {
-        history.back();
+        router.get(route('timetables.add.allocations', props.timetable));
     }
 
     return (
@@ -212,10 +229,7 @@ export default function CreateAllocation({
                                 <ol className="w-full bg-white shadow-md  rounded-lg dark:bg-gray-800 px-6 py-4 border border-gray-700">
                                     {props.allocations?.map(
                                         (allocation: Allocation, index) => (
-                                            <li
-                                                key={allocation.id}
-                                                className=""
-                                            >
+                                            <li key={allocation.id}>
                                                 <span className="mr-4">
                                                     {index + 1} -{" "}
                                                 </span>
@@ -228,7 +242,7 @@ export default function CreateAllocation({
                                                 >
                                                     <AllocationCell
                                                         className={cn(
-                                                            "cursor-pointer",
+                                                            "cursor-pointer text-base",
                                                             {
                                                                 underline:
                                                                     selectedAllocation?.id ===
@@ -248,7 +262,8 @@ export default function CreateAllocation({
                                         <span
                                             className={cn("cursor-pointer", {
                                                 underline:
-                                                    selectedAllocation?.id === 0,
+                                                    selectedAllocation?.id ===
+                                                    0,
                                             })}
                                             onClick={() =>
                                                 setSelectedAllocation(
@@ -286,7 +301,7 @@ export default function CreateAllocation({
                                         </span>
                                     </div>
 
-                                    {props.sections?.length > 1 ? (
+                                    {props.haveSection === false ? (
                                         <div className="mb-4">
                                             <InputLabel
                                                 htmlFor="section"
@@ -294,7 +309,7 @@ export default function CreateAllocation({
                                             />
                                             <Select
                                                 name="section"
-                                                defaultValue={data.section_id?.toString()}
+                                                value={data.section_id?.toString()}
                                                 onValueChange={(value) =>
                                                     setData(
                                                         "section_id",
@@ -335,11 +350,12 @@ export default function CreateAllocation({
                                                 Section:{" "}
                                             </span>
                                             <span className="flex-1">
+                                                {props.sections[0]?.name} -{" "}
                                                 {getNumberWithOrdinal(
-                                                    props.sections[0].SemesterNo
+                                                    props.sections[0]?.SemesterNo
                                                 )}{" "}
-                                                - {props.sections[0].name} -{" "}
-                                                {props.sections[0].SemesterName}
+                                                -{" "}
+                                                {props.sections[0]?.SemesterName}
                                             </span>
                                         </div>
                                     )}
@@ -353,7 +369,7 @@ export default function CreateAllocation({
                                             />
                                             <Select
                                                 name="day"
-                                                defaultValue={data.day_id?.toString()}
+                                                value={data.day_id?.toString()}
                                                 onValueChange={(value) =>
                                                     setData(
                                                         "day_id",
@@ -393,7 +409,7 @@ export default function CreateAllocation({
                                                 disabled={
                                                     filteredRooms.length === 0
                                                 }
-                                                defaultValue={data.room_id?.toString()}
+                                                value={data.room_id?.toString()}
                                                 onValueChange={(value) =>
                                                     setData(
                                                         "room_id",
@@ -432,7 +448,7 @@ export default function CreateAllocation({
                                             />
                                             <Select
                                                 name="teacher"
-                                                defaultValue={data.teacher_id?.toString()}
+                                                value={data.teacher_id?.toString()}
                                                 onValueChange={(value) =>
                                                     setData(
                                                         "teacher_id",
@@ -473,7 +489,7 @@ export default function CreateAllocation({
                                                 disabled={
                                                     filteredCourse?.length === 0
                                                 }
-                                                defaultValue={data.course_id?.toString()}
+                                                value={data.course_id?.toString()}
                                                 onValueChange={(value) =>
                                                     setData(
                                                         "course_id",
@@ -508,27 +524,8 @@ export default function CreateAllocation({
                                                     )}
                                                 </SelectContent>
                                             </Select>
-                                            <InputError
-                                                message={errors.course_id}
-                                            />
                                         </div>
                                     </div>
-
-                                    {/* <div>
-                                        <ComboboxDemo
-                                            label="Select Section..."
-                                            value={data.section_id}
-                                            setValue={(value: any) =>
-                                                setData("section_id", value)
-                                            }
-                                            values={(props?.sections || []).map(
-                                                (section) => ({
-                                                    value: section.id,
-                                                    label: `${section.SemesterNo} - ${section.name} - ${section.SemesterName}`,
-                                                })
-                                            )}
-                                        />
-                                    </div> */}
                                 </CardContent>
 
                                 <CardFooter className="mt-4 flex justify-end gap-3">

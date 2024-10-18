@@ -68,7 +68,8 @@ export default function EditTimeTable({
     };
 
     function handleClose() {
-        router.get(route("timetables.index"));
+        // router.get(route("timetables.index"));
+        history.back();
     }
 
     return (

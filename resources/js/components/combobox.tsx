@@ -17,19 +17,21 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 
-interface ComboboxDemoProps {
+interface AutoCompleteProps {
     label: string;
     value: any;
     setValue: (value: string) => void;
-    values: { value: any; label: string }[];
+    values: { value: string | number; label: string }[];
+    disabled?: boolean
 }
 
-export function ComboboxDemo({
+export function AutoCompleteSelect({
     label,
     value,
     setValue,
     values,
-}: ComboboxDemoProps) {
+    disabled
+}: AutoCompleteProps) {
     const [open, setOpen] = React.useState(false);
 
     return (
@@ -39,25 +41,32 @@ export function ComboboxDemo({
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="justify-between"
+                    className="justify-between w-full"
+                    disabled={disabled}
                 >
                     {value
-                        ? values.find((framework) => framework.value === value)
-                              ?.label
+                        ? (() => {
+                              return values.find(
+                                  (framework) => framework.value === value
+                              )?.label;
+                          })()
                         : label}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="p-0">
                 <Command>
-                    <CommandInput placeholder={label} />
+                    <CommandInput
+                        className="border-transparent focus:border-transparent focus:ring-transparent"
+                        placeholder={label}
+                    />
                     <CommandList>
                         <CommandEmpty>Not found.</CommandEmpty>
                         <CommandGroup>
                             {values.map((framework) => (
                                 <CommandItem
                                     key={framework.value}
-                                    value={framework.value}
+                                    value={String(framework.value)}
                                     onSelect={(currentValue) => {
                                         setValue(
                                             currentValue === value
