@@ -180,6 +180,8 @@ export default function CreateAllocation({
                         title: "Allocation Created",
                         description: "Allocation is created successfully!",
                     });
+                    reset('day_id', 'room_id', 'teacher_id', 'course_id');
+                    setSelectedAllocation(EmptyAllocation);
                 },
             });
         } else {

@@ -15,10 +15,6 @@ export default function AddAllocationsTimeTable({
     timetable,
     sections,
 }: PageProps<{ timetable: TimeTable; sections: Section[] }>) {
-    console.log(
-        "AddAllocationsTimeTable => allocations",
-        timetable.allocations
-    );
 
     // state
     const [allocations, setAllocations] = useState<Allocation[]>([]);
@@ -146,7 +142,9 @@ export default function AddAllocationsTimeTable({
                                         ))}
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-12 gap-2 auto-rows-fr">
+
+                                {/* Action Rows */}
+                                <div className="grid grid-cols-12 gap-2">
                                     {/* Allocations With Sections */}
                                     {sections.length > 0 &&
                                         sections.map((section) => (
@@ -171,7 +169,7 @@ export default function AddAllocationsTimeTable({
                                                             0 ? (
                                                             <p
                                                                 key={slot.id}
-                                                                className="flex-1 text-center h-auto min-h-[100px] w-[150px] min-w-[200px] flex flex-col items-center justify-center border-l px-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+                                                                className="flex-1 text-center h-auto min-h-[100px] w-[150px] min-w-[200px] flex flex-col items-center justify-center border-l px-2 py-5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
                                                                 onClick={() =>
                                                                     editTimeTableCell(
                                                                         slot.id,

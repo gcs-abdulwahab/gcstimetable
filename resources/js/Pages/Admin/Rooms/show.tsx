@@ -63,9 +63,17 @@ export default function ShowRoom({
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 sm:rounded-lg shadow-lg">
                         <div className="p-6 flex flex-col">
-                            <h1 className="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-100">
-                                Room Availability for {room.name}
-                            </h1>
+                            <div className="flex justify-between">
+                                <h1 className="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-100">
+                                    Room Availability for {room.name}
+                                </h1>
+                                <Link
+                                    href={route("rooms.index")}
+                                    className="flex items-center space-x-2"
+                                >
+                                    <SecondaryButton>Back</SecondaryButton>
+                                </Link>
+                            </div>
 
                             {/* Table structure to show availability */}
                             <div className="overflow-x-auto shadow-md rounded-lg">
@@ -116,6 +124,7 @@ export default function ShowRoom({
                                                                                 {
                                                                                     slot.name
                                                                                 }
+
                                                                                 :
                                                                             </span>
                                                                             <span className="ml-1 text-sm text-gray-500 dark:text-gray-400">
