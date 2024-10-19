@@ -9,8 +9,6 @@ export default function Users({
     auth,
     users,
 }: PageProps<{ users: ResourcePaginator<UserType> }>) {
-    console.log("Users -> users", users);
-    console.log("Users  -> auth", auth);
 
     return (
         <AuthenticatedLayout

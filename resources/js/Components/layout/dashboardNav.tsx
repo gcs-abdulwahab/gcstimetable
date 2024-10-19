@@ -37,7 +37,6 @@ const NavItemContent = React.memo(
         isExpanded: boolean;
         isMobile: boolean;
     }) => {
-        console.log("isMinimized -> NavItemContent", isMinimized);
         const Icon = item.icon as React.ElementType | undefined;
         const hasChildren = item.children && item.children.length > 0;
 

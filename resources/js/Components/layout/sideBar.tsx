@@ -13,8 +13,6 @@ type SidebarProps = {
 
 export default function Sidebar({ className }: SidebarProps) {
     const { isMinimized, toggle } = useSidebar();
-    console.log("isMinimized -> sideBarValue", isMinimized);
-
     const handleToggle = () => {
         toggle();
     };

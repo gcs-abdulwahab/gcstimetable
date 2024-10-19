@@ -34,7 +34,6 @@ export default function CreateTimeTable({
     auth,
     shifts,
 }: PageProps<{ shifts: Shift[] }>) {
-    console.log("Create Time Table -> shifts", shifts);
     const { data, setData, post, errors, processing, reset } =
         useForm<FormProps>({
             title: "",
