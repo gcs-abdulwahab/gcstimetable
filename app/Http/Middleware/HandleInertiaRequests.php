@@ -42,7 +42,12 @@ class HandleInertiaRequests extends Middleware
             'ziggy' => fn () => [
                 ...(new Ziggy())->toArray(),
                 'location' => $request->url(),
-            ]      ];
+            ],
+            'flash' => [
+                'success' => fn () => session('success'),
+                'error' => fn () => session('error')
+            ],
+        ];
     }
 
     private function currentUser(Request $request)

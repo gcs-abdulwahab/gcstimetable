@@ -29,7 +29,7 @@ class UserController extends Controller
         $user = User::find($user_id);
 
         if (!$user) {
-            return back()->withErrors(['message' => 'User not found.']);
+            return back()->with('error' , 'User not found.');
         }
 
         $response = Gate::inspect('delete', [User::class, $user]);
@@ -37,7 +37,7 @@ class UserController extends Controller
         if ($response->allowed()) {
 
             if (!$user->isStudent() && !$user->isTeacher()) {
-                return back()->withErrors(['message' => "User, {$user->name} can't be deleted."]);
+                return back()->with('error' , "User, {$user->name} can't be deleted.");
             }
 
             $user->delete();
@@ -45,6 +45,6 @@ class UserController extends Controller
             return back()->with('success', 'User deleted successfully.');
         }
 
-        return back()->withErrors(['message' => $response->message()]);
+        return back()->with('error', $response->message());
     }
 }

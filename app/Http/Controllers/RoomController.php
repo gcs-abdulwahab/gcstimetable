@@ -112,12 +112,12 @@ class RoomController extends Controller
             try {
                 $room->delete();
             } catch (QueryException $exception) {
-                return back()->withErrors(['message' => 'Database error '.$exception->getMessage()]);
+                return back()->with('message', 'Database error '.$exception->getMessage());
             }
 
             return back()->with('success', 'User deleted successfully.');
         }
 
-        return back()->withErrors(['message' => $response->message()]);
+        return back()->with('error', $response->message());
     }
 }

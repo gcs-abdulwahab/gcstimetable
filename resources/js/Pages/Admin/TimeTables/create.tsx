@@ -48,21 +48,8 @@ export default function CreateTimeTable({
         post(route("timetables.store"), {
             onSuccess: (response) => {
                 reset("title", "description");
-                toast({
-                    title: "Time Table Created",
-                    description: "Time Table has been created successfully!",
-                });
                 handleClose();
-            },
-            onError: (error) => {
-                if (error.message) {
-                    toast({
-                        variant: "destructive",
-                        title: "Error!",
-                        description: error.message,
-                    });
-                }
-            },
+            }
         });
     };
 

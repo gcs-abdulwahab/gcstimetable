@@ -47,7 +47,7 @@ class TimeTableController extends Controller
             return back()->with('success', 'Time Table created successfully.');
         }
 
-        return back()->withErrors(['message' => $response->message()]);
+        return back()->with('error', $response->message());
     }
 
     public function edit(TimeTable $timetable)
@@ -71,10 +71,10 @@ class TimeTableController extends Controller
 
             $timetable->update($attributes);
 
-            return back()->with('success', 'Time Table updated successfully.');
+            return redirect()->intended(route('timetables.index', absolute: true))->with('success', 'Time Table updated successfully.');
         }
 
-        return back()->withErrors(['message' => $response->message()]);
+        return back()->with('error', $response->message());
     }
 
     public function addAllocations(TimeTable $timetable)
@@ -84,7 +84,7 @@ class TimeTableController extends Controller
 
         if ($timetable->allocations) {
             $sectionIds = $timetable->allocations?->groupby('section_id')->keys();
-            
+
             if ($sectionIds && count($sectionIds) > 0) {
                 // Getting Table Sections
                 $sections = Section::whereIn('id', $sectionIds)->with(['semester' => function ($query) {

@@ -48,27 +48,12 @@ export default function EditTimeTable({
         put(route("timetables.update", timetable.id), {
             onSuccess: (response) => {
                 reset("title", "description");
-                toast({
-                    title: "Time Table Updated",
-                    description: "Time Table has been updated successfully!",
-                });
-                handleClose();
-            },
-            onError: (error) => {
-                if (error.message) {
-                    toast({
-                        variant: "destructive",
-                        title: "Error!",
-                        description: error.message,
-                    });
-                }
             },
         });
     };
 
     function handleClose() {
-        // router.get(route("timetables.index"));
-        history.back();
+        router.get(route("timetables.index"));
     }
 
     return (

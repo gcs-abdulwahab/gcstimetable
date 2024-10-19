@@ -24,22 +24,7 @@ export function Actions({ row }: { row: Room }) {
     const handleDelete = (row: Room) => {
         router.delete(route("rooms.destroy", row.id), {
             preserveScroll: true,
-            preserveState: true,
-            onSuccess: () => {
-                toast({
-                    title: "Success!",
-                    description: "Room deleted successfully.",
-                });
-            },
-            onError: (error) => {
-                if (error.message) {
-                    toast({
-                        variant: "destructive",
-                        title: "Error!",
-                        description: error.message,
-                    });
-                }
-            },
+            preserveState: true
         });
     };
 

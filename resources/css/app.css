@@ -21,6 +21,7 @@
   :root {
     --background: 20 66% 99%;
     --foreground: 20 51% 4%;
+    --success-background: 120 100% 50%;
     --muted: 20 25% 86%;
     --muted-foreground: 20 7% 25%;
     --popover: 20 66% 98%;
@@ -37,6 +38,8 @@
     --accent-foreground: 20 12% 32%;
     --destructive: 0 100% 50%;
     --destructive-foreground: 0 0% 100%;
+    --success: 120 100% 50%;
+    --success-foreground: 120 100% 100%;
     --ring: 20 48% 72%;
     --radius: 0.5rem;
     --chart-1: 12 76% 61%;
@@ -49,6 +52,7 @@
   .dark {
     --background: 253 43% 3%;
     --foreground: 253 31% 98%;
+    --success-background: 120 100% 50%;
     --muted: 253 7% 13%;
     --muted-foreground: 253 13% 63%;
     --popover: 253 43% 3%;
@@ -65,6 +69,8 @@
     --accent-foreground: 253 13% 74%;
     --destructive: 0 100% 50%;
     --destructive-foreground: 0 0% 100%;
+    --success: 120 100% 50%;
+    --success-foreground: 120 100% 100%;
     --ring: 253 91% 58%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;

@@ -25,7 +25,9 @@ export default {
     			background: 'hsl(var(--background))',
     			foreground: 'hsl(var(--foreground))',
 				success: {
+					DEFAULT: 'hsl(var(--success))',
 					background: 'hsl(var(--success-background))',
+					foreground: 'hsl(var(--success-foreground))'
 				},
     			card: {
     				DEFAULT: 'hsl(var(--card))',

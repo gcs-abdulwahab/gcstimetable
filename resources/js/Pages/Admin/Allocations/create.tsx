@@ -164,43 +164,14 @@ export default function CreateAllocation({
         if (selectedAllocation.id === 0) {
             // Create New Allocation
             post(route("allocations.store"), {
-                onError: (error) => {
-                    if (error.message) {
-                        toast({
-                            variant: "destructive",
-                            title: "Error!",
-                            description: error.message,
-                        });
-                    }
-                },
-                onSuccess: (response) => {
-                    toast({
-                        title: "Allocation Created",
-                        description: "Allocation is created successfully!",
-                    });
+                onSuccess: () => {
                     reset('day_id', 'room_id', 'teacher_id', 'course_id');
                     setSelectedAllocation(EmptyAllocation);
                 },
             });
         } else {
             // Update Existing Allocation
-            put(route("allocations.update", selectedAllocation.id), {
-                onError: (error) => {
-                    if (error.message) {
-                        toast({
-                            variant: "destructive",
-                            title: "Error!",
-                            description: error.message,
-                        });
-                    }
-                },
-                onSuccess: (response) => {
-                    toast({
-                        title: "Allocation Updated",
-                        description: "Allocation is updated successfully!",
-                    });
-                },
-            });
+            put(route("allocations.update", selectedAllocation.id));
         }
     };
 

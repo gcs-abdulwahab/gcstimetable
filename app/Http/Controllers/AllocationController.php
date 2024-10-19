@@ -116,7 +116,7 @@ class AllocationController extends Controller
 
         Log::channel('allocations')->info($message);
 
-        return back()->withErrors(['message' => $message]);
+        return back()->with('error' , $message);
     }
 
     /**
@@ -155,7 +155,7 @@ class AllocationController extends Controller
             $message = 'Database error 👉 '.$exception->getMessage();
         }
 
-        return back()->withErrors(['message' => $message]);
+        return back()->with('message', $message);
     }
 
     /**

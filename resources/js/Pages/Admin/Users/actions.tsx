@@ -41,22 +41,6 @@ export function UserActions({ row }: { row: UserType }) {
         destroy(route("users.destroy", row.id), {
             preserveScroll: true,
             preserveState: true,
-            onSuccess: () => {
-                toast({
-                    title: "Success!",
-                    description: "User deleted successfully.",
-                });
-            },
-            onError: (error) => {
-                console.log("Error in deleting user -> error", error);
-                if (error.message) {
-                    toast({
-                        variant: "destructive",
-                        title: "Error!",
-                        description: error.message,
-                    });
-                }
-            },
         });
     };
 
