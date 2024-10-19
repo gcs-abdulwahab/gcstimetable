@@ -3,12 +3,12 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps, Shift, TimeStamp, TimeTable } from "@/types";
 import { router, useForm, Link } from "@inertiajs/react";
-import SecondaryButton from "@/Components/SecondaryButton";
 import { ArrowUpRight, Plus } from "lucide-react";
 import Tooltip from "@/components/ui/tooltip";
 import { getRomanNumber } from "@/utils/helper";
 import { Allocation, Section, Slot } from "@/types/database";
 import { AllocationCell } from "./Partials/AllocationCell";
+import { Button } from "@/components/ui/button";
 
 export default function AddAllocationsTimeTable({
     auth,
@@ -60,7 +60,7 @@ export default function AddAllocationsTimeTable({
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                <h2 className="font-semibold text-xl text-card-foreground dark:text-gray-200 leading-tight">
                     Add Allocations Time Table
                 </h2>
             }
@@ -68,8 +68,8 @@ export default function AddAllocationsTimeTable({
             <Head title="Add Allocations" />
 
             <div className="py-12 min-h-screen">
-                <div className="max-w-full w-[1280px] mx-auto overflow-x-auto px-4 sm:px-6 lg:px-8">
-                    <div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 sm:rounded-lg shadow-lg">
+                <div className="overflow-x-auto px-4 sm:px-6 lg:px-8">
+                    <div className="bg-card text-card-foreground border border-border sm:rounded-lg shadow-lg">
                         <div className="p-6 flex flex-col">
                             {/* Timetable Information */}
                             <div className="w-full text-center relative">
@@ -98,7 +98,7 @@ export default function AddAllocationsTimeTable({
                                 >
                                     <Tooltip title="Edit Time Table">
                                         <ArrowUpRight
-                                            className="text-gray-700 dark:text-gray-100"
+                                            className="text-gray-700 dark:text-foreground"
                                             size={20}
                                         />
                                     </Tooltip>
@@ -112,14 +112,14 @@ export default function AddAllocationsTimeTable({
                                 <div className="grid grid-cols-12 gap-2">
                                     {/* Shift Slots Header */}
                                     <div className="col-span-12 flex h-10">
-                                        <p className="flex-1 font-bold text-gray-800 dark:text-gray-100 text-center h-[50px] w-[150px] min-w-[200px] flex items-center justify-center border-l border-t">
+                                        <p className="flex-1 font-bold text-card-foreground dark:text-foreground text-center h-[50px] w-[150px] min-w-[200px] flex items-center justify-center border-l border-t">
                                             Period
                                         </p>
                                         {timetable.shift?.slots?.map(
                                             (slot, index) => (
                                                 <p
                                                     key={`period-${index}`}
-                                                    className="flex-1 font-bold text-gray-800 dark:text-gray-100 text-center h-[50px] w-[150px] min-w-[200px] flex items-center justify-center border-l border-t"
+                                                    className="flex-1 font-bold text-card-foreground dark:text-foreground text-center h-[50px] w-[150px] min-w-[200px] flex items-center justify-center border-l border-t"
                                                 >
                                                     {getRomanNumber(index + 1)}
                                                 </p>
@@ -129,13 +129,13 @@ export default function AddAllocationsTimeTable({
 
                                     {/* Time Header */}
                                     <div className="col-span-12 flex h-10">
-                                        <p className="flex-1 font-bold text-gray-800 dark:text-gray-100 text-center h-[50px] w-[150px] min-w-[200px] flex items-center justify-center border-l">
+                                        <p className="flex-1 font-bold text-card-foreground dark:text-foreground text-center h-[50px] w-[150px] min-w-[200px] flex items-center justify-center border-l">
                                             Time
                                         </p>
                                         {timetable.shift?.slots?.map((slot) => (
                                             <p
                                                 key={slot.id}
-                                                className="flex-1 font-bold text-gray-800 dark:text-gray-100 text-center h-[50px] w-[150px] min-w-[200px] flex items-center justify-center border-l"
+                                                className="flex-1 font-bold text-card-foreground dark:text-foreground text-center h-[50px] w-[150px] min-w-[200px] flex items-center justify-center border-l"
                                             >
                                                 {slot.name}
                                             </p>
@@ -195,7 +195,8 @@ export default function AddAllocationsTimeTable({
                                                                 key={slot.id}
                                                                 className="flex-1 text-center h-auto min-h-[100px] w-[150px] min-w-[200px] flex items-center justify-center border-l"
                                                             >
-                                                                <SecondaryButton
+                                                                <Button
+                                                                    variant={'ghost'}
                                                                     onClick={() =>
                                                                         handleCreateAllocation(
                                                                             slot.id,
@@ -208,7 +209,7 @@ export default function AddAllocationsTimeTable({
                                                                             16
                                                                         }
                                                                     />
-                                                                </SecondaryButton>
+                                                                </Button>
                                                             </p>
                                                         );
                                                     }
@@ -224,7 +225,8 @@ export default function AddAllocationsTimeTable({
                                                 key={slot.id}
                                                 className="flex-1 text-center h-auto min-h-[100px] w-[150px] min-w-[200px] flex items-center justify-center border-l"
                                             >
-                                                <SecondaryButton
+                                                <Button 
+                                                    variant={'ghost'}
                                                     onClick={() =>
                                                         handleCreateAllocation(
                                                             slot.id
@@ -232,7 +234,7 @@ export default function AddAllocationsTimeTable({
                                                     }
                                                 >
                                                     <Plus size={16} />
-                                                </SecondaryButton>
+                                                </Button>
                                             </p>
                                         ))}
                                     </div>

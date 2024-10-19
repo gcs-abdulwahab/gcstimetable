@@ -1,10 +1,10 @@
 import { useRef, FormEventHandler } from 'react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
+import { Button } from '@/components/ui/button';
 
 export default function UpdatePasswordForm({ className = '' }: { className?: string }) {
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -39,7 +39,7 @@ export default function UpdatePasswordForm({ className = '' }: { className?: str
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Update Password</h2>
+                <h2 className="text-lg font-medium text-gray-900 dark:text-foreground">Update Password</h2>
 
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                     Ensure your account is using a long, random password to stay secure.
@@ -95,7 +95,7 @@ export default function UpdatePasswordForm({ className = '' }: { className?: str
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <Button size={'sm'} className='px-4' disabled={processing}>Save</Button>
 
                     <Transition
                         show={recentlySuccessful}

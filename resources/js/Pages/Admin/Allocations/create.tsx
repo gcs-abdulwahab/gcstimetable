@@ -11,9 +11,6 @@ import {
     CardContent,
     CardFooter,
 } from "@/components/ui/card";
-import SecondaryButton from "@/Components/SecondaryButton";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 import { toast } from "@/hooks/use-toast";
@@ -39,6 +36,7 @@ import { AutoCompleteSelect } from "@/components/combobox";
 import { getNumberWithOrdinal } from "@/utils/helper";
 import { AllocationCell } from "../TimeTables/Partials/AllocationCell";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface FormProps {
     time_table_id: number;
@@ -214,7 +212,7 @@ export default function CreateAllocation({
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                <h2 className="font-semibold text-xl text-card-foreground dark:text-gray-200 leading-tight">
                     Create Allocation
                 </h2>
             }
@@ -222,13 +220,13 @@ export default function CreateAllocation({
             <Head title="Create Allocation" />
 
             <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 sm:rounded-lg">
+                <div className="sm:px-6 lg:px-8">
+                    <div className="bg-card text-card-foreground border border-border sm:rounded-lg">
                         <div className="p-6 space-y-4">
                             {/* Show Allocations */}
 
                             {props.allocations.length > 0 ? (
-                                <ol className="w-full bg-white shadow-md  rounded-lg dark:bg-gray-800 px-6 py-4 border border-gray-700">
+                                <ol className="w-full bg-white shadow-md rounded-lg dark:bg-background px-6 py-4 border border-border">
                                     {props.allocations?.map(
                                         (allocation: Allocation, index) => (
                                             <li key={allocation.id}>
@@ -280,7 +278,7 @@ export default function CreateAllocation({
                             ) : null}
 
                             {/* Create Allocation */}
-                            <Card className="w-full bg-white shadow-md rounded-lg dark:bg-gray-800 border border-gray-700">
+                            <Card className="w-full bg-white shadow-md rounded-lg dark:bg-background border border-border">
                                 <CardHeader className="flex items-center space-x-4">
                                     <CardTitle>Create Allocation</CardTitle>
                                 </CardHeader>
@@ -531,15 +529,17 @@ export default function CreateAllocation({
                                 </CardContent>
 
                                 <CardFooter className="mt-4 flex justify-end gap-3">
-                                    <SecondaryButton onClick={handleClose}>
+                                    <Button variant={'outline'} onClick={handleClose}>
                                         Cancel
-                                    </SecondaryButton>
-                                    <PrimaryButton
+                                    </Button>
+                                    <Button
+                                        size={'sm'}
+                                        className="px-4"
                                         onClick={submit}
                                         disabled={processing}
                                     >
                                         Save
-                                    </PrimaryButton>
+                                    </Button>
                                 </CardFooter>
                             </Card>
                         </div>

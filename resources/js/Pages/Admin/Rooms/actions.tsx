@@ -15,24 +15,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Fragment } from "react/jsx-runtime";
-import Modal from "@/Components/Modal";
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-    CardFooter,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link, router, useForm } from "@inertiajs/react";
-import { UserType, Role } from "@/types";
 import { toast } from "@/hooks/use-toast";
-import SecondaryButton from "@/Components/SecondaryButton";
-import PrimaryButton from "@/Components/PrimaryButton";
-import { cn } from "@/lib/utils";
 import { Room } from "@/types/database";
 
 export function Actions({ row }: { row: Room }) {

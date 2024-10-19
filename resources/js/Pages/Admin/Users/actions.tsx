@@ -30,9 +30,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link, router, useForm } from "@inertiajs/react";
 import { UserType, Role } from "@/types";
 import { toast } from "@/hooks/use-toast";
-import SecondaryButton from "@/Components/SecondaryButton";
-import PrimaryButton from "@/Components/PrimaryButton";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 export function UserActions({ row }: { row: UserType }) {
     const [ShowView, setShowView] = useState(false);
@@ -117,7 +116,7 @@ export function ViewUser({
             maxWidth="md"
             className="!w-full"
         >
-            <Card className="w-full max-w-md bg-white shadow-md rounded-lg dark:bg-gray-800">
+            <Card className="w-full max-w-md bg-white shadow-md rounded-lg dark:bg-background">
                 <CardHeader className="flex items-center space-x-4">
                     <Avatar>
                         <AvatarImage
@@ -132,7 +131,7 @@ export function ViewUser({
                         </AvatarFallback>
                     </Avatar>
                     <div>
-                        <CardTitle className="text-gray-900 dark:text-gray-100 text-center capitalize">
+                        <CardTitle className="text-gray-900 dark:text-foreground text-center capitalize">
                             {row.name}
                         </CardTitle>
                         <CardDescription className="text-gray-500 dark:text-gray-400">
@@ -149,7 +148,7 @@ export function ViewUser({
                             </span>
                             <Badge
                                 variant="outline"
-                                className="capitalize text-gray-900 dark:text-gray-100 dark:border-gray-500"
+                                className="capitalize text-gray-900 dark:text-foreground dark:border-gray-500"
                             >
                                 {row.label}
                             </Badge>
@@ -158,7 +157,7 @@ export function ViewUser({
                             <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
                                 Verified At:
                             </span>
-                            <span className="text-sm text-gray-900 dark:text-gray-100">
+                            <span className="text-sm text-gray-900 dark:text-foreground">
                                 {row.verifiedAt}
                             </span>
                         </div>
@@ -166,7 +165,7 @@ export function ViewUser({
                             <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
                                 Created At:
                             </span>
-                            <span className="text-sm text-gray-900 dark:text-gray-100">
+                            <span className="text-sm text-gray-900 dark:text-foreground">
                                 {row.createdAt}
                             </span>
                         </div>
@@ -181,7 +180,7 @@ export function ViewUser({
                             {row.roles.map((role: Role) => (
                                 <li
                                     key={role.id}
-                                    className="text-sm text-gray-800 dark:text-gray-200"
+                                    className="text-sm text-card-foreground dark:text-gray-200"
                                 >
                                     {role.name}
                                 </li>
@@ -191,10 +190,10 @@ export function ViewUser({
                 </CardContent>
 
                 <CardFooter className="mt-4 flex justify-end gap-3">
-                    <SecondaryButton onClick={handleClose}>
+                    <Button variant={"outline"} onClick={handleClose}>
                         Close
-                    </SecondaryButton>
-                    <PrimaryButton>Edit Profile</PrimaryButton>
+                    </Button>
+                    <Button>Edit Profile</Button>
                 </CardFooter>
             </Card>
         </Modal>

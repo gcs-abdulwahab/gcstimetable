@@ -24,7 +24,10 @@ export enum PermissionEnum {
     DELETE_DEPARTMENT = "delete department",
     VIEW_DEPARTMENT = "view department",
 
-    CREATE_COURSE = 'create course'
+    CREATE_COURSE = 'create course',
+    EDIT_COURSE = 'edit course',
+    DELETE_COURSE = 'delete course',
+    VIEW_COURSE = 'view course'
 }
 
 export namespace PermissionEnum {

@@ -1,31 +1,10 @@
-import { FormEventHandler } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import { PageProps, Shift, TimeStamp, TimeTable } from "@/types";
+import { PageProps, Shift } from "@/types";
 import { CheckCircle, XCircle } from "lucide-react";
-import { router, useForm, Link } from "@inertiajs/react";
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-    CardFooter,
-} from "@/components/ui/card";
-import SecondaryButton from "@/Components/SecondaryButton";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
-import InputLabel from "@/Components/InputLabel";
-import InputError from "@/Components/InputError";
-import { toast } from "@/hooks/use-toast";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+import { Link } from "@inertiajs/react";
 import { Allocation, Room } from "@/types/database";
+import { Button } from "@/components/ui/button";
 
 interface ShowRoomProps extends Record<string, unknown> {
     room: Room & {
@@ -52,7 +31,7 @@ export default function ShowRoom({
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                <h2 className="font-semibold text-xl text-card-foreground dark:text-gray-200 leading-tight">
                     Show Room
                 </h2>
             }
@@ -60,18 +39,18 @@ export default function ShowRoom({
             <Head title="Show Room" />
 
             <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 sm:rounded-lg shadow-lg">
+                <div className="sm:px-6 lg:px-8">
+                    <div className="bg-card text-card-foreground border border-border sm:rounded-lg shadow-lg">
                         <div className="p-6 flex flex-col">
                             <div className="flex justify-between">
-                                <h1 className="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-100">
+                                <h1 className="text-xl font-semibold mb-6 text-card-foreground dark:text-foreground">
                                     Room Availability for {room.name}
                                 </h1>
                                 <Link
                                     href={route("rooms.index")}
                                     className="flex items-center space-x-2"
                                 >
-                                    <SecondaryButton>Back</SecondaryButton>
+                                    <Button variant={'outline'}>Back</Button>
                                 </Link>
                             </div>
 
@@ -100,7 +79,7 @@ export default function ShowRoom({
                                         ).map((dayNumber) => (
                                             <tr
                                                 key={dayNumber}
-                                                className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                                                className="hover:bg-gray-50 dark:hover:bg-background transition-colors"
                                             >
                                                 <td className="border-b p-4 text-gray-700 dark:text-gray-300 font-medium">
                                                     Day {dayNumber}

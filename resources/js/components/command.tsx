@@ -6,7 +6,8 @@ import {
     ChartNoAxesCombined,
     Users,
     CalendarDays,
-    Building
+    Building,
+    LayoutDashboardIcon,
 } from "lucide-react";
 
 import {
@@ -21,7 +22,6 @@ import {
 } from "@/components/ui/command";
 import { router } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import PrimaryButton from "@/Components/PrimaryButton";
 
 export function CommandDialogDemo() {
     const [open, setOpen] = React.useState(false);
@@ -56,7 +56,7 @@ export function CommandDialogDemo() {
         }
     };
 
-    const handlePageSelect = (url : string) => {
+    const handlePageSelect = (url: string) => {
         router.get(url);
 
         if (open === true) {
@@ -66,15 +66,10 @@ export function CommandDialogDemo() {
 
     return (
         <>
-            <Button
-                onClick={() => setOpen(!open)}
-                variant="outline"
-                size='sm'
-                className="dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
-            >
+            <Button onClick={() => setOpen(!open)} variant="outline" size="sm">
                 <p className="text-sm text-muted-foreground">
                     Press{" "}
-                    <kbd className="pointer-events-none inline-flex h-5 bg-muted border rounded-sm select-none items-center gap-1 px-1.5 font-mono text-[10px] font-medium opacity-100">
+                    <kbd className="pointer-events-none inline-flex h-5 bg-muted border rounded-sm select-none items-center px-1.5 font-mono text-[10px] font-medium opacity-100">
                         <span className="text-xs">{superKey}</span>k
                     </kbd>
                 </p>
@@ -87,27 +82,39 @@ export function CommandDialogDemo() {
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
                     <CommandGroup heading="Pages">
-                        <CommandItem onSelect={() => handlePageSelect('/dashboard')}>
-                            <ChartNoAxesCombined className="mr-2 h-4 w-4" />
+                        <CommandItem
+                            onSelect={() => handlePageSelect("/dashboard")}
+                        >
+                            <LayoutDashboardIcon className="mr-2 h-4 w-4" />
                             <span>Dashboar</span>
                         </CommandItem>
-                        <CommandItem onSelect={() => handlePageSelect('/users')}>
+                        <CommandItem
+                            onSelect={() => handlePageSelect("/users")}
+                        >
                             <Users className="mr-2 h-4 w-4" />
                             <span>Users</span>
                         </CommandItem>
-                        <CommandItem onSelect={() => handlePageSelect('/students')}>
+                        <CommandItem
+                            onSelect={() => handlePageSelect("/students")}
+                        >
                             <GraduationCap className="mr-2 h-4 w-4" />
                             <span>Students</span>
                         </CommandItem>
-                        <CommandItem onSelect={() => handlePageSelect('/teachers')}>
+                        <CommandItem
+                            onSelect={() => handlePageSelect("/teachers")}
+                        >
                             <User className="mr-2 h-4 w-4" />
                             <span>Teachers</span>
                         </CommandItem>
-                        <CommandItem onSelect={() => handlePageSelect('/timetables')}>
+                        <CommandItem
+                            onSelect={() => handlePageSelect("/timetables")}
+                        >
                             <CalendarDays className="mr-2 h-4 w-4" />
                             <span>Time Tables</span>
                         </CommandItem>
-                        <CommandItem onSelect={() => handlePageSelect('/rooms')}>
+                        <CommandItem
+                            onSelect={() => handlePageSelect("/rooms")}
+                        >
                             <Building className="mr-2 h-4 w-4" />
                             <span>Rooms</span>
                         </CommandItem>

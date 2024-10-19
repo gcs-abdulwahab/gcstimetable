@@ -20,6 +20,7 @@ export interface User {
     label: string;
     roles: Role[];
     permissions: Permission[];
+    email_verified_at?: string;
 }
 
 export type UserType = User & {

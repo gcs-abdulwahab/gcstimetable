@@ -12,13 +12,13 @@ export default function SimpleStats({
     navigation?: string;
 }) {
     return (
-        <div className="bg-white overflow-hidden shadow sm:rounded-lg dark:bg-gray-800">
+        <div className="bg-card border border-border overflow-hidden shadow sm:rounded-lg dark:bg-card">
             <div className="px-4 py-5 sm:p-6 relative">
                 <dl>
-                    <dt className="text-sm leading-5 font-medium text-gray-500 truncate dark:text-gray-400">
+                    <dt className="text-sm leading-5 font-medium truncate">
                         {title}
                     </dt>
-                    <dd className="mt-1 text-3xl leading-9 font-semibold text-indigo-600 dark:text-indigo-400">
+                    <dd className="mt-1 text-3xl leading-9 font-semibold text-primary">
                         {value}
                     </dd>
                 </dl>
@@ -26,7 +26,7 @@ export default function SimpleStats({
                 {navigation && (
                     <div className="mt-5 absolute top-0 right-4">
                         <Tooltip title="Show All">
-                            <div className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300">
+                            <div className="text-primary hover:opacity-80">
                                 <Link href={navigation}>
                                     <ArrowUpRight />
                                 </Link>
