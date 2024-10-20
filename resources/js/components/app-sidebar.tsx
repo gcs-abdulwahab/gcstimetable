@@ -35,6 +35,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { User } from "@/types"
+import ApplicationLogo from "@/Components/ApplicationLogo"
 
 export type Icon = LucideIcon;
 
@@ -65,7 +66,7 @@ export const NavData : NavDataType = {
       title: "Users",
       url: route('users.index'),
       icon: UsersIcon,
-      isActive: route().current('users.index'),
+      isActive: false,
       items : [
         {
           title: "Teachers",
@@ -130,16 +131,15 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 }
 
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
+  console.log("AppSidebar -> NavData.navMain", NavData.navMain);
   return (
-    <Sidebar variant="inset" {...props}>
+    <Sidebar variant='inset' collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <a href="#">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
-                </div>
+                <ApplicationLogo />
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">Time Table</span>
                   <span className="truncate text-xs">Enterprise</span>
