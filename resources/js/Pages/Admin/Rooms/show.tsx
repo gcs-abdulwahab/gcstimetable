@@ -28,122 +28,109 @@ export default function ShowRoom({
     };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-card-foreground dark:text-gray-200 leading-tight">
-                    Show Room
-                </h2>
-            }
-        >
+        <AuthenticatedLayout user={auth.user}>
             <Head title="Show Room" />
 
-            <div className="py-12">
-                <div className="sm:px-6 lg:px-8">
-                    <div className="bg-card text-card-foreground border border-border sm:rounded-lg shadow-lg">
-                        <div className="p-6 flex flex-col">
-                            <div className="flex justify-between">
-                                <h1 className="text-xl font-semibold mb-6 text-card-foreground dark:text-foreground">
-                                    Room Availability for {room.name}
-                                </h1>
-                                <Link
-                                    href={route("rooms.index")}
-                                    className="flex items-center space-x-2"
-                                >
-                                    <Button variant={'outline'}>Back</Button>
-                                </Link>
-                            </div>
+            <div className="bg-card text-card-foreground border border-border sm:rounded-lg shadow-lg">
+                <div className="p-6 flex flex-col">
+                    <div className="flex justify-between">
+                        <h1 className="text-xl font-semibold mb-6 text-card-foreground dark:text-foreground">
+                            Room Availability for {room.name}
+                        </h1>
+                        <Link
+                            href={route("rooms.index")}
+                            className="flex items-center space-x-2"
+                        >
+                            <Button variant={"outline"}>Back</Button>
+                        </Link>
+                    </div>
 
-                            {/* Table structure to show availability */}
-                            <div className="overflow-x-auto shadow-md rounded-lg">
-                                <table className="min-w-full border-collapse table-auto bg-white dark:bg-gray-900">
-                                    <thead className="bg-gray-100 dark:bg-gray-700">
-                                        <tr>
-                                            <th className="border-b p-4 text-left text-gray-600 dark:text-gray-300 font-medium">
-                                                Day
-                                            </th>
+                    {/* Table structure to show availability */}
+                    <div className="overflow-x-auto shadow-md rounded-lg">
+                        <table className="min-w-full border-collapse table-auto bg-white dark:bg-gray-900">
+                            <thead className="bg-gray-100 dark:bg-gray-700">
+                                <tr>
+                                    <th className="border-b p-4 text-left text-gray-600 dark:text-gray-300 font-medium">
+                                        Day
+                                    </th>
+                                    {shifts.map((shift) => (
+                                        <th
+                                            key={shift.id}
+                                            className="border-b p-4 text-left text-gray-600 dark:text-gray-300 font-medium"
+                                        >
+                                            {shift.name} Shift
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {Array.from({ length: 6 }, (_, i) => i + 1).map(
+                                    (dayNumber) => (
+                                        <tr
+                                            key={dayNumber}
+                                            className="hover:bg-gray-50 dark:hover:bg-background transition-colors"
+                                        >
+                                            <td className="border-b p-4 text-gray-700 dark:text-gray-300 font-medium">
+                                                Day {dayNumber}
+                                            </td>
                                             {shifts.map((shift) => (
-                                                <th
+                                                <td
                                                     key={shift.id}
-                                                    className="border-b p-4 text-left text-gray-600 dark:text-gray-300 font-medium"
+                                                    className="border-b p-4"
                                                 >
-                                                    {shift.name} Shift
-                                                </th>
+                                                    <div className="space-y-2">
+                                                        {shift?.slots?.map(
+                                                            (slot) => (
+                                                                <div
+                                                                    key={
+                                                                        slot.id
+                                                                    }
+                                                                    className="flex items-center justify-between"
+                                                                >
+                                                                    <div>
+                                                                        <span className="font-medium text-gray-700 dark:text-gray-300">
+                                                                            {
+                                                                                slot.name
+                                                                            }
+                                                                            :
+                                                                        </span>
+                                                                        <span className="ml-1 text-sm text-gray-500 dark:text-gray-400">
+                                                                            {
+                                                                                slot.start_time
+                                                                            }{" "}
+                                                                            -{" "}
+                                                                            {
+                                                                                slot.end_time
+                                                                            }
+                                                                        </span>
+                                                                    </div>
+                                                                    <div>
+                                                                        {isRoomAvailableForSlot(
+                                                                            slot.id,
+                                                                            dayNumber
+                                                                        ) ? (
+                                                                            <span className="flex items-center text-green-500">
+                                                                                <CheckCircle className="w-5 h-5 mr-1" />
+                                                                                Available
+                                                                            </span>
+                                                                        ) : (
+                                                                            <span className="flex items-center text-red-500">
+                                                                                <XCircle className="w-5 h-5 mr-1" />
+                                                                                Occupied
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                        )}
+                                                    </div>
+                                                </td>
                                             ))}
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        {Array.from(
-                                            { length: 6 },
-                                            (_, i) => i + 1
-                                        ).map((dayNumber) => (
-                                            <tr
-                                                key={dayNumber}
-                                                className="hover:bg-gray-50 dark:hover:bg-background transition-colors"
-                                            >
-                                                <td className="border-b p-4 text-gray-700 dark:text-gray-300 font-medium">
-                                                    Day {dayNumber}
-                                                </td>
-                                                {shifts.map((shift) => (
-                                                    <td
-                                                        key={shift.id}
-                                                        className="border-b p-4"
-                                                    >
-                                                        <div className="space-y-2">
-                                                            {shift?.slots?.map(
-                                                                (slot) => (
-                                                                    <div
-                                                                        key={
-                                                                            slot.id
-                                                                        }
-                                                                        className="flex items-center justify-between"
-                                                                    >
-                                                                        <div>
-                                                                            <span className="font-medium text-gray-700 dark:text-gray-300">
-                                                                                {
-                                                                                    slot.name
-                                                                                }
-
-                                                                                :
-                                                                            </span>
-                                                                            <span className="ml-1 text-sm text-gray-500 dark:text-gray-400">
-                                                                                {
-                                                                                    slot.start_time
-                                                                                }{" "}
-                                                                                -{" "}
-                                                                                {
-                                                                                    slot.end_time
-                                                                                }
-                                                                            </span>
-                                                                        </div>
-                                                                        <div>
-                                                                            {isRoomAvailableForSlot(
-                                                                                slot.id,
-                                                                                dayNumber
-                                                                            ) ? (
-                                                                                <span className="flex items-center text-green-500">
-                                                                                    <CheckCircle className="w-5 h-5 mr-1" />
-                                                                                    Available
-                                                                                </span>
-                                                                            ) : (
-                                                                                <span className="flex items-center text-red-500">
-                                                                                    <XCircle className="w-5 h-5 mr-1" />
-                                                                                    Occupied
-                                                                                </span>
-                                                                            )}
-                                                                        </div>
-                                                                    </div>
-                                                                )
-                                                            )}
-                                                        </div>
-                                                    </td>
-                                                ))}
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                    )
+                                )}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

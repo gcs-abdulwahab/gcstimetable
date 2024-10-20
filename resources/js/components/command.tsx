@@ -66,7 +66,7 @@ export function CommandDialogDemo() {
 
     return (
         <>
-            <Button onClick={() => setOpen(!open)} variant="outline" size="sm">
+            <Button onClick={() => setOpen(!open)} variant="ghost" size="sm" className="h-7 px-2 flex items-center">
                 <p className="text-sm text-muted-foreground">
                     Press{" "}
                     <kbd className="pointer-events-none inline-flex h-5 bg-muted border rounded-sm select-none items-center px-1.5 font-mono text-[10px] font-medium opacity-100">

@@ -19,9 +19,10 @@ export function ModeToggle() {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button
-                    variant="outline"
+                    data-sidebar="trigger"
+                    variant="ghost"
                     size="icon"
-                    className="py-4"
+                    className={cn("h-7 w-7")}
                 >
                     <Sun
                         className={cn(
@@ -52,7 +53,7 @@ export function ModeToggle() {
                     <span className="sr-only">Toggle theme</span>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-52">
+            <DropdownMenuContent>
                 <DropdownMenuCheckboxItem
                     checked={theme === "light"}
                     onCheckedChange={(checked) => {

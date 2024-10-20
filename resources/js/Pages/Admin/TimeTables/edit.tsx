@@ -57,116 +57,94 @@ export default function EditTimeTable({
     }
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-card-foreground dark:text-gray-200 leading-tight">
-                    Edit Time Table
-                </h2>
-            }
-        >
+        <AuthenticatedLayout user={auth.user}>
             <Head title="Edit | Time Table" />
 
-            <div className="py-12">
-                <div className="sm:px-6 lg:px-8">
-                    <div className="bg-card text-card-foreground border border-border sm:rounded-lg">
-                        <div className="p-6 flex justify-end">
-                            <Card className="w-full bg-white shadow-md rounded-lg dark:bg-background">
-                                <CardHeader className="flex items-center space-x-4">
-                                    <CardTitle>Edit Time Table</CardTitle>
-                                </CardHeader>
+            <div className="bg-card text-card-foreground border border-border sm:rounded-lg">
+                <div className="p-6 flex justify-end">
+                    <Card className="w-full bg-white shadow-md rounded-lg dark:bg-background">
+                        <CardHeader className="flex items-center space-x-4">
+                            <CardTitle>Edit Time Table</CardTitle>
+                        </CardHeader>
 
-                                <CardContent className="mt-4">
-                                    <div className="mb-4">
-                                        <InputLabel
-                                            htmlFor="title"
-                                            value="Title"
-                                            aria-required
-                                        />
-                                        <TextInput
-                                            autoFocus
-                                            className={"w-full"}
-                                            id="title"
-                                            value={data.title}
-                                            onChange={(e) =>
-                                                setData("title", e.target.value)
-                                            }
-                                            required
-                                        />
-                                        <InputError message={errors.title} />
-                                    </div>
-                                    <div className="mb-4">
-                                        <InputLabel
-                                            htmlFor="description"
-                                            value="Description"
-                                            aria-required
-                                        />
-                                        <TextInput
-                                            className={"w-full"}
-                                            id="description"
-                                            value={data.description}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "description",
-                                                    e.target.value
-                                                )
-                                            }
-                                            required
-                                        />
-                                        <InputError
-                                            message={errors.description}
-                                        />
-                                    </div>
+                        <CardContent className="mt-4">
+                            <div className="mb-4">
+                                <InputLabel
+                                    htmlFor="title"
+                                    value="Title"
+                                    aria-required
+                                />
+                                <TextInput
+                                    autoFocus
+                                    className={"w-full"}
+                                    id="title"
+                                    value={data.title}
+                                    onChange={(e) =>
+                                        setData("title", e.target.value)
+                                    }
+                                    required
+                                />
+                                <InputError message={errors.title} />
+                            </div>
+                            <div className="mb-4">
+                                <InputLabel
+                                    htmlFor="description"
+                                    value="Description"
+                                    aria-required
+                                />
+                                <TextInput
+                                    className={"w-full"}
+                                    id="description"
+                                    value={data.description}
+                                    onChange={(e) =>
+                                        setData("description", e.target.value)
+                                    }
+                                    required
+                                />
+                                <InputError message={errors.description} />
+                            </div>
 
-                                    <div className="mb-4">
-                                        <InputLabel
-                                            htmlFor="shift"
-                                            value="Shift"
-                                            aria-required
-                                        />
-                                        <Select
-                                            name="shift"
-                                            defaultValue={data.shift_id?.toString()}
-                                            onValueChange={(value) =>
-                                                setData(
-                                                    "shift_id",
-                                                    Number(value)
-                                                )
-                                            }
-                                        >
-                                            <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
-                                                <SelectValue placeholder="Select a shift" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {shifts?.length > 0 &&
-                                                    shifts.map((shift) => (
-                                                        <SelectItem
-                                                            key={shift.id}
-                                                            value={shift.id.toString()}
-                                                        >
-                                                            {shift.name}
-                                                        </SelectItem>
-                                                    ))}
-                                            </SelectContent>
-                                        </Select>
-                                        <InputError message={errors.shift_id} />
-                                    </div>
-                                </CardContent>
+                            <div className="mb-4">
+                                <InputLabel
+                                    htmlFor="shift"
+                                    value="Shift"
+                                    aria-required
+                                />
+                                <Select
+                                    name="shift"
+                                    defaultValue={data.shift_id?.toString()}
+                                    onValueChange={(value) =>
+                                        setData("shift_id", Number(value))
+                                    }
+                                >
+                                    <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
+                                        <SelectValue placeholder="Select a shift" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {shifts?.length > 0 &&
+                                            shifts.map((shift) => (
+                                                <SelectItem
+                                                    key={shift.id}
+                                                    value={shift.id.toString()}
+                                                >
+                                                    {shift.name}
+                                                </SelectItem>
+                                            ))}
+                                    </SelectContent>
+                                </Select>
+                                <InputError message={errors.shift_id} />
+                            </div>
+                        </CardContent>
 
-                                <CardFooter className="mt-4 flex justify-end gap-3">
-                                    <Button variant={'outline'} onClick={handleClose}>
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        onClick={submit}
-                                        disabled={processing}
-                                    >
-                                        Update
-                                    </Button>
-                                </CardFooter>
-                            </Card>
-                        </div>
-                    </div>
+                        <CardFooter className="mt-4 flex justify-end gap-3">
+                            <Button variant={"outline"} onClick={handleClose}>
+                                Cancel
+                            </Button>
+                            <Button onClick={submit} disabled={processing}>
+                                Update
+                            </Button>
+                        </CardFooter>
+                    </Card>
                 </div>
             </div>
         </AuthenticatedLayout>

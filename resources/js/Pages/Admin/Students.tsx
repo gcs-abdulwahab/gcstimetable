@@ -4,8 +4,10 @@ import { PageProps, Student } from "@/types";
 import { DataTable } from "@/Components/Table/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 
-export default function Students({ auth, students }: PageProps<{ students: Student[] }>) {
-
+export default function Students({
+    auth,
+    students,
+}: PageProps<{ students: Student[] }>) {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: "id",
@@ -21,7 +23,7 @@ export default function Students({ auth, students }: PageProps<{ students: Stude
         },
         {
             accessorKey: "mobile",
-            header: "Phone"
+            header: "Phone",
         },
         {
             accessorKey: "createdAt",
@@ -30,31 +32,20 @@ export default function Students({ auth, students }: PageProps<{ students: Stude
     ];
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-card-foreground dark:text-gray-200 leading-tight">
-                    Students
-                </h2>
-            }
-        >
+        <AuthenticatedLayout user={auth.user}>
             <Head title="Students" />
 
-            <div className="py-12">
-                <div className="sm:px-6 lg:px-8">
-                    <div className="bg-white text-gray-900 dark:bg-background sm:rounded-lg">
-                        <div className="p-6">
-                            <DataTable
-                                data={students}
-                                columns={columns}
-                                inputProps={{
-                                    searchFilter: true,
-                                    filterColumn: "email",
-                                    pagination: true,
-                                }}
-                            />
-                        </div>
-                    </div>
+            <div className="bg-card text-card-foreground border border-border sm:rounded-lg">
+                <div className="p-6">
+                    <DataTable
+                        data={students}
+                        columns={columns}
+                        inputProps={{
+                            searchFilter: true,
+                            filterColumn: "email",
+                            pagination: true,
+                        }}
+                    />
                 </div>
             </div>
         </AuthenticatedLayout>

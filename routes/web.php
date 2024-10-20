@@ -12,7 +12,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TimeTableController;
 
-/* 
+/*
     |----------------Resource Controllers----------------|
     Route::resource('photos', Controller::class);
 
@@ -37,32 +37,28 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth', 'verified'])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
-    // Users
-    Route::get('/users', [UserController::class, 'index'])->name('users');
 
-    Route::prefix('users')->group(function(){
+    // Users
+    Route::prefix('users')->group(function () {
+        Route::get('', [UserController::class, 'index'])->name('users.index');
         Route::post('', [UserController::class, 'create'])->name('users.create');
         Route::delete('/{user_id}', [UserController::class, 'destroy'])->name('users.destroy');
     });
-    
+
     // Students
-    Route::get('/students', [StudentController::class, 'index'])->name('students');
+    Route::get('/students', [StudentController::class, 'index'])->name('students.index');
 
     // Teachers
-    Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers');
-    
+    Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
+
     // Time Table Resource
     Route::resource('timetables', TimeTableController::class);
     Route::get('/timetables/{timetable}/add/allocations', [TimeTableController::class, 'addAllocations'])->name('timetables.add.allocations');
-    // Route::get('/timetables/{timetable}/edit/cell', [TimeTableController::class, 'editTimeTableCell'])->name('timetables.edit.cell');
-
+    
     // Allocations
     Route::resource('allocations', AllocationController::class);
-    // Route::get('/allocations/create', [AllocationController::class, 'create'])->name('allocations.create');
-    // Route::post('/allocations', [AllocationController::class, 'store'])->name('allocations.store');
 
     // Rooms
     Route::resource('rooms', RoomController::class);

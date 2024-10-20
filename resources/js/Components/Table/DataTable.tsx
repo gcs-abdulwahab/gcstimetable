@@ -25,6 +25,7 @@ import { DataTableProps, InputProps } from "@/types/data-table";
 import InputField from "@/Components/TextInput";
 import { TablePagination } from "./Pagination";
 import { Button } from "@/components/ui/button";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const DefaultInputProps: InputProps = {
     pagination: true,
@@ -152,7 +153,7 @@ export function DataTable<TData, TValue>({
                 </div>
             </div>
 
-            <div className="rounded-md border text-gray-900 dark:text-foreground dark:border-gray-700">
+            <div className="rounded-md border border-border text-foreground">
                 <Table
                     style={{
                         ...(tableLayout === "fixed" && columnSizeVars),
@@ -227,14 +228,12 @@ export function DataTable<TData, TValue>({
                     <Button
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
-                        // className="px-2 py-1"
                     >
                         Previous
                     </Button>
                     <Button
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
-                        // className="px-2 py-1"
                     >
                         Next
                     </Button>

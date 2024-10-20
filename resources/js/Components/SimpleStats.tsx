@@ -12,7 +12,7 @@ export default function SimpleStats({
     navigation?: string;
 }) {
     return (
-        <div className="bg-card border border-border overflow-hidden shadow sm:rounded-lg dark:bg-card">
+        <div className="bg-card border border-border overflow-hidden shadow sm:rounded-lg">
             <div className="px-4 py-5 sm:p-6 relative">
                 <dl>
                     <dt className="text-sm leading-5 font-medium truncate">
