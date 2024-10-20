@@ -7,6 +7,7 @@ import {
     ChevronRight,
     UserPlus,
 } from "lucide-react";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default function LandingPage({
     auth,
@@ -31,7 +32,12 @@ export default function LandingPage({
             </Head>
 
             <div className="bg-background text-foreground">
-                <div className="min-h-screen flex flex-col items-center justify-center text-center p-8">
+                {/* Background Wave */}
+                <div className="relative min-h-screen flex flex-col items-center justify-center text-center p-8">
+                    {/* Toggle move */}
+                    <div className="absolute top-3 right-3">
+                        <ModeToggle variant={'outline'} size={'lg'} className="w-10 h-10" />
+                    </div>
                     {/* Hero Section */}
                     <header className="flex flex-col items-center justify-center py-12">
                         <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">

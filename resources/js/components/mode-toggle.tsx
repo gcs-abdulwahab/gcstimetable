@@ -1,6 +1,7 @@
+import React from "react";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
 
 import {
@@ -12,7 +13,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function ModeToggle() {
+const ModeToggle = React.forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, size, asChild = false, ...props }, ref) => {
     const { theme, setTheme } = useTheme();
 
     return (
@@ -22,7 +23,9 @@ export function ModeToggle() {
                     data-sidebar="trigger"
                     variant="ghost"
                     size="icon"
-                    className={cn("h-7 w-7")}
+                    className={cn("h-7 w-7", className)}
+                    ref={ref}
+                    {...props}
                 >
                     <Sun
                         className={cn(
@@ -81,4 +84,6 @@ export function ModeToggle() {
             </DropdownMenuContent>
         </DropdownMenu>
     );
-}
+});
+
+export { ModeToggle };
