@@ -31,7 +31,7 @@ const TooltipComponent = ({ title, className, children } : React.PropsWithChildr
   return (
       <TooltipProvider>
           <Tooltip>
-              <TooltipTrigger className={className}>{children}</TooltipTrigger>
+              <TooltipTrigger className={className} asChild>{children}</TooltipTrigger>
               <TooltipContent>
                   <p>{title}</p>
               </TooltipContent>
