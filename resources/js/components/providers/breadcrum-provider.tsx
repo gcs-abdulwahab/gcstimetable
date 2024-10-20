@@ -6,7 +6,7 @@ export interface PageBreadcrumsProps {
 }
 
 interface BreadcrumbContextProps {
-    breadcrumb: PageBreadcrumsProps;
+    breadcrumb: PageBreadcrumsProps | null;
     setBreadcrumb: (breadcrumb: PageBreadcrumsProps) => void;
 }
 
@@ -17,9 +17,7 @@ const BreadcrumbContext = createContext<BreadcrumbContextProps | undefined>(
 export const BreadcrumbProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
-    const [breadcrumb, setBreadcrumb] = useState<PageBreadcrumsProps>({
-        title: "",
-    });
+    const [breadcrumb, setBreadcrumb] = useState<PageBreadcrumsProps | null>(null);
 
     return (
         <BreadcrumbContext.Provider value={{ breadcrumb, setBreadcrumb }}>

@@ -3,6 +3,7 @@ import { Head } from "@inertiajs/react";
 import { PageProps, Statistics } from "@/types";
 import SimpleStats from "@/Components/SimpleStats";
 import { useBreadcrumb } from "@/components/providers/breadcrum-provider";
+import { useEffect } from "react";
 
 export default function Dashboard({
     auth,
@@ -10,10 +11,12 @@ export default function Dashboard({
 }: PageProps<{ statistics: Statistics }>) {
     const { setBreadcrumb } = useBreadcrumb();
 
-    // setBreadcrumb({
-    //     title: "Dashboard",
-    // });
-
+    useEffect(() => {
+        setBreadcrumb({
+            title: "Dashboard",
+        });
+    }, [setBreadcrumb]);
+    
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Dashboard" />

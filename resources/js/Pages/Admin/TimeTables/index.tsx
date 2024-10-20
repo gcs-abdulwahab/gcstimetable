@@ -1,9 +1,11 @@
+import React, { useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router, Link } from "@inertiajs/react";
 import { PageProps, TimeStamp } from "@/types";
 import { ArrowUpRight, CirclePlus, Plus } from "lucide-react";
 import Tooltip from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
+import { useBreadcrumb } from "@/components/providers/breadcrum-provider";
 
 type TimeTable = {
     id: number;
@@ -16,6 +18,15 @@ export default function TimeTables({
     auth,
     timeTables,
 }: PageProps & { timeTables: TimeTable[] }) {
+
+    const { setBreadcrumb } = useBreadcrumb();
+
+    useEffect(() => {
+        setBreadcrumb({
+            title: "Time Tables",
+        });
+    }, [setBreadcrumb]);
+
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Time Tables" />

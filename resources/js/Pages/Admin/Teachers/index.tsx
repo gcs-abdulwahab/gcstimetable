@@ -4,11 +4,22 @@ import { PageProps } from "@/types";
 import { DataTable } from "@/Components/Table/DataTable";
 import columns, { Teacher } from "./columns";
 import { ResourcePaginator } from "@/types/data-table";
+import { useBreadcrumb } from "@/components/providers/breadcrum-provider";
+import { useEffect } from "react";
 
 export default function Teachers({
     auth,
     teachers,
 }: PageProps<{ teachers: ResourcePaginator<Teacher> }>) {
+    const { setBreadcrumb } = useBreadcrumb();
+
+    useEffect(() => {
+        setBreadcrumb({
+            title: "Teachers",
+            backItems: [{ title: "Users", url: route("users.index") }],
+        });
+    }, [setBreadcrumb]);
+
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Teachers" />

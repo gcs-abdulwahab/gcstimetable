@@ -37,6 +37,7 @@ import { getNumberWithOrdinal } from "@/utils/helper";
 import { AllocationCell } from "../TimeTables/Partials/AllocationCell";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useBreadcrumb } from "@/components/providers/breadcrum-provider";
 
 interface FormProps {
     time_table_id: number;
@@ -93,7 +94,11 @@ export default function CreateAllocation({
     auth,
     props,
 }: PageProps & CreateAllocationProps) {
+    // Constants 
+    const BACK_ROUTE = route('timetables.add.allocations', props.timetable.id);
+
     // State
+    const { setBreadcrumb } = useBreadcrumb();
     const [selectedAllocation, setSelectedAllocation] = useState<Allocation>(
         props.allocations[0] ?? EmptyAllocation
     );
@@ -111,6 +116,22 @@ export default function CreateAllocation({
         });
 
     // Life Cycle Hooks
+    useEffect(() => {
+        setBreadcrumb({
+            title: "Allocation",
+            backItems: [
+                {
+                    title: 'Time Tables',
+                    url: route('timetables.index')
+                },
+                {
+                    title: 'Add Allocations',
+                    url: BACK_ROUTE
+                }
+            ]
+        });
+    }, [setBreadcrumb]);
+    
     useEffect(() => {
         if (selectedAllocation) {
             setData((data) => ({
@@ -175,7 +196,7 @@ export default function CreateAllocation({
     };
 
     function handleClose() {
-        router.get(route("timetables.add.allocations", props.timetable));
+        router.get(BACK_ROUTE);
     }
 
     return (

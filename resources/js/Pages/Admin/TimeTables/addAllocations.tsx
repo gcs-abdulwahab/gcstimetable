@@ -9,12 +9,16 @@ import { getRomanNumber } from "@/utils/helper";
 import { Allocation, Section, Slot } from "@/types/database";
 import { AllocationCell } from "./Partials/AllocationCell";
 import { Button } from "@/components/ui/button";
+import { useBreadcrumb } from "@/components/providers/breadcrum-provider";
 
 export default function AddAllocationsTimeTable({
     auth,
     timetable,
     sections,
 }: PageProps<{ timetable: TimeTable; sections: Section[] }>) {
+
+    const { setBreadcrumb } = useBreadcrumb();
+
     // state
     const [allocations, setAllocations] = useState<Allocation[]>([]);
 
@@ -22,6 +26,16 @@ export default function AddAllocationsTimeTable({
         if (timetable?.allocations?.length) {
             setAllocations(timetable.allocations);
         }
+
+        setBreadcrumb({
+            title: "Add Allocations",
+            backItems: [
+                {
+                    title: 'Time Tables',
+                    url: route('timetables.index')
+                }
+            ]
+        });
     }, [timetable]);
 
     function getAllocations(slotId: number, sectionId: number) {

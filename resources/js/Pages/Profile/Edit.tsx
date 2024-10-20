@@ -1,24 +1,33 @@
+import React, { useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import DeleteUserForm from "./Partials/DeleteUserForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import { Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
+import { useBreadcrumb } from "@/components/providers/breadcrum-provider";
 
 export default function Edit({
     auth,
     mustVerifyEmail,
     status,
 }: PageProps<{ mustVerifyEmail: boolean; status?: string }>) {
+    const { setBreadcrumb } = useBreadcrumb();
+
+    useEffect(() => {
+        setBreadcrumb({
+            title: "Profile",
+            backItems: [
+                {
+                    title: "Dashboard",
+                    url: route("dashboard"),
+                },
+            ],
+        });
+    }, [setBreadcrumb]);
+
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-card-foreground dark:text-gray-200 leading-tight">
-                    Profile
-                </h2>
-            }
-        >
+        <AuthenticatedLayout user={auth.user}>
             <Head title="Profile" />
 
             <div className="p-4 sm:p-8 bg-card text-card-foreground border border-border shadow sm:rounded-lg">

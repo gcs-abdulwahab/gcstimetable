@@ -64,11 +64,11 @@ const Items = [
 
 export function PageBreadcrums() {
     const { breadcrumb } = useBreadcrumb();
-    
+
     return (
         <Breadcrumb>
             <BreadcrumbList>
-                {(breadcrumb && breadcrumb.title !== "") && (
+                {breadcrumb && (
                     <React.Fragment>
                         {breadcrumb.backItems &&
                             breadcrumb.backItems.length > 0 &&

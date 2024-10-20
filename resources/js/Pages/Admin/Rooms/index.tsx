@@ -5,8 +5,19 @@ import { DataTable } from "@/Components/Table/DataTable";
 import columns from "./columns";
 import { ResourcePaginator } from "@/types/data-table";
 import { Room } from "@/types/database";
+import { useBreadcrumb } from "@/components/providers/breadcrum-provider";
+import { useEffect } from "react";
 
 export default function Rooms({ auth, rooms }: PageProps<{ rooms: Room[] }>) {
+
+    const { setBreadcrumb } = useBreadcrumb();
+
+    useEffect(() => {
+        setBreadcrumb({
+            title: 'Rooms',
+        });
+    }, [setBreadcrumb]);
+
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Rooms" />

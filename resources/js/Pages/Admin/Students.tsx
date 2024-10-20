@@ -1,13 +1,24 @@
+import React, { useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps, Student } from "@/types";
 import { DataTable } from "@/Components/Table/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
+import { useBreadcrumb } from "@/components/providers/breadcrum-provider";
 
 export default function Students({
     auth,
     students,
 }: PageProps<{ students: Student[] }>) {
+    const { setBreadcrumb } = useBreadcrumb();
+
+    useEffect(() => {
+        setBreadcrumb({
+            title: "Students",
+            backItems: [{ title: "Users", url: route("users.index") }],
+        });
+    }, [setBreadcrumb]);
+
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: "id",
