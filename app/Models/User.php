@@ -51,6 +51,15 @@ class User extends Authenticatable implements MustVerifyEmail
         'label',
     ];
 
+    public static function booted()
+    {
+        parent::creating(function(User $user){
+            if(is_null($user->institution_id) && $user->email != 'sadmin@gmail.com'){
+                throw new \Exception('User must belongs to an instituion.');
+            }
+        });
+    }
+
 
     /**
      * Get the URL to the user's profile photo.
@@ -69,7 +78,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return RoleEnum::getLabel($this->roles->first()->name ?? '');
     }
 
-    // User belongs to one Institution
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function scopeInstitution($query, $value)
+    {
+        $query->where('institution_id', $value);
+    }
+
+    // Relationships
 
     public function institution(): BelongsTo
     {

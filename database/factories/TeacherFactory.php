@@ -41,7 +41,7 @@ class TeacherFactory extends Factory
             'rank' => $faker->randomElement(['Lecturer', 'Assistant Professor', 'Associate Professor', 'Professor']),
             'position' => $faker->randomElement(['HOD', 'Regular', 'Vice Principal', 'Principal', null]),
             'department_id' => function () {
-                return \App\Models\Department::all()->random()->first()->id; // Assuming you have a Department model and factory
+                return \App\Models\Department::inRandomOrder()->first()->id; // Assuming you have a Department model and factory
             },
             'isvisiting' => $faker->boolean,
             'isActive' => $faker->boolean,

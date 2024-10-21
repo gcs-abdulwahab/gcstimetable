@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\AllocationController;
 use App\Http\Controllers\RoomController;
+use App\Http\Middleware\RoleOrPermissionMiddleware;
+use App\PermissionEnum;
+use App\RoleEnum;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -26,8 +29,6 @@ use App\Http\Controllers\TimeTableController;
     DELETE	        /photos/{photo}	        destroy	photos.destroy
 */
 
-
-
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -38,30 +39,37 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Users
-    Route::prefix('users')->group(function () {
-        Route::get('', [UserController::class, 'index'])->name('users.index');
-        Route::post('', [UserController::class, 'create'])->name('users.create');
-        Route::delete('/{user_id}', [UserController::class, 'destroy'])->name('users.destroy');
-    });
+    // Admin Routes 🔒
+    Route::prefix('admin')
+        ->middleware(RoleOrPermissionMiddleware::class)
+        ->group(function () {
 
-    // Students
-    Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+            Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Teachers
-    Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
+            // Users 🧑‍🤝‍🧑
+            Route::prefix('users')->group(function () {
+                Route::get('', [UserController::class, 'index'])->name('users.index');
+                Route::post('', [UserController::class, 'create'])->name('users.create');
+                Route::delete('/{user_id}', [UserController::class, 'destroy'])->name('users.destroy');
+            });
 
-    // Time Table Resource
-    Route::resource('timetables', TimeTableController::class);
-    Route::get('/timetables/{timetable}/add/allocations', [TimeTableController::class, 'addAllocations'])->name('timetables.add.allocations');
-    
-    // Allocations
-    Route::resource('allocations', AllocationController::class);
+            // Students 🧑‍🎓
+            Route::get('/students', [StudentController::class, 'index'])->name('students.index');
 
-    // Rooms
-    Route::resource('rooms', RoomController::class);
+            // Teachers 🧑‍🏫
+            Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
+
+            // Time Table Resource 📆
+            Route::resource('timetables', TimeTableController::class);
+            Route::get('/timetables/{timetable}/add/allocations', [TimeTableController::class, 'addAllocations'])->name('timetables.add.allocations');
+
+            // Allocations 🔹
+            Route::resource('allocations', AllocationController::class);
+
+            // Rooms 🏫
+            Route::resource('rooms', RoomController::class);
+        });
 });
 
 Route::middleware('auth')->group(function () {

@@ -23,6 +23,9 @@ class RoleAndPermissionSeeder extends Seeder
 
         // Create Permissions for Modules
 
+        // Dashboard Module
+        Permission::create(['name' => PermissionEnum::CAN_ACCESS_DAHSBOARD->value]);
+
         // User Module
         Permission::create(['name' => PermissionEnum::CREATE_USER->value]);
         Permission::create(['name' => PermissionEnum::EDIT_USER->value]);

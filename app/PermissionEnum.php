@@ -4,6 +4,8 @@ namespace App;
 
 enum PermissionEnum : string
 {
+    case CAN_ACCESS_DAHSBOARD = 'dashboard access';
+    
     case CREATE_USER        = 'create user';
     case EDIT_USER          = 'edit user';
     case DELETE_USER        = 'delete user';

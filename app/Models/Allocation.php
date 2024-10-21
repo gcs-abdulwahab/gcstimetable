@@ -142,4 +142,9 @@ class Allocation extends Model
     {
         return $this->belongsTo(Section::class, 'section_id');
     }
+
+    public function timetable() : BelongsTo
+    {
+        return $this->belongsTo(TimeTable::class);
+    }
 }

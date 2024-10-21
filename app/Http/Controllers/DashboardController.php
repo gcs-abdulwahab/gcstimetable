@@ -15,8 +15,16 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $admin = Auth::user();
+
+        $userCount = User::query()
+            ->when($admin->isInstitutionAdmin(), function($query) use ($admin){
+                $query->institution($admin->institution_id);
+            })
+            ->count();
+            
         $statistics = [
-            'users'     => User::count(),
+            'users'     => $userCount,
             'students'  => Student::count(),
             'teachers'  => Teacher::count(),
         ];

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->foreignIdFor(Shift::class);
+            $table->foreignIdFor(Shift::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

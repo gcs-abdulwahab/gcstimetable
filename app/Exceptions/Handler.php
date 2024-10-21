@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Throwable;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -41,13 +42,19 @@ class Handler extends ExceptionHandler
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        $statusCode = $exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException
+
+        $httpException = $exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException;
+        $statusCode = $httpException
             ? $exception->getStatusCode()
             : 500; // Default to 500 for any unexpected exception
 
-        if (in_array($statusCode, [403, 404, 500, 503])) {
+        if ($httpException && in_array($statusCode, [403, 404, 500, 503])) {
+
+            // Determine if the user is logged in
+            $isLoggedIn = Auth::check();
+            
             // detemine if User Logged in or Not..
-            return Inertia::render('ErrorPage', ['statusCode' => $statusCode, 'isLoggedIn' => false])
+            return Inertia::render('ErrorPage', ['statusCode' => $statusCode, 'isLoggedIn' => $isLoggedIn])
                 ->toResponse($request)
                 ->setStatusCode($statusCode);
         }

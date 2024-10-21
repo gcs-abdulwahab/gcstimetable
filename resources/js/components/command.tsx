@@ -49,15 +49,12 @@ export function CommandDialogDemo() {
         if (e instanceof KeyboardEvent) {
             e.preventDefault();
         }
-        router.get("/profile");
 
-        if (open === true) {
-            setOpen(false);
-        }
+        handlePageSelect("profile.edit");
     };
 
-    const handlePageSelect = (url: string) => {
-        router.get(url);
+    const handlePageSelect = (routeName: string) => {
+        router.get(route(routeName));
 
         if (open === true) {
             setOpen(false);
@@ -83,37 +80,37 @@ export function CommandDialogDemo() {
                     <CommandEmpty>No results found.</CommandEmpty>
                     <CommandGroup heading="Pages">
                         <CommandItem
-                            onSelect={() => handlePageSelect("/dashboard")}
+                            onSelect={() => handlePageSelect("dashboard")}
                         >
                             <LayoutDashboardIcon className="mr-2 h-4 w-4" />
                             <span>Dashboar</span>
                         </CommandItem>
                         <CommandItem
-                            onSelect={() => handlePageSelect("/users")}
+                            onSelect={() => handlePageSelect("users.index")}
                         >
                             <Users className="mr-2 h-4 w-4" />
                             <span>Users</span>
                         </CommandItem>
                         <CommandItem
-                            onSelect={() => handlePageSelect("/students")}
+                            onSelect={() => handlePageSelect("students.index")}
                         >
                             <GraduationCap className="mr-2 h-4 w-4" />
                             <span>Students</span>
                         </CommandItem>
                         <CommandItem
-                            onSelect={() => handlePageSelect("/teachers")}
+                            onSelect={() => handlePageSelect("teachers.index")}
                         >
                             <User className="mr-2 h-4 w-4" />
                             <span>Teachers</span>
                         </CommandItem>
                         <CommandItem
-                            onSelect={() => handlePageSelect("/timetables")}
+                            onSelect={() => handlePageSelect("timetables.index")}
                         >
                             <CalendarDays className="mr-2 h-4 w-4" />
                             <span>Time Tables</span>
                         </CommandItem>
                         <CommandItem
-                            onSelect={() => handlePageSelect("/rooms")}
+                            onSelect={() => handlePageSelect("rooms.index")}
                         >
                             <Building className="mr-2 h-4 w-4" />
                             <span>Rooms</span>
