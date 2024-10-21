@@ -23,7 +23,7 @@ class DepartmentSeeder extends Seeder
             ['name' => 'Economics', 'code' => 'ECON'],
             ['name' => 'Education', 'code' => 'EDU'],
             ['name' => 'English', 'code' => 'ENG'],
-            ['name' => 'BSCS', 'code' => 'BSCS'],
+            ['name' => 'Computer Science', 'code' => 'BSCS'],
             ['name' => 'Islamic Studies', 'code' => 'ISL'],
             ['name' => 'Mass Communication', 'code' => 'MC'],
             ['name' => 'Mathematics', 'code' => 'MATH'],
