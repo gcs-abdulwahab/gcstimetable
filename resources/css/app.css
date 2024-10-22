@@ -13,34 +13,30 @@
     @apply rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white;
 }
 
-/* Convert color red into hsl */
-
-
-
 @layer base {
   :root {
-    --background: 20 66% 99%;
-    --foreground: 20 51% 4%;
+    --background: 0 0% 100%;
+    --foreground: 240 51% 4%;
     --success-background: 120 100% 50%;
-    --muted: 20 25% 86%;
-    --muted-foreground: 20 7% 25%;
-    --popover: 20 66% 98%;
+    --muted: 240 25% 86%;
+    --muted-foreground: 240 7% 25%;
+    --popover: 240 66% 98%;
     --popover-foreground: 20 51% 3%;
-    --card: 20 66% 98%;
+    --card: 240 66% 98%;
     --card-foreground: 20 51% 3%;
-    --border: 20 15% 94%;
-    --input: 20 15% 94%;
-    --primary: 20 48% 72%;
-    --primary-foreground: 20 48% 12%;
-    --secondary: 20 12% 92%;
-    --secondary-foreground: 20 12% 32%;
-    --accent: 20 12% 92%;
-    --accent-foreground: 20 12% 32%;
+    --border: 240 15% 94%;
+    --input: 240 15% 94%;
+    --primary: 224.3 76.3% 48%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 12% 92%;
+    --secondary-foreground: 240 12% 32%;
+    --accent: 240 12% 92%;
+    --accent-foreground: 240 12% 32%;
     --destructive: 0 100% 50%;
     --destructive-foreground: 0 0% 100%;
     --success: 120 100% 50%;
     --success-foreground: 120 100% 100%;
-    --ring: 20 48% 72%;
+    --ring: 224.3 76.3% 48%;
     --radius: 0.5rem;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;

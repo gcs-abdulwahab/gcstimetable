@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\RoleEnum;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -30,11 +32,16 @@ class UserFactory extends Factory
         ];
     }
 
-    // assign role to user
-    public function role($role): UserFactory
+    /**
+     * Configure the model factory.
+     */
+    public function configure(): static
     {
-        return $this->state(fn(array $attributes) => [
-            'role' => $role,
-        ]);
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole(rand(0, 1) ? RoleEnum::STUDENT : RoleEnum::TEACHER);
+            $user->institution_id = rand(1, 2);
+
+            $user->save();
+        });
     }
 }

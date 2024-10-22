@@ -78,8 +78,8 @@ class ProgramSeeder extends Seeder
                 'name' => $pname,
                 'code' => $pcode,
                 'department_id' => Department::where('code', $programData['dcode'])->first()->id,
-                'type' => $pType,
-                'shift_id' => $programData['shift_id'],
+                'type'          => $pType,
+                'shift_id'      => $programData['shift_id'],
             ]);
 
         }

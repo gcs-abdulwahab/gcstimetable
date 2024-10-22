@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Allocation;
 use Exception;
+use App\Models\Allocation;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 class AllocationSeeder extends Seeder
 {
@@ -18,8 +20,10 @@ class AllocationSeeder extends Seeder
 
         $allocations = json_decode(file_get_contents(__DIR__.'/allocations.json'), true);
 
+
         foreach($allocations as $key => $allocation){
             Allocation::create($allocation);
         }
+
     }
 }

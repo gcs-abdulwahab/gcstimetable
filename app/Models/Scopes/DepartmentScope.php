@@ -19,7 +19,6 @@ class DepartmentScope implements Scope
             if ($user->isInstitutionAdmin()) {
 
                 $user->load('institution.departments');
-                // dd($user->institution?->departments?->pluck('id')->toArray());
                 if ($user->institution && $user->institution?->departments?->count() > 0) {
                     $builder->whereIn('department_id', $user->institution->departments->pluck('id'));
 

@@ -16,10 +16,19 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        $institutions = [
+            Institution::first(),
+            Institution::latest()->first(),
+        ];
+
         User::factory()
-            ->count(100)
-            ->hasAttached(Role::whereIn('name', [RoleEnum::STUDENT, RoleEnum::TEACHER])->inRandomOrder()->first())
-            ->for(Institution::inRandomOrder()->first())
+            ->count(50)
+            ->for($institutions[rand(0, 1)])
+            ->create();
+
+        User::factory()
+            ->count(50)
+            ->for($institutions[rand(0, 1)])
             ->create();
     }
 }

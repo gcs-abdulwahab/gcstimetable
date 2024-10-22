@@ -31,8 +31,8 @@ class DatabaseSeeder extends Seeder
 
         $superAdmin->assignRole($superadmin_role);
 
-        // Institution Admin
-        $firstInstitution = Institution::first();
+        // ========================= Institution Admin ============================
+        $firstInstitution = Institution::with(['departments' => fn($q) => $q->limit(1)])->find(1);
         $institutionAdmin = User::factory()
             ->for($firstInstitution)
             ->create([
@@ -44,8 +44,7 @@ class DatabaseSeeder extends Seeder
 
         $institutionAdmin->assignRole($institute_admin_role);
 
-        // Institution Admin
-        $lastInstitution = Institution::latest()->first();
+        $lastInstitution = Institution::with(['departments' => fn($q) => $q->limit(1)])->find(2);
         $institutionAdmin2 = User::factory()
             ->for($lastInstitution)
             ->create([
@@ -59,26 +58,25 @@ class DatabaseSeeder extends Seeder
 
         $this->call(DepartmentSeeder::class);
 
-        // Department Admin
+        // ============================ Department Admin ===========================
         $departmentAdmin = User::factory()
             ->for($lastInstitution)
             ->create([
                 'name' => 'dadmin',
                 'email' => 'dadmin@gmail.com',
                 'password' => 'asdf1234',
-                'department_id' => 1,
+                'department_id' => $firstInstitution->departments->first()->id ?? null,
             ]);
 
         $departmentAdmin->assignRole($department_admin_role);
 
-        // Department Admin
         $departmentAdmin = User::factory()
-        ->for(Institution::latest()->first())
+        ->for($lastInstitution)
         ->create([
             'name' => 'dadmin2',
             'email' => 'dadmin2@gmail.com',
             'password' => 'asdf1234',
-            'department_id' => 1,
+            'department_id' => $lastInstitution->departments->first()->id ?? null,
         ]);
 
         $departmentAdmin->assignRole($department_admin_role);

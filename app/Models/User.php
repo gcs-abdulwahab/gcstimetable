@@ -83,9 +83,19 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['password'] = bcrypt($password);
     }
 
-    public function scopeInstitution($query, $value)
+    public function scopeWhereInstitution($query, $value)
     {
         $query->where('institution_id', $value);
+    }
+
+    public function scopeWhereDepartment($query, $value)
+    {
+        $query->where('department_id', $value);
+    }
+
+    public function scopeWhereDepartmentIn($query, array $value)
+    {
+        $query->whereIn('department_id', $value);
     }
 
     // Relationships

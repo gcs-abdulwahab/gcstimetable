@@ -35,7 +35,7 @@ class SemesterSeeder extends Seeder
         }
 
         // Iterate through each Inter program
-        foreach ($bsPrograms as $program) {
+        foreach ($interPrograms as $program) {
             for ($i = 1; $i <= 1; $i++) {
                 Semester::create([
                     'name' => $program->code.'-'.'Year',

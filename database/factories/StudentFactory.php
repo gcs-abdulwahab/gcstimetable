@@ -18,16 +18,15 @@ class StudentFactory extends Factory
      */
     public function definition(): array
     {
-        $program = Program::inRandomOrder()->with(['semesters' => function ($query) {
-            $query->select('id')->inRandomOrder()->first();
-        }])->first();
+        $program = Program::inRandomOrder()->whereHas('semesters')->with(['semesters' => fn($q) => $q->inRandomOrder()->first(), 'institution'])->first();
 
         return [
             'name'          => fake()->name(),
             'email'         => fake()->unique()->safeEmail(),
             'mobile'        => fake()->phoneNumber(),
             'program_id'    => $program->id ?? null,
-            'semester_id'   => $program->semesters->first()->id ?? null,
+            'semester_id'   => $program->semesters?->first()->id ?? null,
+            'institution_id'=> $program->institution->id,
         ];
     }
 }

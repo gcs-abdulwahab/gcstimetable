@@ -7,6 +7,7 @@ use App\Models\Shift;
 use App\Models\Section;
 use App\Models\TimeTable;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\TimeTable\StoreTimeTableRequest;
 use App\Http\Requests\TimeTable\UpdateTimeTableRequest;
@@ -15,7 +16,18 @@ class TimeTableController extends Controller
 {
     public function index()
     {
-        $tables = TimeTable::take(5)->get();
+        $admin  = Auth::user()->load('roles.permissions');
+        $tables = [];
+
+        if($admin->isInstitutionAdmin()){
+            $tables = TimeTable::whereHas('institution', function($query) use ($admin) {
+                $query->where('institutions.id', $admin->institution_id);
+            })->get();
+        } else if($admin->isDepartmentAdmin()) {
+            $tables = TimeTable::whereHas('institution.department', function($query) use ($admin) {
+                $query->where('departments.id', $admin->department_id);
+            })->get();
+        }
 
         return Inertia::render('Admin/TimeTables/index', [
             'timeTables' => $tables

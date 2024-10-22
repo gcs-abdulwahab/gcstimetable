@@ -131,7 +131,6 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 }
 
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
-  console.log("AppSidebar -> NavData.navMain", NavData.navMain);
   return (
     <Sidebar variant='inset' collapsible="icon" {...props}>
       <SidebarHeader>

@@ -25,4 +25,9 @@ class TimeTable extends Model
     {
         return $this->hasMany(Allocation::class);
     }
+
+    public function institution()
+    {
+        return $this->hasOneThrough(Institution::class, Shift::class, 'id', 'id', 'shift_id', 'institution_id');
+    }
 }

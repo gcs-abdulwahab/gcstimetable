@@ -26,6 +26,7 @@ import InputField from "@/Components/TextInput";
 import { TablePagination } from "./Pagination";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
 
 const DefaultInputProps: InputProps = {
     pagination: true,
@@ -112,7 +113,7 @@ export function DataTable<TData, TValue>({
         <div>
             <div className="flex items-center py-4">
                 {finalProps.searchFilter && (
-                    <InputField
+                    <Input
                         placeholder={`Filter ${finalProps.filterColumn} ...`}
                         value={
                             (table
@@ -228,12 +229,14 @@ export function DataTable<TData, TValue>({
                     <Button
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
+                        size={'sm'}
                     >
                         Previous
                     </Button>
                     <Button
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
+                        size={'sm'}
                     >
                         Next
                     </Button>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Institution;
 use App\Models\User;
 use App\Models\Program;
 use App\Models\Semester;
@@ -18,10 +19,11 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('email');
-            $table->string(column: 'mobile');
-            $table->foreignIdFor(Program::class);
-            $table->foreignIdFor(Semester::class)->nullable();
-            $table->foreignIdFor(User::class)->nullable();
+            $table->string( 'mobile');
+            $table->foreignIdFor(Program::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Semester::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(Institution::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
