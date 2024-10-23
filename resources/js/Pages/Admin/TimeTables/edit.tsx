@@ -1,4 +1,4 @@
-import { FormEventHandler } from "react";
+import { FormEventHandler, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps, Shift, TimeStamp, TimeTable } from "@/types";
@@ -23,6 +23,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { useBreadcrumb } from "@/components/providers/breadcrum-provider";
 
 interface FormProps {
     title: string;
@@ -35,6 +36,20 @@ export default function EditTimeTable({
     timetable,
     shifts,
 }: PageProps<{ timetable: TimeTable; shifts: Shift[] }>) {
+    const { setBreadcrumb } = useBreadcrumb();
+
+    useEffect(() => {
+        setBreadcrumb({
+            title: 'Edit Time Table',
+            backItems : [
+                {
+                    title: 'Time Tables',
+                    url: route('timetables.index')
+                }
+            ]
+        });
+    }, [setBreadcrumb]);
+
     const { data, setData, put, errors, processing, reset } =
         useForm<FormProps>({
             title: timetable?.title,

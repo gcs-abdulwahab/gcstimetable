@@ -5,6 +5,8 @@ import { CheckCircle, XCircle } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import { Allocation, Room } from "@/types/database";
 import { Button } from "@/components/ui/button";
+import { useBreadcrumb } from "@/components/providers/breadcrum-provider";
+import { useEffect } from "react";
 
 interface ShowRoomProps extends Record<string, unknown> {
     room: Room & {
@@ -18,6 +20,21 @@ export default function ShowRoom({
     room,
     shifts,
 }: PageProps<ShowRoomProps>) {
+
+    const { setBreadcrumb } = useBreadcrumb();
+
+    useEffect(() => {
+        setBreadcrumb({
+            title: 'Show',
+            backItems : [
+                {
+                    title: 'Rooms',
+                    url: route('rooms.index')
+                }
+            ]
+        });
+    }, [setBreadcrumb]);
+
     // Helper function to check if a room is available for a given slot and day
     const isRoomAvailableForSlot = (slotId: number, dayId: number): boolean => {
         // console.log('slotId', slotId, dayId);
@@ -41,22 +58,22 @@ export default function ShowRoom({
                             href={route("rooms.index")}
                             className="flex items-center space-x-2"
                         >
-                            <Button variant={"outline"}>Back</Button>
+                            <Button variant={"outline"} >Back</Button>
                         </Link>
                     </div>
 
                     {/* Table structure to show availability */}
                     <div className="overflow-x-auto shadow-md rounded-lg">
-                        <table className="min-w-full border-collapse table-auto bg-white dark:bg-gray-900">
-                            <thead className="bg-gray-100 dark:bg-gray-700">
+                        <table className="min-w-full border-collapse table-auto bg-background text-foreground">
+                            <thead className="bg-sidebar text-sidebar-foreground">
                                 <tr>
-                                    <th className="border-b p-4 text-left text-gray-600 dark:text-gray-300 font-medium">
+                                    <th className="border-b p-4 text-left font-medium">
                                         Day
                                     </th>
                                     {shifts.map((shift) => (
                                         <th
                                             key={shift.id}
-                                            className="border-b p-4 text-left text-gray-600 dark:text-gray-300 font-medium"
+                                            className="border-b p-4 text-left font-medium"
                                         >
                                             {shift.name} Shift
                                         </th>
@@ -66,11 +83,8 @@ export default function ShowRoom({
                             <tbody>
                                 {Array.from({ length: 6 }, (_, i) => i + 1).map(
                                     (dayNumber) => (
-                                        <tr
-                                            key={dayNumber}
-                                            className="hover:bg-gray-50 dark:hover:bg-background transition-colors"
-                                        >
-                                            <td className="border-b p-4 text-gray-700 dark:text-gray-300 font-medium">
+                                        <tr key={dayNumber}>
+                                            <td className="border-b p-4 text-foreground font-medium">
                                                 Day {dayNumber}
                                             </td>
                                             {shifts.map((shift) => (
@@ -88,13 +102,7 @@ export default function ShowRoom({
                                                                     className="flex items-center justify-between"
                                                                 >
                                                                     <div>
-                                                                        <span className="font-medium text-gray-700 dark:text-gray-300">
-                                                                            {
-                                                                                slot.name
-                                                                            }
-                                                                            :
-                                                                        </span>
-                                                                        <span className="ml-1 text-sm text-gray-500 dark:text-gray-400">
+                                                                        <span className="ml-1 text-sm text-foreground/80">
                                                                             {
                                                                                 slot.start_time
                                                                             }{" "}

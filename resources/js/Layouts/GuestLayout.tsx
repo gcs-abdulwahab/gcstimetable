@@ -16,7 +16,7 @@ export default function Guest({ children }: PropsWithChildren) {
             </div>
 
             {/* Content area - Takes full width on small screens, half on large screens */}
-            <div className="mx-auto lg:w-1/2 flex flex-col items-center justify-center h-full w-full px-4">
+            <div className="mx-auto lg:w-1/2 flex flex-col items-center justify-center h-full w-full px-4 ">
                 <Link href="/">
                     <ApplicationLogo className="h-16 w-auto" iconSize={10} />
                 </Link>

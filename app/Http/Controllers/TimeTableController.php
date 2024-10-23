@@ -22,11 +22,11 @@ class TimeTableController extends Controller
         if($admin->isInstitutionAdmin()){
             $tables = TimeTable::whereHas('institution', function($query) use ($admin) {
                 $query->where('institutions.id', $admin->institution_id);
-            })->get();
+            })->latest()->get();
         } else if($admin->isDepartmentAdmin()) {
             $tables = TimeTable::whereHas('institution.department', function($query) use ($admin) {
                 $query->where('departments.id', $admin->department_id);
-            })->get();
+            })->latest()->get();
         }
 
         return Inertia::render('Admin/TimeTables/index', [
@@ -50,9 +50,10 @@ class TimeTableController extends Controller
 
         if ($response->allowed()) {
 
-            TimeTable::create($attributes);
+            $timetable = TimeTable::create($attributes);
 
-            return back()->with('success', 'Time Table created successfully.');
+            return redirect(route('timetables.add.allocations', $timetable->id))->with('success', 'Time Table created successfully.');
+
         }
 
         return back()->with('error', $response->message());
@@ -79,7 +80,7 @@ class TimeTableController extends Controller
 
             $timetable->update($attributes);
 
-            return redirect()->intended(route('timetables.index', absolute: true))->with('success', 'Time Table updated successfully.');
+            return redirect()->back()->with('success', 'Time Table updated successfully.');
         }
 
         return back()->with('error', $response->message());

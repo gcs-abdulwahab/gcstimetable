@@ -122,7 +122,7 @@ export type Section = {
 export type Semester = {
     id: number;
     name: string;
-    is_active: number;
+    is_active: string;
     created_at: string;
     updated_at: string;
 }

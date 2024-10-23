@@ -18,8 +18,9 @@ return new class extends Migration
 
             // Semester Number which could either be 1 to 8
             $table->integer('number')->default(1);
+            
             // Semester active or not
-            $table->boolean('is_active')->default(true);
+            $table->enum('is_active', ['active', 'inactive'])->default('active');
 
             // foreign key to program
             $table->foreignId('program_id')->constrained()->onDelete('cascade');

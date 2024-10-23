@@ -42,7 +42,7 @@ class TeacherResource extends JsonResource
             'department_id' => $this->department_id,
             'department'    => $this->whenLoaded('department') ? $this->department : null,
             'isvisiting'    => $this->isvisiting,
-            'isActive'      => $this->isActive,
+            'isActive'      => $this->isActive(),
             'created_at'    => $this->created_at?->format(config('providers.date.format'))
         ];
     }

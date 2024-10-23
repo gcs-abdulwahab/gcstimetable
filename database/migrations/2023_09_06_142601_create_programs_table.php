@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Department;
+use App\Models\Shift;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -29,10 +31,10 @@ return new class extends Migration
             $table->enum('type', ['ADP', 'INTER', 'BS'])->default('BS');
 
             // belongs to some shift
-            $table->foreignId('shift_id')->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Shift::class)->nullable()->constrained()->nullOnDelete();
 
             // Offered by which department
-            $table->foreignId('department_id')->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Department::class)->constrained()->cascadeOnDelete();
 
             $table->timestamps();
         });

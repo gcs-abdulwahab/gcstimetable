@@ -6,6 +6,7 @@ use App\Models\Room;
 use Inertia\Inertia;
 use App\Models\Shift;
 use App\Http\Resources\RoomResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\RoomCollection;
 use App\Http\Requests\StoreRoomRequest;
@@ -19,18 +20,20 @@ class RoomController extends Controller
      */
     public function index()
     {
-        // get the Institution id from the request
 
-        $institution_id = request()->input('institution_id', auth()->user()->institution_id);
-        // dd($institution_id);
-        $rooms = new RoomCollection(Room::where('institution_id', $institution_id)->get());
+        $rooms    = [];
+        $admin    = Auth::user();
+
+        if($admin->isInstitutionAdmin()){
+            $rooms = new RoomCollection(Room::where('institution_id', $admin->institution_id)->get());
+        }
 
         try {
             return Inertia::render('Admin/Rooms/index', [
                 'rooms' => $rooms,
             ]);
-        } catch (QueryException $exception) {
-            return response()->json(['error' => 'Database error'.$exception->getMessage()], 500);
+        } catch (QueryException $e) {
+            return back()->with('status', $e->getMessage());
         }
     }
 
@@ -47,7 +50,8 @@ class RoomController extends Controller
      */
     public function store(StoreRoomRequest $request)
     {
-        // write store method like Department store method
+        $request->validated();
+        
         try {
             $room = Room::create($request->all());
 

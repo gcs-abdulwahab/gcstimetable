@@ -27,7 +27,14 @@ class TruncateDBTables extends Command
      */
     public function handle()
     {
+
+        if(app()->environment() !== 'local'){
+            throw new \Exception('Command only available in Local environment.');
+        }
+
         $this->truncateAllTables();
+
+        $this->info('All tables truncated successfully.');
     }
 
     public function truncateAllTables()

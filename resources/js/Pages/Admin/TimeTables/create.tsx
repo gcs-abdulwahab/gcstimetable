@@ -47,7 +47,6 @@ export default function CreateTimeTable({
         post(route("timetables.store"), {
             onSuccess: (response) => {
                 reset("title", "description");
-                handleClose();
             },
         });
     };

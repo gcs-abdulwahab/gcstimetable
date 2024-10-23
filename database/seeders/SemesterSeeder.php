@@ -28,7 +28,6 @@ class SemesterSeeder extends Seeder
                 Semester::create([
                     'name' => $program->code.'-'.$semesterName,
                     'number' => $i,
-                    'is_active' => true,
                     'program_id' => $program->id,
                 ]);
             }
@@ -40,7 +39,6 @@ class SemesterSeeder extends Seeder
                 Semester::create([
                     'name' => $program->code.'-'.'Year',
                     'number' => $i,
-                    'is_active' => true,
                     'program_id' => $program->id,
                 ]);
             }

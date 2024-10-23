@@ -33,21 +33,18 @@ class DatabaseSeeder extends Seeder
 
         // ========================= Institution Admin ============================
         $firstInstitution = Institution::with(['departments' => fn($q) => $q->limit(1)])->find(1);
-        $institutionAdmin = User::factory()
-            ->for($firstInstitution)
-            ->create([
+        $institutionAdmin = User::create([
                 'name' => 'iadmin',
                 'email' => 'iadmin@gmail.com',
                 'password' => 'asdf1234',
                 'institution_id' => 1,
-            ]);
+        ]);
 
         $institutionAdmin->assignRole($institute_admin_role);
+        $institutionAdmin->markEmailAsVerified();
 
         $lastInstitution = Institution::with(['departments' => fn($q) => $q->limit(1)])->find(2);
-        $institutionAdmin2 = User::factory()
-            ->for($lastInstitution)
-            ->create([
+        $institutionAdmin2 = User::create([
                 'name' => 'iadmin2',
                 'email' => 'iadmin2@gmail.com',
                 'password' => 'asdf1234',
@@ -55,31 +52,32 @@ class DatabaseSeeder extends Seeder
             ]);
 
         $institutionAdmin2->assignRole($institute_admin_role);
+        $institutionAdmin2->markEmailAsVerified();
 
         $this->call(DepartmentSeeder::class);
 
         // ============================ Department Admin ===========================
-        $departmentAdmin = User::factory()
-            ->for($lastInstitution)
-            ->create([
+        $departmentAdmin = User::create([
                 'name' => 'dadmin',
                 'email' => 'dadmin@gmail.com',
                 'password' => 'asdf1234',
+                'institution_id' => 1,
                 'department_id' => $firstInstitution->departments->first()->id ?? null,
             ]);
 
         $departmentAdmin->assignRole($department_admin_role);
+        $departmentAdmin->markEmailAsVerified();
 
-        $departmentAdmin = User::factory()
-        ->for($lastInstitution)
-        ->create([
+        $departmentAdmin = User::create([
             'name' => 'dadmin2',
             'email' => 'dadmin2@gmail.com',
             'password' => 'asdf1234',
+            'institution_id' => 2,
             'department_id' => $lastInstitution->departments->first()->id ?? null,
         ]);
 
         $departmentAdmin->assignRole($department_admin_role);
+        $departmentAdmin->markEmailAsVerified();
 
         $this->call(ShiftSeeder::class);
 

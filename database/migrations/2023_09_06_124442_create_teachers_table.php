@@ -62,7 +62,7 @@ return new class extends Migration
             $table->boolean('isvisiting')->default(false);
 
             // isActive
-            $table->boolean('isActive')->default(true);
+            $table->enum('is_active', ['active', 'inactive'])->default('active');
 
             $table->foreignIdFor(\App\Models\User::class)->nullable();
 
