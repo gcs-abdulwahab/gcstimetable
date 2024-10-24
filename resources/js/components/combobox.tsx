@@ -19,10 +19,10 @@ import {
 
 interface AutoCompleteProps {
     label: string;
-    value: any;
+    value: string | null;
     setValue: (value: string) => void;
-    values: { value: string | number; label: string }[];
-    disabled?: boolean
+    values: { value: string; label: string }[];
+    disabled?: boolean;
 }
 
 export function AutoCompleteSelect({
@@ -30,7 +30,7 @@ export function AutoCompleteSelect({
     value,
     setValue,
     values,
-    disabled
+    disabled,
 }: AutoCompleteProps) {
     const [open, setOpen] = React.useState(false);
 
@@ -41,13 +41,13 @@ export function AutoCompleteSelect({
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="justify-between w-full"
+                    className="justify-between w-full focus-visible::ring-transparent"
                     disabled={disabled}
                 >
                     {value
                         ? (() => {
                               return values.find(
-                                  (framework) => framework.value === value
+                                  (framework) => framework.value == value
                               )?.label;
                           })()
                         : label}
@@ -55,7 +55,19 @@ export function AutoCompleteSelect({
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="p-0">
-                <Command>
+                <Command
+                    filter={(value, search, keywords = []) => {
+                        const extendValue = value + " " + keywords.join(" ");
+                        if (
+                            extendValue
+                                .toLowerCase()
+                                .includes(search.toLowerCase())
+                        ) {
+                            return 1;
+                        }
+                        return 0;
+                    }}
+                >
                     <CommandInput
                         className="border-transparent focus:border-transparent focus:ring-transparent"
                         placeholder={label}
@@ -66,7 +78,7 @@ export function AutoCompleteSelect({
                             {values.map((framework) => (
                                 <CommandItem
                                     key={framework.value}
-                                    value={String(framework.value)}
+                                    value={framework.value}
                                     onSelect={(currentValue) => {
                                         setValue(
                                             currentValue === value
@@ -75,6 +87,7 @@ export function AutoCompleteSelect({
                                         );
                                         setOpen(false);
                                     }}
+                                    keywords={[framework.label]}
                                 >
                                     <Check
                                         className={cn(

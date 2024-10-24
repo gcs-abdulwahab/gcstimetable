@@ -13,6 +13,7 @@ class Semester extends Model
 {
     use HasFactory;
     use IsActiveTrait;
+    
     // guarded
 
     /**

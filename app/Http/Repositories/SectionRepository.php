@@ -6,11 +6,8 @@ use App\Models\Section;
 
 class SectionRepository
 {
-    protected $model;
-
-    public function __construct(Section $section)
+    public function __construct(protected Section $model)
     {
-        $this->model = $section;
     }
 
     public function getAll()
@@ -52,11 +49,15 @@ class SectionRepository
     {
         return $this->model->join('semesters', 'sections.semester_id', '=', 'semesters.id')
             ->join('programs', 'semesters.program_id', '=', 'programs.id')
-            ->join('shifts', 'programs.shift_id', '=', 'shifts.id')
+            ->join('shifts', function($query){
+                $query->on('programs.shift_id', '=', 'shifts.id')
+                    ->on('programs.type', '=', 'shifts.program_type');
+            })
             ->where('shifts.id', $shiftId)
             ->when($sectionid, function ($query, $sectionid) {
                 return $query->where('sections.id', $sectionid);
             })
-            ->get(['sections.id', 'sections.name','semesters.id as SemesterId', 'semesters.name as SemesterName', 'semesters.number as SemesterNo', 'programs.type as ProgramType']);
+            ->select(['sections.id', 'sections.name','semesters.id as SemesterId', 'semesters.name as SemesterName', 'semesters.number as SemesterNo', 'programs.type as ProgramType'])
+            ->get();
     }
 }

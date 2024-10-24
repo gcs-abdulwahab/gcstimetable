@@ -16,7 +16,6 @@ export default function AddAllocationsTimeTable({
     timetable,
     sections,
 }: PageProps<{ timetable: TimeTable; sections: Section[] }>) {
-
     const { setBreadcrumb } = useBreadcrumb();
 
     // state
@@ -31,10 +30,10 @@ export default function AddAllocationsTimeTable({
             title: "Add Allocations",
             backItems: [
                 {
-                    title: 'Time Tables',
-                    url: route('timetables.index')
-                }
-            ]
+                    title: "Time Tables",
+                    url: route("timetables.index"),
+                },
+            ],
         });
     }, [timetable]);
 
@@ -160,7 +159,7 @@ export default function AddAllocationsTimeTable({
                                             return allocs.length > 0 ? (
                                                 <p
                                                     key={slot.id}
-                                                    className="flex-1 text-center h-auto min-h-[100px] w-[150px] min-w-[200px] flex flex-col items-center justify-center border-l px-2 py-5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+                                                    className="flex-1 text-center h-auto min-h-[100px] w-[150px] min-w-[200px] flex flex-col items-center justify-center border-l py-5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
                                                     onClick={() =>
                                                         editTimeTableCell(
                                                             slot.id,
@@ -180,17 +179,19 @@ export default function AddAllocationsTimeTable({
                                                     key={slot.id}
                                                     className="flex-1 text-center h-auto min-h-[100px] w-[150px] min-w-[200px] flex items-center justify-center border-l"
                                                 >
-                                                    <Button
-                                                        variant={"ghost"}
-                                                        onClick={() =>
-                                                            handleCreateAllocation(
-                                                                slot.id,
-                                                                section.id
-                                                            )
-                                                        }
-                                                    >
-                                                        <Plus size={16} />
-                                                    </Button>
+                                                    <Tooltip title="Add Allocation">
+                                                        <Button
+                                                            variant={"ghost"}
+                                                            onClick={() =>
+                                                                handleCreateAllocation(
+                                                                    slot.id,
+                                                                    section.id
+                                                                )
+                                                            }
+                                                        >
+                                                            <Plus size={16} />
+                                                        </Button>
+                                                    </Tooltip>
                                                 </p>
                                             );
                                         })}
@@ -205,14 +206,18 @@ export default function AddAllocationsTimeTable({
                                         key={slot.id}
                                         className="flex-1 text-center h-auto min-h-[100px] w-[150px] min-w-[200px] flex items-center justify-center border-l"
                                     >
-                                        <Button
-                                            variant={"ghost"}
-                                            onClick={() =>
-                                                handleCreateAllocation(slot.id)
-                                            }
-                                        >
-                                            <Plus size={16} />
-                                        </Button>
+                                        <Tooltip title="Add Allocation">
+                                            <Button
+                                                variant={"ghost"}
+                                                onClick={() =>
+                                                    handleCreateAllocation(
+                                                        slot.id
+                                                    )
+                                                }
+                                            >
+                                                <Plus size={16} />
+                                            </Button>
+                                        </Tooltip>
                                     </p>
                                 ))}
                             </div>

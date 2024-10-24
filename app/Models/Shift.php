@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\IsActiveTrait;
-use App\Models\Scopes\InstitutionScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,14 +14,6 @@ class Shift extends Model
     use IsActiveTrait;
 
     // guarded
-
-    /**
-     * The "booted" method of the model.
-     */
-    protected static function booted(): void
-    {
-        static::addGlobalScope(new InstitutionScope);
-    }
 
     // Scopes
 

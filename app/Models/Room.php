@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\InstitutionScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,12 +26,14 @@ class Room extends Model
         return $this->type === 'BOTH';
     }
 
-    /**
-     * The "booted" method of the model.
-     */
-    protected static function booted(): void
+    public function scopeWhereTypeWithBoth($query, string $type)
     {
-        parent::addGlobalScope(new InstitutionScope);
+        return $query->where('type', $type)->orWhere('type', 'BOTH');
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('isavailable', 1);
     }
 
     // Room has many Allocations

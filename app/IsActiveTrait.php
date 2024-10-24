@@ -5,14 +5,19 @@ namespace App;
 trait IsActiveTrait
 {
     // Scopes
-    public function scopeWhereActive()
+    public function scopeWhereActive($query, $value)
     {
-        return $this->where('is_active', 'active');
+        return $query->where('is_active', $value);
     }
 
-    public function scopeWhereInactive()
+    public function scopeActive($query)
     {
-        return $this->where('is_active', 'inactive');
+        return $query->where('is_active', 'active');
+    }
+
+    public function scopeInactive($query)
+    {
+        return $query->where('is_active', 'inactive');
     }
 
     // helpers

@@ -1,5 +1,6 @@
+import moment from "moment";
+
 export function getRomanNumber(num: number): string {
-    
     const roman: { [key: number]: string } = {
         1: "I",
         4: "IV",
@@ -33,4 +34,10 @@ export function getNumberWithOrdinal(n: number): string {
     const s = ["th", "st", "nd", "rd"];
     const v = n % 100;
     return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+export function formatTime(timeStr: string) {
+    return moment(`1970-01-01 ${timeStr}`, "YYYY-MM-DD HH:mm:ss").format(
+        "h:mm A"
+    );
 }

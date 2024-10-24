@@ -19,12 +19,12 @@ class TimeTableController extends Controller
         $admin  = Auth::user()->load('roles.permissions');
         $tables = [];
 
-        if($admin->isInstitutionAdmin()){
-            $tables = TimeTable::whereHas('institution', function($query) use ($admin) {
+        if ($admin->isInstitutionAdmin()) {
+            $tables = TimeTable::whereHas('institution', function ($query) use ($admin) {
                 $query->where('institutions.id', $admin->institution_id);
             })->latest()->get();
-        } else if($admin->isDepartmentAdmin()) {
-            $tables = TimeTable::whereHas('institution.department', function($query) use ($admin) {
+        } elseif ($admin->isDepartmentAdmin()) {
+            $tables = TimeTable::whereHas('institution.department', function ($query) use ($admin) {
                 $query->where('departments.id', $admin->department_id);
             })->latest()->get();
         }
@@ -86,9 +86,9 @@ class TimeTableController extends Controller
         return back()->with('error', $response->message());
     }
 
-    public function addAllocations(TimeTable $timetable)
+    public function addAllocations($timetable)
     {
-        $timetable->load(['shift.slots', 'allocations']);
+        $timetable   = TimeTable::where('id', $timetable)->with(['shift.slots', 'allocations'])->firstOrFail();
         $sections    = [];
 
         if ($timetable->allocations) {
@@ -96,9 +96,11 @@ class TimeTableController extends Controller
 
             if ($sectionIds && count($sectionIds) > 0) {
                 // Getting Table Sections
-                $sections = Section::whereIn('id', $sectionIds)->with(['semester' => function ($query) {
-                    $query->select('id', 'name', 'number');
-                }])->get();
+                $sections = Section::whereIn('id', $sectionIds)
+                    ->whereHas('semester', fn ($q) => $q->active())
+                    ->with(['semester' => function ($query) {
+                        $query->select('id', 'name', 'number');
+                    }])->get();
 
             }
         }

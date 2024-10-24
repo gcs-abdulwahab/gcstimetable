@@ -33,11 +33,13 @@ import {
     Allocation,
 } from "@/types/database";
 import { AutoCompleteSelect } from "@/components/combobox";
-import { getNumberWithOrdinal } from "@/utils/helper";
+import { formatTime, getNumberWithOrdinal } from "@/utils/helper";
 import { AllocationCell } from "../TimeTables/Partials/AllocationCell";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useBreadcrumb } from "@/components/providers/breadcrum-provider";
+import { ArrowBigDown, Group, Table, TimerIcon } from "lucide-react";
+import { Book, User, MapPin, Calendar, MoveDown } from "lucide-react";
 
 interface FormProps {
     time_table_id: number;
@@ -94,8 +96,8 @@ export default function CreateAllocation({
     auth,
     props,
 }: PageProps & CreateAllocationProps) {
-    // Constants 
-    const BACK_ROUTE = route('timetables.add.allocations', props.timetable.id);
+    // Constants
+    const BACK_ROUTE = route("timetables.add.allocations", props.timetable.id);
 
     // State
     const { setBreadcrumb } = useBreadcrumb();
@@ -121,17 +123,17 @@ export default function CreateAllocation({
             title: "Allocation",
             backItems: [
                 {
-                    title: 'Time Tables',
-                    url: route('timetables.index')
+                    title: "Time Tables",
+                    url: route("timetables.index"),
                 },
                 {
-                    title: 'Add Allocations',
-                    url: BACK_ROUTE
-                }
-            ]
+                    title: "Add Allocations",
+                    url: BACK_ROUTE,
+                },
+            ],
         });
     }, [setBreadcrumb]);
-    
+
     useEffect(() => {
         if (selectedAllocation) {
             setData((data) => ({
@@ -195,6 +197,12 @@ export default function CreateAllocation({
         }
     };
 
+    function getDayAllocation(dayId: number) {
+        return props.allocations.find(
+            (allocation) => allocation.day_id === dayId
+        );
+    }
+
     function handleClose() {
         router.get(BACK_ROUTE);
     }
@@ -206,53 +214,147 @@ export default function CreateAllocation({
                 <div className="p-6 space-y-4">
                     {/* Show Allocations */}
 
-                    {props.allocations.length > 0 ? (
-                        <ol className="w-full bg-white shadow-md rounded-lg dark:bg-background px-6 py-4 border border-border">
-                            {props.allocations?.map(
-                                (allocation: Allocation, index) => (
-                                    <li key={allocation.id}>
-                                        <span className="mr-4">
-                                            {index + 1} -{" "}
-                                        </span>
-                                        <span
-                                            onClick={() =>
-                                                setSelectedAllocation(
-                                                    allocation
-                                                )
-                                            }
+                    <div className="w-full shadow-md rounded-lg bg-background px-6 py-4 border border-border">
+                        <div className="grid grid-cols-7 gap-4">
+                            {/* Time Slot Row */}
+                            <div className="font-bold min-h-[100px] flex flex-col justify-center items-center">
+                                <div>{formatTime(props?.slot?.start_time)}</div>
+                                <MoveDown
+                                    className="text-center text-foreground/70"
+                                    size={18}
+                                />
+                                <div>{formatTime(props?.slot?.end_time)}</div>
+                            </div>
+                            {props?.timetable?.shift?.institution?.days?.map(
+                                (day) => {
+                                    let allocation = getDayAllocation(day.id);
+
+                                    if (allocation) {
+                                        return (
+                                            <div
+                                                key={day.id}
+                                                className="text-center min-h-[100px] h-full overflow-hidden"
+                                            >
+                                                <div
+                                                    className={cn(
+                                                        "text-center font-semibold bg-card-primary text-card-primary-foreground rounded-t-lg",
+                                                        {
+                                                            "bg-primary text-primary-foreground":
+                                                                selectedAllocation.day_id ===
+                                                                    day.id &&
+                                                                selectedAllocation.id ===
+                                                                    allocation.id,
+                                                        }
+                                                    )}
+                                                >
+                                                    {day.name}
+                                                </div>
+
+                                                <div
+                                                    className={cn(
+                                                        "flex items-start justify-center border border-card-primary h-full cursor-pointer",
+                                                        {
+                                                            "border-primary":
+                                                                selectedAllocation.day_id ===
+                                                                    day.id &&
+                                                                selectedAllocation.id ===
+                                                                    allocation.id,
+                                                        }
+                                                    )}
+                                                    onClick={() =>
+                                                        setSelectedAllocation(
+                                                            allocation
+                                                        )
+                                                    }
+                                                >
+                                                    <div className="flex flex-col mt-2">
+                                                        <div className="text-sm flex items-center space-x-2">
+                                                            <Book className="w-4 h-4" />
+                                                            <span>
+                                                                {
+                                                                    allocation
+                                                                        ?.course
+                                                                        ?.display_code
+                                                                }
+                                                            </span>
+                                                        </div>
+                                                        <div className="text-sm flex items-center space-x-2">
+                                                            <User className="w-4 h-4" />
+                                                            <span>
+                                                                {
+                                                                    allocation
+                                                                        ?.teacher
+                                                                        ?.name
+                                                                }
+                                                            </span>
+                                                        </div>
+                                                        <div className="text-sm flex items-center space-x-2">
+                                                            <MapPin className="w-4 h-4" />
+                                                            <span>
+                                                                {
+                                                                    allocation
+                                                                        ?.room
+                                                                        ?.name
+                                                                }
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    }
+
+                                    return (
+                                        <div
+                                            key={day.id}
+                                            className="text-center min-h-[100px] h-full overflow-hidden"
                                         >
-                                            <AllocationCell
+                                            <div
                                                 className={cn(
-                                                    "cursor-pointer text-base",
+                                                    "text-center font-semibold bg-card-primary text-card-primary-foreground rounded-t-lg",
                                                     {
-                                                        underline:
-                                                            selectedAllocation?.id ===
-                                                            allocation.id,
+                                                        "bg-primary text-primary-foreground":
+                                                            selectedAllocation.day_id ===
+                                                            day.id,
                                                     }
                                                 )}
-                                                allocation={allocation}
-                                            />
-                                        </span>
-                                    </li>
-                                )
+                                            >
+                                                {day.name}
+                                            </div>
+                                            <div
+                                                className={cn(
+                                                    "flex items-start justify-center border border-card-primary h-full",
+                                                    {
+                                                        "border-primary":
+                                                            selectedAllocation.day_id ===
+                                                            day.id,
+                                                    }
+                                                )}
+                                            >
+                                                <Button
+                                                    size={"sm"}
+                                                    className="mt-5"
+                                                    onClick={() =>
+                                                        setSelectedAllocation({
+                                                            ...EmptyAllocation,
+                                                            day_id: day.id,
+                                                            slot_id:
+                                                                props.slot.id,
+                                                            time_table_id:
+                                                                props.timetable
+                                                                    .id,
+                                                        })
+                                                    }
+                                                >
+                                                    Add
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    );
+                                }
                             )}
-                            <li>
-                                <span className="mr-4">
-                                    {props.allocations.length + 1} -{" "}
-                                </span>
-                                <span
-                                    className={cn("cursor-pointer", {
-                                        underline: selectedAllocation?.id === 0,
-                                    })}
-                                    onClick={() =>
-                                        setSelectedAllocation(EmptyAllocation)
-                                    }
-                                >
-                                    Create New Allocation
-                                </span>
-                            </li>
-                        </ol>
-                    ) : null}
+                        </div>
+                    </div>
 
                     {/* Create Allocation */}
                     <Card className="w-full bg-white shadow-md rounded-lg dark:bg-background border border-border">
@@ -262,7 +364,8 @@ export default function CreateAllocation({
 
                         <CardContent className="mt-4">
                             <div className="mb-4 flex">
-                                <span className="font-bold w-2/12">
+                                <span className="font-bold w-2/12 flex items-center">
+                                    <Table size={18} className="mr-1" />
                                     TimeTable:{" "}
                                 </span>
                                 <span className="flex-1">
@@ -270,7 +373,8 @@ export default function CreateAllocation({
                                 </span>
                             </div>
                             <div className="mb-4 flex">
-                                <span className="font-bold w-2/12">
+                                <span className="font-bold w-2/12 flex items-center">
+                                    <TimerIcon size={18} className="mr-1" />
                                     Time Slot:{" "}
                                 </span>
                                 <span className="flex-1">
@@ -278,42 +382,10 @@ export default function CreateAllocation({
                                 </span>
                             </div>
 
-                            {props.haveSection === false ? (
-                                <div className="mb-4">
-                                    <InputLabel
-                                        htmlFor="section"
-                                        value="Section"
-                                    />
-                                    <Select
-                                        name="section"
-                                        value={data.section_id?.toString()}
-                                        onValueChange={(value) =>
-                                            setData("section_id", Number(value))
-                                        }
-                                    >
-                                        <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
-                                            <SelectValue placeholder="Select Section" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {props?.sections.map((section) => (
-                                                <SelectItem
-                                                    key={section.id}
-                                                    value={section.id.toString()}
-                                                >
-                                                    {getNumberWithOrdinal(
-                                                        section.SemesterNo
-                                                    )}{" "}
-                                                    - {section.name} -{" "}
-                                                    {section.SemesterName}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                    <InputError message={errors.section_id} />
-                                </div>
-                            ) : (
+                            {props.haveSection === true ? (
                                 <div className="mb-4 flex">
-                                    <span className="font-bold w-2/12">
+                                    <span className="font-bold w-2/12 flex items-center">
+                                        <Group size={18} className="mr-1" />
                                         Section:{" "}
                                     </span>
                                     <span className="flex-1">
@@ -324,137 +396,134 @@ export default function CreateAllocation({
                                         - {props.sections[0]?.SemesterName}
                                     </span>
                                 </div>
-                            )}
+                            ) : null}
 
                             <div className="grid grid-cols-12 gap-4">
-                                <div className="mb-4 col-span-12 md:col-span-6">
-                                    <InputLabel
-                                        htmlFor="day"
-                                        value="Day"
-                                        aria-required
-                                    />
-                                    <Select
-                                        name="day"
-                                        value={data.day_id?.toString()}
-                                        onValueChange={(value) =>
-                                            setData("day_id", Number(value))
-                                        }
-                                    >
-                                        <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
-                                            <SelectValue placeholder="Select a Day" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {props?.timetable?.shift?.institution?.days?.map(
-                                                (day) => (
-                                                    <SelectItem
-                                                        key={day.id}
-                                                        value={day.id.toString()}
-                                                    >
-                                                        {day.name}
-                                                    </SelectItem>
-                                                )
-                                            )}
-                                        </SelectContent>
-                                    </Select>
-                                    <InputError message={errors.day_id} />
-                                </div>
+                                {props.haveSection === false ? (
+                                    <div className="col-span-12 md:col-span-6">
+                                        <InputLabel
+                                            htmlFor="section"
+                                            value="Section"
+                                        />
+                                        <AutoCompleteSelect
+                                            label="Select Section"
+                                            value={
+                                                data.section_id?.toString() ??
+                                                null
+                                            }
+                                            setValue={(value: string) => {
+                                                setData(
+                                                    "section_id",
+                                                    Number(value) ?? null
+                                                );
+                                            }}
+                                            values={
+                                                props?.sections.map(
+                                                    (section) => {
+                                                        return {
+                                                            value: section.id.toString(),
+                                                            label: `${getNumberWithOrdinal(
+                                                                section.SemesterNo
+                                                            )} - ${
+                                                                section.name
+                                                            } - ${
+                                                                section.SemesterName
+                                                            }`,
+                                                        };
+                                                    }
+                                                ) ?? []
+                                            }
+                                        />
+                                        <InputError
+                                            message={errors.section_id}
+                                        />
+                                    </div>
+                                ) : null}
 
                                 {/* Rooms */}
-                                <div className="mb-4 col-span-12 md:col-span-6">
+                                <div className="col-span-12 md:col-span-6">
                                     <InputLabel htmlFor="room" value="Room" />
-                                    <Select
-                                        name="room"
+                                    <AutoCompleteSelect
+                                        label="Select Room"
                                         disabled={filteredRooms.length === 0}
-                                        value={data.room_id?.toString()}
-                                        onValueChange={(value) =>
-                                            setData("room_id", Number(value))
+                                        value={data.room_id?.toString() ?? null}
+                                        setValue={(value: string) => {
+                                            setData(
+                                                "room_id",
+                                                Number(value) ?? null
+                                            );
+                                        }}
+                                        values={
+                                            filteredRooms?.map((room) => {
+                                                return {
+                                                    value: room.id.toString(),
+                                                    label: room.name,
+                                                };
+                                            }) ?? []
                                         }
-                                    >
-                                        <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
-                                            <SelectValue placeholder="Select Room" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {filteredRooms?.map((room) => (
-                                                <SelectItem
-                                                    key={room.id}
-                                                    value={room.id.toString()}
-                                                >
-                                                    {room.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                                    />
                                     <InputError message={errors.room_id} />
                                 </div>
-                            </div>
 
-                            <div className="grid grid-cols-12 gap-4">
                                 {/* Teacher Id */}
-                                <div className="mb-4 col-span-12 md:col-span-6">
+                                <div className="col-span-12 md:col-span-6">
                                     <InputLabel
                                         htmlFor="teacher"
                                         value="Teacher"
                                     />
-                                    <Select
-                                        name="teacher"
-                                        value={data.teacher_id?.toString()}
-                                        onValueChange={(value) =>
-                                            setData("teacher_id", Number(value))
+                                    <AutoCompleteSelect
+                                        label="Select Teacher"
+                                        value={
+                                            data.teacher_id?.toString() ?? null
                                         }
-                                    >
-                                        <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
-                                            <SelectValue placeholder="Select Teacher" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {props?.timetable?.shift?.institution?.teachers?.map(
-                                                (teacher) => (
-                                                    <SelectItem
-                                                        key={teacher.id}
-                                                        value={teacher.id.toString()}
-                                                    >
-                                                        {teacher.name}
-                                                    </SelectItem>
-                                                )
-                                            )}
-                                        </SelectContent>
-                                    </Select>
+                                        setValue={(value: string) => {
+                                            setData(
+                                                "teacher_id",
+                                                Number(value) ?? null
+                                            );
+                                        }}
+                                        values={
+                                            props?.timetable?.shift?.institution?.teachers?.map(
+                                                (teacher) => {
+                                                    return {
+                                                        value: teacher.id.toString(),
+                                                        label: teacher.name,
+                                                    };
+                                                }
+                                            ) ?? []
+                                        }
+                                    />
                                     <InputError message={errors.teacher_id} />
                                 </div>
-
                                 {/* Course Id */}
 
-                                <div className="mb-4 col-span-12 md:col-span-6">
+                                <div className="col-span-12 md:col-span-6">
                                     <InputLabel
                                         htmlFor="course"
                                         value="Course"
                                     />
-                                    <Select
-                                        name="course"
-                                        disabled={filteredCourse?.length === 0}
-                                        value={data.course_id?.toString()}
-                                        onValueChange={(value) =>
-                                            setData("course_id", Number(value))
+
+                                    <AutoCompleteSelect
+                                        label="Select Course"
+                                        disabled={filteredCourse.length === 0}
+                                        value={
+                                            data.course_id?.toString() ?? null
                                         }
-                                    >
-                                        <SelectTrigger className="dark:bg-gray-900 dark:border dark:border-gray-700">
-                                            <SelectValue placeholder="Select Course" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {filteredCourse?.map((course) => (
-                                                <SelectItem
-                                                    key={course.id}
-                                                    value={course.id.toString()}
-                                                >
-                                                    <span>{course.code} </span>
-                                                    <span className="ml-auto">
-                                                        Credit{" "}
-                                                        {course.credit_hours}{" "}
-                                                        hrs
-                                                    </span>
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                                        setValue={(value: string) => {
+                                            setData(
+                                                "course_id",
+                                                Number(value) ?? null
+                                            );
+                                        }}
+                                        values={
+                                            filteredCourse?.map((course) => {
+                                                return {
+                                                    value: course.id.toString(),
+                                                    label: course.code,
+                                                };
+                                            }) ?? []
+                                        }
+                                    />
                                 </div>
                             </div>
                         </CardContent>
