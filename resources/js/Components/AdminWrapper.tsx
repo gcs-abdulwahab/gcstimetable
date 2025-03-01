@@ -1,12 +1,12 @@
 import React from 'react'
 import { useAbilities } from '@/components/abilities-provider'
-import { RoleEnum } from '@/lib/enums'
+import { PermissionEnum, RoleEnum } from '@/lib/enums'
 
 interface AdminWrapperProps {
   children: React.ReactNode
 }
 
-export const SuperAdminWrapper: React.FC<AdminWrapperProps> = ({ children }) => {
+const SuperAdminWrapper: React.FC<AdminWrapperProps> = ({ children }) => {
   const { isSuperAdmin } = useAbilities()
 
   if (!isSuperAdmin()) {
@@ -16,7 +16,7 @@ export const SuperAdminWrapper: React.FC<AdminWrapperProps> = ({ children }) => 
   return <>{children}</>
 }
 
-export const InstitutionAdminWrapper: React.FC<AdminWrapperProps> = ({ children }) => {
+const InstitutionAdminWrapper: React.FC<AdminWrapperProps> = ({ children }) => {
   const { isInstitutionAdmin } = useAbilities()
 
   if (!isInstitutionAdmin()) {
@@ -31,11 +31,7 @@ interface RolesWrapperPropsWithRoles extends AdminWrapperProps {
   operator?: 'and' | 'or'
 }
 
-export const RolesWrapper: React.FC<RolesWrapperPropsWithRoles> = ({
-  roles,
-  operator,
-  children,
-}) => {
+const RolesWrapper: React.FC<RolesWrapperPropsWithRoles> = ({ roles, operator, children }) => {
   const { hasRole } = useAbilities()
 
   if (operator === 'and') {
@@ -58,5 +54,22 @@ const AdminWrapper: React.FC<AdminWrapperPropsWithRole> = ({ role, children }) =
 
   return <>{children}</>
 }
+
+interface PermissionWrapperProps {
+  permission: PermissionEnum
+  children: React.ReactNode
+}
+
+const PermissionWrapper: React.FC<PermissionWrapperProps> = ({ permission, children }) => {
+  const { hasPermission } = useAbilities()
+
+  if (!hasPermission(permission)) {
+    return null
+  }
+
+  return <>{children}</>
+}
+
+export { SuperAdminWrapper, InstitutionAdminWrapper, RolesWrapper, AdminWrapper, PermissionWrapper }
 
 export default AdminWrapper

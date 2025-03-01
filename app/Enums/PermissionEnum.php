@@ -16,11 +16,13 @@ enum PermissionEnum: string
     case VIEW_USER         = 'view user';
     case MANAGE_USER_ROLES = 'manage user roles';
 
-    case VIEW_TEACHERS  = 'view teachers';
-    case CREATE_TEACHER = 'create teacher';
-    case EDIT_TEACHER   = 'edit teacher';
-    case DELETE_TEACHER = 'delete teacher';
-    case VIEW_TEACHER   = 'view teacher';
+    case VIEW_TEACHERS         = 'view teachers';
+    case CREATE_TEACHER        = 'create teacher';
+    case EDIT_TEACHER          = 'edit teacher';
+    case DELETE_TEACHER        = 'delete teacher';
+    case VIEW_TEACHER          = 'view teacher';
+    case VIEW_TEACHER_WORKLOAD = 'view teacher workload';
+    case CHANGE_TEACHER_STATUS = 'change teacher status';
 
     case VIEW_STUDENTS  = 'view students';
     case CREATE_STUDENT = 'create student';
@@ -34,11 +36,13 @@ enum PermissionEnum: string
     case DELETE_INSTITUTE = 'delete institute';
     case VIEW_INSTITUTE   = 'view institute';
 
-    case VIEW_DEPARTMENTS  = 'view departments';
-    case CREATE_DEPARTMENT = 'create department';
-    case EDIT_DEPARTMENT   = 'edit department';
-    case DELETE_DEPARTMENT = 'delete department';
-    case VIEW_DEPARTMENT   = 'view department';
+    case VIEW_DEPARTMENTS         = 'view departments';
+    case CREATE_DEPARTMENT        = 'create department';
+    case EDIT_DEPARTMENT          = 'edit department';
+    case DELETE_DEPARTMENT        = 'delete department';
+    case VIEW_DEPARTMENT          = 'view department';
+    case VIEW_TEACHERS_WORKLOAD   = 'view teachers workload';
+    case EXPORT_TEACHERS_WORKLOAD = 'export teachers workload';
 
     case VIEW_TIMETABLES  = 'view timetables';
     case CREATE_TIMETABLE = 'create timetable';

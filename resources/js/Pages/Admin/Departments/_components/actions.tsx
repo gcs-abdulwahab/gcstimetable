@@ -1,5 +1,13 @@
 import { useState } from 'react'
-import { EllipsisVertical, Eye, Pencil, Trash, User as UserIcon } from 'lucide-react'
+import {
+  EllipsisVertical,
+  Eye,
+  Pencil,
+  TentTree,
+  Trash,
+  User as UserIcon,
+  Workflow,
+} from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,19 +54,30 @@ export function Actions({ row }: { row: Department }) {
     router.get(route('departments.show', row.id))
   }
 
+  function handleTeachersWorkload(row: Department) {
+    router.get(route('departments.teacher-workload', row.id))
+  }
+
   return (
     <Fragment>
       <DropdownMenu>
         <DropdownMenuTrigger asChild className="cursor-pointer">
           <EllipsisVertical />
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-[160px]">
+        <DropdownMenuContent align="end" className="w-[200px]">
           <DropdownMenuLabel>Operations</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem className="cursor-pointer" onClick={() => handleView(row)}>
               <Eye className="mr-2 h-4 w-4" />
               <span>View</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => handleTeachersWorkload(row)}
+            >
+              <Workflow className="mr-2 h-4 w-4" />
+              <span>Teachers Workload</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer" onClick={() => setOpenEdit(true)}>
               <Pencil className="mr-2 h-4 w-4" />

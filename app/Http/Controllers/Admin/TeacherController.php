@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Day;
 use Inertia\Inertia;
 use App\Models\Teacher;
 use App\Models\Department;
@@ -11,6 +12,7 @@ use App\Enums\TeacherPositionEnum;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\TeacherRequest;
 use App\Enums\TeacherQualificationEnum;
 use App\Http\Resources\TeacherResource;
@@ -92,6 +94,11 @@ class TeacherController extends Controller
     {
         $attributes = $request->validated();
         $message    = '';
+        $response   = Gate::inspect('create', Teacher::class);
+
+        if (! $response->allowed()) {
+            return back()->withErrors(['message' => $response->message()]);
+        }
 
         try {
             Teacher::create($attributes);
@@ -143,6 +150,12 @@ class TeacherController extends Controller
         $attributes = $request->validated();
         $message    = '';
 
+        $response = Gate::inspect('update', $teacher);
+
+        if (! $response->allowed()) {
+            return back()->withErrors(['message' => $response->message()]);
+        }
+
         try {
             $teacher->update($attributes);
 
@@ -164,7 +177,12 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        $message = '';
+        $message  = '';
+        $response = Gate::inspect('delete', $teacher);
+
+        if (! $response->allowed()) {
+            return back()->withErrors(['message' => $response->message()]);
+        }
 
         try {
             $teacher->delete();
@@ -180,5 +198,51 @@ class TeacherController extends Controller
         }
 
         return back()->withErrors(['message' => $message]);
+    }
+
+    public function showWorkload(Teacher $teacher)
+    {
+        $admin = Auth::user();
+
+        $response = Gate::inspect('view_workload', $teacher);
+
+        if (! $response->allowed()) {
+            $message = $response->message();
+
+            return back()->with('error', $message);
+        }
+
+        if (! $admin->isSuperAdmin()) {
+            $days = $admin->institution->days()->get();
+        } else {
+            $days = Day::all();
+        }
+
+        $allocations = $teacher->allocations()
+            ->whereHas('timetable', function ($query) {
+                $query->isValidForToday();
+            })
+            ->with(['day', 'slot', 'course', 'room', 'section.semester:id,name'])
+            ->get();
+
+        // 3. Return data to Inertia
+        return Inertia::render('Admin/Teachers/workload', [
+            'teacher'     => $teacher,
+            'days'        => $days,
+            'allocations' => $allocations,
+        ]);
+    }
+
+    public function changeStatus(Teacher $teacher)
+    {
+        $response = Gate::inspect('change_status', $teacher);
+
+        if (! $response->allowed()) {
+            return back()->with('error', $response->message());
+        }
+
+        $teacher->update(['is_active' => $teacher->is_active === Day::ACTIVE ? Day::INACTIVE : Day::ACTIVE]);
+
+        return back()->with('success', 'Teacher status successfully changed');
     }
 }

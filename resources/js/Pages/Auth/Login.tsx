@@ -8,7 +8,14 @@ import { Input } from '@/components/ui/input'
 import GuestLayout from '@/Layouts/GuestLayout'
 import InputError from '@/Components/InputError'
 import { error } from 'console'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
+
+interface FormProps {
+  email: string
+  password: string
+  remember: boolean
+  [key: string]: any
+}
 
 export default function Login({
   status,
@@ -20,7 +27,7 @@ export default function Login({
   const [isVisible, setIsVisible] = useState(false)
   const toggleVisibility = () => setIsVisible(prev => !prev)
 
-  const { data, setData, post, processing, errors, reset } = useForm({
+  const { data, setData, post, processing, errors, reset } = useForm<FormProps>({
     email: '',
     password: '',
     remember: false,
@@ -126,12 +133,12 @@ export default function Login({
             Sign In
           </Button>
 
-          <div className="text-center text-sm text-muted-foreground">
+          {/* <div className="text-center text-sm text-muted-foreground">
             Don't have an account?{' '}
             <Link href={route('register')} className="text-primary hover:underline">
               Create one
             </Link>
-          </div>
+          </div> */}
         </form>
       </div>
     </GuestLayout>

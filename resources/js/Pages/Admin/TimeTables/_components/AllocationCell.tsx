@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { Allocation, Day } from '@/types/database'
 import { getBackgroundColor } from '@/utils/dayHelper'
-
+import { formatNumberRange } from '@/utils/helper'
 
 export const AllocationCell = ({ allocation }: { allocation: Allocation }) => {
   return (
@@ -19,17 +19,17 @@ export const AllocationCell = ({ allocation }: { allocation: Allocation }) => {
         {allocation?.room?.name && (
           <span className="text-sm text-muted-foreground">{allocation?.room?.name}</span>
         )}
-        {allocation.day?.name && (
-          <Badge className={cn('text-xs', getBackgroundColor(allocation.day?.name))}>
-            {allocation.day?.name}
-          </Badge>
-        )}
+        {allocation.day?.number}
       </div>
     </div>
   )
 }
 
-export const GroupAllocationCell = ({ allocation }: { allocation: Allocation & { days: Day[] } }) => {
+export const GroupAllocationCell = ({
+  allocation,
+}: {
+  allocation: Allocation & { days: Day[] }
+}) => {
   return (
     <div className="flex flex-col gap-1 p-1 w-full">
       <div className="flex items-center gap-2 justify-center flex-wrap">
@@ -44,12 +44,8 @@ export const GroupAllocationCell = ({ allocation }: { allocation: Allocation & {
         {allocation?.room?.name && (
           <span className="text-sm text-muted-foreground">{allocation?.room?.name}</span>
         )}
-        {allocation.days?.map((day) => (
-          <Badge key={day.id} className={cn('text-xs', getBackgroundColor(day.name))}>
-            {day.name.slice(0, 2)}
-          </Badge>
-        ))}
+        ({formatNumberRange(allocation.days?.map(day => day.number))})
       </div>
     </div>
-  );
-};
+  )
+}

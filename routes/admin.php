@@ -46,19 +46,24 @@ Route::prefix('admin')
 
         // Teachers 🧑‍🏫
         Route::resource('teachers', TeacherController::class)->only(TeacherController::ONLY);
+        Route::get('/teachers/{teacher}/workload', [TeacherController::class, 'showWorkload'])->name('teachers.workload');
 
         // Time Table Resource 📆
         Route::resource('timetables', TimeTableController::class)->only(TimeTableController::ONLY);
         Route::get('/timetables/{timetable}/add/allocations', [TimeTableController::class, 'addAllocations'])->name('timetables.add.allocations');
+        Route::patch('/teachers/{teacher}/change-status', [TeacherController::class, 'changeStatus'])->name('teachers.change.status');
 
         // Allocations 🔹
         Route::resource('allocations', AllocationController::class)->only(AllocationController::ONLY);
+        Route::post('allocations/bulk/store', [AllocationController::class, 'bulkStore'])->name('allocations.bulk.store');
+        Route::delete('allocations/bulk/destroy', [AllocationController::class, 'bulkDestroy'])->name('allocations.bulk.destroy');
 
         // Institutions 🏢
         Route::resource('institutions', InstitutionController::class)->only(InstitutionController::ONLY);
 
         // Departments 🏢
         Route::resource('departments', DepartmentController::class)->only(DepartmentController::ONLY);
+        Route::get('/departments/{department}/workload', [DepartmentController::class, 'showTeacherWorkload'])->name('departments.teacher-workload');
 
         // Rooms 🏫
         Route::resource('rooms', RoomController::class)->only(RoomController::ONLY);

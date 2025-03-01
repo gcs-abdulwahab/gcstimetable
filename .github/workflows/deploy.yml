@@ -1,0 +1,45 @@
+name: Deploy QA
+
+on:
+  push:
+    branches: [ without_filament_institution ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      # Deploy using SSH key-based authentication
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ${{ secrets.REMOTE_DIR }}
+            sudo chown -R $USER:$USER ${{ secrets.REMOTE_DIR }}
+            git reset --hard --quiet
+            git pull --rebase origin without_filament_institution
+            curl https://get.volta.sh | bash
+            volta install node@20
+            npm ci
+            NODE_OPTIONS="--max-old-space-size=2024" npm run build
+            composer dump-autoload
+            php artisan migrate
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            php artisan optimize:clear
+            php artisan optimize
+            sudo chown -R www-data:www-data ${{ secrets.REMOTE_DIR }}
+            sudo chmod -R 755 ${{ secrets.REMOTE_DIR }}
+            sudo chmod -R 755 ${{ secrets.REMOTE_DIR }}/storage
+            sudo chmod -R 755 ${{ secrets.REMOTE_DIR }}/storage/app
+            sudo chmod -R 664 ${{ secrets.REMOTE_DIR }}/storage/logs
+            sudo systemctl restart apache2
